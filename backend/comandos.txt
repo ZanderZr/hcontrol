@@ -1,3 +1,7 @@
 nodemon index.js
 
 tsc --watch
+
+
+JAJA
+
