@@ -1,0 +1,12 @@
+<body [ngClass]="{'slide-down': isNavigating}">
+  <div class="content">
+    <h1>Health Control</h1>
+    <img src="./assets/black-logo.png" class="white-icon" (click)="logoButton()">
+
+    <!--<button class="button">Autentificación</button>
+    <button class="button">Entrar</button>-->
+    <span>Haz click en la imagen</span>
+    <i *ngIf="isLogged" class="fa-regular fa-user" style="color:rgb(1, 170, 1)"><p>Logged</p></i>
+    <i *ngIf="!isLogged" class="fa-regular fa-user" style="color:red"><p>Not logged</p></i>
+  </div>
+</body>
