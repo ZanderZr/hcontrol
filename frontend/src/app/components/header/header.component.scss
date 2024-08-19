@@ -1,0 +1,35 @@
+header {
+  height: 65px; /* Escritorio */
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative; /* Para posicionar el pseudo-elemento */
+}
+
+header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10px;  /* Espacio desde la izquierda */
+  right: 10px; /* Espacio desde la derecha */
+  height: 1px; /* Grosor del borde */
+  background-color: #333; /* Color del borde */
+}
+
+div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .healths{
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+}
+
+i{
+  width: auto;  /* Mantén el aspecto del icono */
+  font-size: 200%;
+  padding-left: 4%;
+  padding-right: 4%;
+}

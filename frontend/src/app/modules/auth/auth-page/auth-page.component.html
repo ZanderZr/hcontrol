@@ -1,1 +1,5 @@
-<p>auth-page works!</p>
+<app-header></app-header>
+<body>
+  <app-login *ngIf="!registerWindow"></app-login>
+  <app-register *ngIf="registerWindow"></app-register>
+</body>

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';  // Asegúrate de importar BrowserAnimationsModule para las animaciones
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
