@@ -2,11 +2,13 @@
   <app-tools-card
   [title]="'Diario'"
   [description]="'Describe tu día. ¿Que te ha ocurrido y que has sentido al respecto?'"
-  [imageUrl]="'book-solid.svg'">
+  [imageUrl]="'book-solid.svg'"
+  (cardClick)="diaryClick()">
   </app-tools-card>
   <app-tools-card
   [title]="'Control de respiración'"
   [description]="'Controla tu respiración y relájate siguiendo los pulsos.'"
-  [imageUrl]="'wind-solid.svg'">
+  [imageUrl]="'wind-solid.svg'"
+  (cardClick)="breathClick()">
   </app-tools-card>
 </app-page>

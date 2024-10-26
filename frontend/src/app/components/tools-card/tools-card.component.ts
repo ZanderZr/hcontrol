@@ -15,7 +15,6 @@ export class ToolsCardComponent {
   @Output() cardClick = new EventEmitter<void>(); // Evento de salida
 
   onCardClick() {
-    // Puedes agregar aquí la lógica que necesites al hacer clic en el card
-    console.log('Card clicked!');
+    this.cardClick.emit();
   }
 }
