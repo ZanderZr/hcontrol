@@ -3,6 +3,8 @@ import { LoginComponent } from '../login/login.component';
 import { RegisterComponent } from '../register/register.component';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../components/header/header.component';
+import { FooterComponent } from "../../../components/footer/footer.component";
+import { PageComponent } from "../../../components/page/page.component";
 
 @Component({
   selector: 'app-auth-page',
@@ -11,14 +13,16 @@ import { HeaderComponent } from '../../../components/header/header.component';
     CommonModule,
     LoginComponent,
     RegisterComponent,
-    HeaderComponent
-  ],
+    HeaderComponent,
+    FooterComponent,
+    PageComponent
+],
   templateUrl: './auth-page.component.html',
   styleUrl: './auth-page.component.scss'
 })
 export class AuthPageComponent {
 
-  registerWindow: boolean = true;
+  isLogged: boolean = true;
 
   constructor(){}
 

@@ -1,35 +1,33 @@
 header {
-  height: 65px; /* Escritorio */
+  height: 50px; /* Escritorio */
   width: 100vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: relative; /* Para posicionar el pseudo-elemento */
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-header::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 10px;  /* Espacio desde la izquierda */
-  right: 10px; /* Espacio desde la derecha */
-  height: 1px; /* Grosor del borde */
-  background-color: #333; /* Color del borde */
+.user-img-container{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.5); /* Define el grosor, el estilo y el color del borde */
+  box-sizing: border-box;
+  margin-left: 4%;
 }
 
-div{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  .healths{
-    padding-left: 15%;
-    padding-right: 15%;
-  }
+.user-img {
+  width: 100%; /* La imagen ocupará el 100% del ancho del contenedor */
+  height: 100%; /* La imagen ocupará el 100% de la altura del contenedor */
+  border-radius: 50%;
+
+  object-fit: cover; /* Mantiene la relación de aspecto y recorta la imagen si es necesario */
 }
 
 i{
   width: auto;  /* Mantén el aspecto del icono */
-  font-size: 200%;
+  font-size: 150%;
   padding-left: 4%;
   padding-right: 4%;
 }

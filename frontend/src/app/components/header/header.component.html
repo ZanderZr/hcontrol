@@ -1,9 +1,8 @@
 <header>
-  <i class="fa-regular fa-user"></i>
-  <div>
-    <i class="healths fa-solid fa-carrot" style="color:rgb(34, 34, 34)" (click)="feedingButton()"></i>
-    <i class="healths fa-solid fa-dumbbell"  style="color:rgb(34, 34, 34)" (click)="physicButton()"></i>
-    <i class="healths fa-solid fa-brain" style="color:rgb(34, 34, 34)" (click)="mentalButton()"></i>
+  <div class="user-img-container" (click)="profileButton()">
+    <img class="user-img" src="https://s1.elespanol.com/2017/07/14/ciencia/medio-ambiente/medio_ambiente_231238002_39634877_1706x1280.jpg" alt="">
   </div>
-  <i class="fa-solid fa-gear" style="color:rgb(34, 34, 34)"></i>
+<span>{{title}}</span>
+
+  <i class="fa-solid fa-gear" (click)="settingsButton()"></i>
 </header>

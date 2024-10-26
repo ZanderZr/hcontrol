@@ -1,0 +1,11 @@
+<div class="footer">
+  <button class="button-container" [ngClass]="{'active': isFeedingButtonActive}" (click)="feedingButton()">
+    <i class="healths fa-solid fa-carrot"></i>
+  </button>
+  <button class="button-container" [ngClass]="{'active': isPhysicButtonActive}" (click)="physicButton()">
+    <i class="healths fa-solid fa-dumbbell"></i>
+  </button>
+  <button class="button-container" [ngClass]="{'active': isMentalButtonActive}" (click)="mentalButton()">
+    <i class="healths fa-solid fa-brain"></i>
+  </button>
+</div>

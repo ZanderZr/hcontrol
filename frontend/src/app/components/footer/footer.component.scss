@@ -1,0 +1,52 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;  /* Asegura que ocupan toda la pantalla */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex-grow: 1;  /* Hace que el contenido crezca y el footer se mantenga al final */
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #005e6e;
+  z-index: 1000;
+}
+
+.footer i {
+  font-size: 150%;
+  cursor: pointer;
+  color: white;
+
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 10px;  /* Para hacer el botón más visible */
+  background-color: #ff000000;  /* Color inicial */
+  border: none;  /* Quitar borde por defecto */
+  cursor: pointer;
+}
+
+.button-container.active {
+  background-color: #003d47;
+
+}

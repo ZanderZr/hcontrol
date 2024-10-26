@@ -5,6 +5,7 @@ body, html {
   box-sizing: border-box; /* Asegura que el padding no desborde el contenido */
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
 
 
@@ -21,3 +22,6 @@ body, html {
 .slide-down {
   animation: slideDown 500ms forwards;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

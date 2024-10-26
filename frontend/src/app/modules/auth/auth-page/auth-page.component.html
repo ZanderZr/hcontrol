@@ -1,5 +1,6 @@
-<app-header></app-header>
-<body>
-  <app-login *ngIf="!registerWindow"></app-login>
-  <app-register *ngIf="registerWindow"></app-register>
-</body>
+<app-page>
+  <app-login *ngIf="!isLogged"></app-login>
+  <app-register *ngIf="isLogged"></app-register>
+</app-page>
+
+
