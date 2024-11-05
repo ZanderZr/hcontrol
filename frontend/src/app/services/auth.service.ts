@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable, of, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from '../modules/auth/interfaces/user';
 
@@ -30,24 +30,43 @@ export class AuthService {
     return this.http.post(`${this.myAppUrl}${this.myApiUrl}register`, user);
   }
 
-  setToken(token: string){
-    this.cookies.set("token", token);
+  setToken(token: string) {
+    const tokenData = JSON.stringify({ token, expiry: Date.now() + 36000000 }); // Establece el token y la fecha de expiración (1 hora)
+    this.cookies.set("token", tokenData);
     this.refreshNavbarSubject.next(); // Emisor
   }
 
+
   getToken() {
-    return this.cookies.get("token");
+    const tokenData = this.cookies.get("token");
+    if (tokenData) {
+      const { token, expiry } = JSON.parse(tokenData);
+      // Verificar si el token ha expirado
+      if (Date.now() < expiry) {
+        return token; // Devuelve el token si no ha expirado
+      } else {
+        this.logout(); // Si el token ha expirado, cierra la sesión
+        return null;
+      }
+    }
+    return null;
   }
+
 
   getUser(): Observable<any> {
     const token = this.getToken();
     if (token) {
-      return this.http.post(`${this.myAppUrl}${this.myApiUrl}token`, { token: token });
+      return this.http.get(`${this.myAppUrl}${this.myApiUrl}token`, {
+        headers: {
+          'Authorization': `Bearer ${token}` // Envía el token en el encabezado Authorization
+        }
+      });
     } else {
       console.error('No se proporcionó ningún token');
       return of(null);
     }
   }
+
 
   logout() {
     this.cookies.delete('token');

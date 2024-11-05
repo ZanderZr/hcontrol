@@ -8,7 +8,7 @@ import { RegisterComponent } from '../../modules/auth/register/register.componen
 @Component({
   selector: 'app-page',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, LoginComponent, RegisterComponent, FooterComponent],
+  imports: [CommonModule, HeaderComponent, LoginComponent, RegisterComponent, FooterComponent, LoginComponent],
   templateUrl: './page.component.html',
   styleUrl: './page.component.scss'
 })

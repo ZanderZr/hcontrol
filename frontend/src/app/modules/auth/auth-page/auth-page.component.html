@@ -1,6 +1,8 @@
 <app-page>
-  <app-login *ngIf="!isLogged"></app-login>
-  <app-register *ngIf="isLogged"></app-register>
+  <button (click)="loginRoute()">login</button>
+  <button (click)="registerRoute()">register</button>
+  <!-- <app-login *ngIf="!isLogged && inLogin" (toggleLoginEvent)="onToggleLogin($event)"></app-login>
+  <app-register *ngIf="!isLogged && !inLogin" (toggleLoginEvent)="onToggleLogin($event)"></app-register> -->
 </app-page>
 
 

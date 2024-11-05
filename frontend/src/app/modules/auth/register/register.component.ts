@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterModule } from "@angular/router";
@@ -11,12 +11,13 @@ import { AuthService } from '../../../services/auth.service';
   imports: [
     PageComponent,
     ReactiveFormsModule,
-    RouterModule,
-  ],
+    RouterModule
+    ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+
   formRegister: FormGroup;
 
   constructor(
@@ -34,9 +35,9 @@ export class RegisterComponent {
   }
 
   ngOnInit(): void {
-    if (this._authService.getToken()) {
-      this.router.navigate(['/list']);
-    }
+    // if (this._authService.getToken()) {
+    //   this.router.navigate(['/feeding']);
+    // }
   }
 
   register() {
@@ -52,7 +53,7 @@ export class RegisterComponent {
       this._authService.register(user).subscribe({
         next: data => {
           this._authService.setToken(data.token);
-          this.router.navigate(['/feeding']); // Navega tras el registro
+          this.router.navigate(['/login']); // Navega tras el registro
         },
         error: error => {
           console.log(error);
@@ -63,7 +64,12 @@ export class RegisterComponent {
       this.toastr.warning('Las contraseñas deben ser iguales', 'Warning');
     }
   }
+
+  loginRoute(){
+    this.router.navigate(['/auth/login']);
+  }
 }
+
 function withInterceptorsFromDi(): import("@angular/common/http").HttpFeature<import("@angular/common/http").HttpFeatureKind> {
   throw new Error('Function not implemented.');
 }
