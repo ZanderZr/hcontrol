@@ -6,13 +6,11 @@ body, html {
   overflow: hidden; /* Evita el scroll en toda la página */
 }
 p{
+  margin-top: 10px;
   font-size: 40%;
   color: rgb(141, 141, 141);
 }
-i{
-  font-size: 150%;
 
-}
 .content {
   display: flex;
   flex-direction: column;
