@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { PageComponent } from "../../../components/page/page.component";
-
+import {MatButtonModule} from '@angular/material/button';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 @Component({
   selector: 'app-mental-diary',
   standalone: true,
-  imports: [PageComponent],
+  imports: [PageComponent,MatNativeDateModule,MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonModule],
   templateUrl: './mental-diary.component.html',
   styleUrl: './mental-diary.component.scss'
 })

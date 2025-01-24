@@ -1,10 +1,14 @@
-<div>
+<app-page>
   <div class="header">
     <div class="header-text">
       <span class="day">{{ day }}</span>
       <span class="date">{{ getDate() }}</span>
     </div>
-    <i class="fa-solid fa-calendar-days"></i>
+    <input matInput [matDatepicker]="picker">
+    <mat-datepicker #picker></mat-datepicker>
+    <button class="calendar-button" (click)="picker.open()">
+      <i class="fa-solid fa-calendar-days"></i>
+    </button>
   </div>
 
 
@@ -13,4 +17,4 @@
       class="diary-entry"
       placeholder="Escribe aquí lo que te ha pasado hoy..."></textarea>
   </div>
-</div>
+</app-page>
