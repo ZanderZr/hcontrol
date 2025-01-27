@@ -1,0 +1,14 @@
+<app-page>
+  <app-tools-card *ngIf="technique === 0" [title]="'Respiración diafragmática'"
+    [description]="'Relaja el sistema nervioso y reduce el estrés, aumenta la concentración y el oxígeno en el cuerpo.'"
+    [imageUrl]="'book-solid.svg'" (click)="technique = 1"></app-tools-card>
+  <app-tools-card *ngIf="technique === 0" [title]="'Respiración 4-7-8'"
+    [description]="'Relaja el sistema nervioso, mejora el sueño y ayuda a disminuir la ansiedad'"
+    [imageUrl]="'book-solid.svg'" (click)="technique = 2"></app-tools-card>
+  <div class="blob-container">
+    <div class="blob" *ngIf="technique != 0" (animationiteration)="onAnimationIteration($event)"
+      (animationend)="onAnimationEnd($event)">
+      <span>{{step}}</span>
+    </div>
+  </div>
+</app-page>

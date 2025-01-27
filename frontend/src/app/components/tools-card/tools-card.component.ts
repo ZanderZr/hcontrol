@@ -11,7 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 export class ToolsCardComponent {
   @Input() title: string = 'Card Title';
   @Input() description: string = 'This is a brief description of the content.';
-  @Input() imageUrl: string = 'book-solid.svg'; // URL de una imagen de ejemplo
+  @Input() imageUrl: string = 'book-solid.svg';
   @Output() cardClick = new EventEmitter<void>(); // Evento de salida
 
   onCardClick() {

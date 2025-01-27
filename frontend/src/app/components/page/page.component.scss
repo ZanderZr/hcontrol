@@ -2,12 +2,12 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
-  background-color: #edf2fa; /* Color de fondo */
+  background-color: #ffffff; /* Color de fondo */
 }
 
 .content {
   flex-grow: 1; /* Esto empuja el footer al final de la página */
   padding: 10px 15px;
-  background-color: #edf2fa; /* Color de fondo del contenido */
+  background-color: #ffffff; /* Color de fondo del contenido */
 }
 
