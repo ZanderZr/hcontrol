@@ -6,6 +6,6 @@ import { MentalBreathComponent } from "./mental-breath/mental-breath.component";
 export const MENTAL_ROUTES: Routes = [
   { path: 'diary', component: MentalDiaryComponent },
   { path: 'breath', component: MentalBreathComponent },
-  { path: '', component: MentalPageComponent },
+  { path: '', component: MentalPageComponent, data: { title: 'Salud mental' } },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

@@ -1,1 +1,14 @@
-<app-page></app-page>
+<app-page>
+  <app-tools-card
+  [title]="'Rutina'"
+  [description]="'Crea una rutina a tu gusto o genera una en función de tu objetivo.'"
+  [imageUrl]="'book-solid.svg'"
+  (cardClick)="routineClick()">
+  </app-tools-card>
+  <app-tools-card
+  [title]="'Control de respiración'"
+  [description]="'Aqui puedes ver tus records físicos.'"
+  [imageUrl]="'wind-solid.svg'"
+  (cardClick)="recordsClick()">
+  </app-tools-card>
+</app-page>

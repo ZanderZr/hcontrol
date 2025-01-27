@@ -1,16 +1,14 @@
 import { AuthService } from './../../../services/auth.service';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterModule } from "@angular/router";
-import { PageComponent } from '../../../components/page/page.component';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    PageComponent,
     ReactiveFormsModule,
     RouterModule],
   templateUrl: './login.component.html',

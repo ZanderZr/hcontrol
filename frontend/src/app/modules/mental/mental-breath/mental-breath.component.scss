@@ -1,37 +1,4 @@
-.blob {
-  background: rgba(0, 0, 0, 0);
-  border-radius: 50%;
-  margin: 10px;
-  height: 80px;
-  width: 80px;
-  border: 5px solid rgb(0, 94, 110); /* Aro inicial sin visibilidad */
-  transform: scale(1);
-  animation: growShrink 19s 6; /* Usando la duración total */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #005e6e;
-  animation-timing-function: linear; /* Asegúrate de que la animación se ejecute de manera uniforme */
-  animation-iteration-count: 6; /* Número de repeticiones que quieres */
-}
 
-@keyframes growShrink {
-  0% {
-    transform: scale(0.5); /* Estado inicial */
-  }
-
-  21% {
-    transform: scale(1.5); /* El círculo comienza a crecer */
-  }
-
-  42% {
-    transform: scale(1.5); /* Se mantiene grande durante la fase de espera */
-  }
-
-  100% {
-    transform: scale(0.5); /* El círculo vuelve a su tamaño original */
-  }
-}
 
 .blob-container {
   display: flex;
@@ -39,4 +6,72 @@
   height: 80vh;
   justify-content: center;
   align-items: center;
+}
+
+.blob1 {
+  background: rgb(255, 255, 255);
+  border-radius: 50%;
+  margin: 10px;
+  height: 80px;
+  width: 80px;
+  border: 5px solid rgb(0, 94 , 110); /* Aro inicial sin visibilidad */
+  transform: scale(1);
+  animation: growShrink1 19s linear infinite; /* Usando la duración total */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  color: #005e6e;
+}
+
+@keyframes growShrink1 {
+  0% {
+    transform: scale(1); /* Estado inicial */
+  }
+
+  21% {
+    transform: scale(2); /* El círculo comienza a crecer */
+  }
+
+  58% {
+    transform: scale(2); /* Se mantiene grande durante la fase de espera */
+  }
+
+  100% {
+    transform: scale(1); /* El círculo vuelve a su tamaño original */
+  }
+}
+
+.blob2 {
+  background: rgb(8, 8, 8);
+  border-radius: 50%;
+  margin: 10px;
+  height: 80px;
+  width: 80px;
+  border: 5px solid rgb(0, 94 , 110); /* Aro inicial sin visibilidad */
+  transform: scale(1);
+  animation: growShrink2 19s linear infinite; /* Usando la duración total */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  color: #005e6e;
+}
+
+@keyframes growShrink2 {
+  0% {
+    transform: scale(1); /* Estado inicial */
+  }
+
+  21% {
+    transform: scale(2); /* El círculo comienza a crecer */
+  }
+
+  58% {
+    transform: scale(2); /* Se mantiene grande durante la fase de espera */
+  }
+
+  100% {
+    transform: scale(1); /* El círculo vuelve a su tamaño original */
+  }
 }

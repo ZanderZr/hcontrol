@@ -11,20 +11,47 @@ import { CommonModule } from '@angular/common';
   styleUrl: './mental-breath.component.scss'
 })
 export class MentalBreathComponent {
-  step:string = "";
-  technique: number = 1;
+  step: string=""
+  technique: number = 0;
+  private timer: any;
 
-  onAnimationIteration(event: AnimationEvent) {
-    const currentTime = (event.elapsedTime % 19); // Duración total de la animación es de 19s
 
-    // Asignamos el valor de 'step' dependiendo del tiempo transcurrido en la animación
-    if (currentTime >= 0 && currentTime <= 4) {
-      this.step = 'Inspira';
-    } else if (currentTime > 4 && currentTime <= 11) {
-      this.step = 'Aguanta';
-    } else if (currentTime > 11 && currentTime <= 19) {
-      this.step = 'Expira';
+  startAnimationCycle(first: number, second: number, third: number, total:number): void {
+    const times = [first, second, third];
+    const step = ["Inspira", "Aguanta", "Expira"]
+    let currentIndex = 0;
+
+    const updateValue = () => {
+      if (currentIndex < times.length) {
+        const seconds = times[currentIndex];
+        this.step = step[currentIndex]; // Cambia a 'sol', 'luna', 'rana'
+        currentIndex++;
+        setTimeout(updateValue, seconds * 1000);
+      } else {
+        this.step = "Inspira"
+        currentIndex = 0;
+        updateValue();
+      }
+    };
+
+    updateValue();
+  }
+
+  selectTec(number: number) {
+    this.technique = number;
+
+    switch (this.technique) {
+      case 1:
+        this.startAnimationCycle(4,7,6,17);
+        break;
+      case 2:
+        this.startAnimationCycle(4,7,8,19);
+        break;
+
     }
+  }
+  onAnimationIteration() {
+
   }
 
   onAnimationEnd(event: AnimationEvent) {
