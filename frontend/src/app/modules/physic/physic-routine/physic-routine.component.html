@@ -1,1 +1,11 @@
-<p>physic-routine works!</p>
+<app-page>
+<mat-form-field appearance="fill">
+  <mat-label>Muscle Group</mat-label>
+  <mat-select [(value)]="selectedMuscle" (selectionChange)="loadExercises(selectedMuscle)">
+    <mat-option *ngFor="let muscle of muscles" [value]="muscle">{{ muscle }}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+  <app-exercise-card *ngFor="let exercise of exercises" [exercise]="exercise"></app-exercise-card>
+</app-page>

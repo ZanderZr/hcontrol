@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { PageComponent } from "../../../components/page/page.component";
 
 @Component({
   selector: 'app-physic-records',
   standalone: true,
-  imports: [],
+  imports: [PageComponent],
   templateUrl: './physic-records.component.html',
   styleUrl: './physic-records.component.scss'
 })

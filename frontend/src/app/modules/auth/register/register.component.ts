@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterModule } from "@angular/router";
 import { PageComponent } from '../../../components/page/page.component';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   standalone: true,

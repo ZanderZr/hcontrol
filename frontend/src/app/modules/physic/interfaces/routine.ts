@@ -1,8 +1,9 @@
-import { Activity } from "./activity";
+import { Exercise } from "./exercise";
 
 export interface Routine {
   idUser: string;
-  activities: Activity[];
+  name: string;
+  activities: Exercise[];
   maxWeight?: number;
   maxRep?:number;
   execTime?:number;

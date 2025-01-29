@@ -1,4 +1,2 @@
 fitbit api
 
-records (idUser, idActivity, maxWeight, maxRep, execTime, timestamp)
-

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject, Observable, of, Subject, tap } from 'rxjs';
-import { environment } from '../../environments/environment';
-import { User } from '../modules/auth/interfaces/user';
+import { Observable, of, Subject, tap } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'

@@ -50,11 +50,5 @@ export class MentalBreathComponent {
 
     }
   }
-  onAnimationIteration() {
 
-  }
-
-  onAnimationEnd(event: AnimationEvent) {
-
-  }
 }

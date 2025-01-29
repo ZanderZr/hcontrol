@@ -1,8 +1,8 @@
-import { AuthService } from './../../../services/auth.service';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterModule } from "@angular/router";
+import { AuthService } from '../services/auth.service';
 
 
 @Component({
