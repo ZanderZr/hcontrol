@@ -1,11 +1,32 @@
 <app-page>
-<mat-form-field appearance="fill">
-  <mat-label>Muscle Group</mat-label>
-  <mat-select [(value)]="selectedMuscle" (selectionChange)="loadExercises(selectedMuscle)">
-    <mat-option *ngFor="let muscle of muscles" [value]="muscle">{{ muscle }}</mat-option>
-  </mat-select>
-</mat-form-field>
+  <app-routine-card></app-routine-card>
+<div>
+  <div class="filter-container">
+    <!-- Filtro de Tipo -->
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo</mat-label>
+      <mat-select [(value)]="selectedType" (selectionChange)="loadExercises()">
+        <mat-option *ngFor="let type of types" [value]="type">{{ type }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
+    <!-- Filtro de Músculo -->
+    <mat-form-field appearance="outline">
+      <mat-label>Músculo</mat-label>
+      <mat-select [(value)]="selectedMuscle" (selectionChange)="loadExercises()">
+        <mat-option *ngFor="let muscle of muscles" [value]="muscle">{{ muscle }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
+    <!-- Filtro de Dificultad -->
+    <mat-form-field appearance="outline">
+      <mat-label>Dificultad</mat-label>
+      <mat-select [(value)]="selectedDiff" (selectionChange)="loadExercises()">
+        <mat-option *ngFor="let difficult of difficulty" [value]="difficult">{{ difficult }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
   <app-exercise-card *ngFor="let exercise of exercises" [exercise]="exercise"></app-exercise-card>
+</div>
 </app-page>

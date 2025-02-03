@@ -12,9 +12,19 @@ export class ExerciseService {
 
   constructor(private http: HttpClient) {}
 
-  getExercises(muscle: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}?muscle=${muscle}`, {
-      headers: { 'X-Api-Key': this.apiKey },
+  // Método para obtener ejercicios filtrados
+  getFilteredExercises(filters: { type: string, muscle: string, difficulty: string }): Observable<any[]> {
+    let query = '';
+
+    // Añadimos los filtros a la query, asegurándonos de que solo se agreguen los filtros definidos
+    if (filters.type) query += `&type=${filters.type}`;
+    if (filters.muscle) query += `&muscle=${filters.muscle}`;
+    if (filters.difficulty) query += `&difficulty=${filters.difficulty}`;
+
+    return this.http.get<any[]>(`${this.apiUrl}?${query}`, {
+      headers: {
+        'X-Api-Key': this.apiKey,  // Coloca tu API Key aquí si es necesario
+      }
     });
   }
 }

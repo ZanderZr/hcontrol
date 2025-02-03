@@ -2,13 +2,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { Exercise } from '../../modules/physic/interfaces/exercise';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-exercise-card',
   standalone: true,
   imports: [
     MatCardModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatIconModule
   ],
   templateUrl: './exercise-card.component.html',
   styleUrl: './exercise-card.component.scss'
