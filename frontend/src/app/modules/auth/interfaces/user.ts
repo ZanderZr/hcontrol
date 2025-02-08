@@ -4,6 +4,7 @@ export enum UserRole {
   DIETITIST = 'DIETITIST',
   PSYCHOLOGIST = 'PSYCHOLOGIST',
   DEVELOPER = 'DEVELOPER',
+  USER = 'USER'
 }
 
 // Define la interfaz para el usuario

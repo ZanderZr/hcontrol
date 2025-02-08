@@ -31,7 +31,7 @@ const User = database.define<UserInstance>('User', {
         allowNull:false
     },
     role: {
-        type:DataTypes.ENUM( 'COACH' , 'DIETITIST' , 'PSYCHOLOGIST' , 'DEVELOPER'),
+        type:DataTypes.ENUM( 'COACH' , 'DIETITIST' , 'PSYCHOLOGIST' , 'DEVELOPER', 'USER'),
         allowNull:true
     }
 

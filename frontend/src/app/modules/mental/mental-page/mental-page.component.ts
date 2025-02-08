@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { PageComponent } from "../../../components/page/page.component";
+import { PageComponent } from "../../page/page.component";
 import { ToolsCardComponent } from "../../../components/tools-card/tools-card.component";
 
 @Component({

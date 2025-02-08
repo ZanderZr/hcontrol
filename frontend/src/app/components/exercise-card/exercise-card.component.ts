@@ -18,10 +18,16 @@ import { MatIconModule } from '@angular/material/icon';
 export class ExerciseCardComponent {
 
  @Output() cardClick = new EventEmitter<void>(); // Evento de salida
+ @Output() clickAdd = new EventEmitter<void>(); // Evento de salida
 
  @Input() exercise!:Exercise;
 
   onCardClick() {
     this.cardClick.emit();
   }
+
+  onClickAdd() {
+    this.clickAdd.emit();
+  }
 }
+

@@ -1,8 +1,56 @@
 <app-page>
-  <button (click)="loginRoute()">login</button>
-  <button (click)="registerRoute()">register</button>
-  <!-- <app-login *ngIf="!isLogged && inLogin" (toggleLoginEvent)="onToggleLogin($event)"></app-login>
-  <app-register *ngIf="!isLogged && !inLogin" (toggleLoginEvent)="onToggleLogin($event)"></app-register> -->
+  <div class="bloque-login col-lg-4 offset-lg-4" *ngIf="isLoginPage">
+    <div class="card text-white bg-success mb-3" style="max-width: 30rem">
+      <div class="card-header text-center">Login</div>
+      <div class="card-body">
+        <form [formGroup]="formLogin">
+          <label for="exampleInputEmail1" class="form-label mt-4">Email</label>
+          <input formControlName="email" type="text" class="form-control" placeholder="Introduce tu email" />
+          <label for="exampleInputEmail1" class="form-label mt-4">Password</label>
+          <input formControlName="password" type="text" class="form-control" placeholder="Introduce tu contraseña" />
+        </form>
+        <div class="buttons-container mt-4 text-center">
+          <button type="button" class="auth-button" (click)="setIsLogin(false)">
+            Registrarme
+          </button>
+          <button type="button" class="login-button" (click)="login()">
+            LOGIN
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bloque-register col-lg-4 offset-lg-4" *ngIf="!isLoginPage">
+    <div class="card text-white bg-warning mb-3" style="max-width: 30rem">
+      <div class="card-header text-center">REGISTRO</div>
+      <div class="card-body">
+        <form [formGroup]="formRegister">
+          <label for="exampleInputEmail1" class="form-label">Usuario</label>
+          <input formControlName="username" type="text" class="form-control"
+            placeholder="Introduce un nombre de usuario" />
+          <label for="exampleInputEmail1" class="form-label">Email</label>
+          <input formControlName="email" type="email" class="form-control" placeholder="Introduce un email" />
+          <label for="exampleInputEmail1" class="form-label">Contraseña</label>
+          <input formControlName="password1" type="password" class="form-control"
+            placeholder="Introduce una contraseña" />
+          <label for="exampleInputEmail1" class="form-label">Confirmar contraseña</label>
+          <input formControlName="password2" type="password" class="form-control"
+            placeholder="Confirma la contraseña" />
+            <label for="role" class="form-label">Rol</label>
+        <select formControlName="role" class="form-control">
+          <option *ngFor="let role of roles" [value]="role">{{ role}}</option>
+        </select>
+        </form>
+        <div class="buttons-container">
+          <button type="submit" class="auth-button" (click)="setIsLogin(true)">
+            Autentificarme
+          </button>
+          <button type="button" class="register-button" (click)="register()">
+            Registrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </app-page>
-
-

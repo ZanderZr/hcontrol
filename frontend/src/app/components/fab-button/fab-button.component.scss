@@ -1,0 +1,12 @@
+.fab-button {
+  position: fixed;
+  bottom: 66px;
+  right: 16px;
+  z-index: 1000; // Asegura que esté por encima de otros elementos
+  background-color: #1976d2; // Azul Material
+  color: white;
+
+  &:hover {
+    background-color: #1565c0;
+  }
+}

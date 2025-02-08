@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PageComponent } from "../../../components/page/page.component";
+import { PageComponent } from "../../page/page.component";
 import {MatButtonModule} from '@angular/material/button';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
