@@ -15,48 +15,55 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const user_1 = __importDefault(require("../routes/user"));
-const diaryData_1 = __importDefault(require("../routes/diaryData"));
-const exercise_1 = __importDefault(require("../routes/exercise")); // Corregido
-const routine_1 = __importDefault(require("../routes/routine")); // Corregido
+const routes_1 = __importDefault(require("../routes/routes"));
+const user_2 = __importDefault(require("../routes/user"));
+const user_3 = __importDefault(require("../routes/user"));
 const connection_1 = __importDefault(require("../database/connection"));
 // Definición de la clase Server
 class Server {
+    // Constructor de la clase. Inicializa una nueva instancia de Express y la asigna a la propiedad 'app'. Inicializa listen()
     constructor() {
-        this.app = (0, express_1.default)(); // Se inicializa la app
-        this.HOST = process.env.HOST || "0.0.0.0";
-        this.PORT = process.env.PORT || 3001;
-        this.middlewares(); // Método de parseo antes que las rutas
+        console.log();
+        this.app = (0, express_1.default)();
+        this.port = process.env.PORT || '3001';
+        this.listen();
+        this.midlewares(); // El metodo de parseo antes que las rutas
         this.routes();
         this.dbConnect();
-        this.listen();
     }
     // Método 'listen' para iniciar el servidor
     listen() {
-        connection_1.default.sync().then(() => {
-            this.app.listen(Number(this.PORT), this.HOST, () => console.log(`Server running on http://${this.HOST}:${this.PORT}`));
+        // El servidor Express escucha en el puerto definido
+        this.app.listen(this.port, () => {
+            console.log(`Aplicación corriendo en el puerto ${this.port}`);
         });
     }
     routes() {
-        this.app.get("/", (req, res) => {
-            res.json({ msg: "API works" });
+        this.app.get('/', (req, res) => {
+            res.json({
+                msg: 'API works'
+            });
         });
-        this.app.use("/api/users", user_1.default);
-        this.app.use("/api/diary", diaryData_1.default);
-        this.app.use("/api/exercises", exercise_1.default);
-        this.app.use("/api/routines", routine_1.default);
+        this.app.use('/api/users', user_1.default);
+        this.app.use('/api/diary', routes_1.default);
+        this.app.use('/api/exercises', user_2.default);
+        this.app.use('/api/routines', user_3.default);
     }
-    middlewares() {
+    midlewares() {
+        // Paresear el body
         this.app.use(express_1.default.json());
+        // Cors
         this.app.use((0, cors_1.default)());
     }
     dbConnect() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield connection_1.default.authenticate();
-                console.log("Base de datos conectada");
+                console.log('Base de datos conectada');
             }
             catch (error) {
-                console.error("Error al conectar la base de datos:", error);
+                console.log(error);
+                console.log('Error al conectar la base de datos');
             }
         });
     }

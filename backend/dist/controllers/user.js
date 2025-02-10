@@ -16,50 +16,48 @@ exports.getUser = exports.login = exports.register = exports.deleteUser = void 0
 const user_1 = __importDefault(require("../models/user"));
 const sequelize_1 = require("sequelize");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+// Clave secreta para JWT desde variables de entorno
+const JWT_SECRET = process.env.JWT_SECRET || 'defaultSecretKey';
+// Eliminar usuario
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const user = yield user_1.default.findByPk(id);
-    if (user) {
+    try {
+        const { id } = req.params;
+        const user = yield user_1.default.findByPk(id);
+        if (!user) {
+            return res.status(404).json({ msg: `No existe un usuario con el ID: ${id}` });
+        }
         yield user.destroy();
-        res.json({
-            msg: `Usuario eliminado con exito. Id: ${id}`
-        });
+        res.json({ msg: `Usuario eliminado con éxito. ID: ${id}` });
     }
-    else {
-        res.status(404).json({
-            msg: `No existe un usuario con el id: ${id}`
-        });
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error al eliminar el usuario' });
     }
 });
 exports.deleteUser = deleteUser;
-// Registro. 
+// Registro
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, email } = req.body;
+    const { username, email, password } = req.body;
     try {
-        // Busca en la BD un usuario cuyo nombre de usuario o email coincida con los introducidos
-        const user = yield user_1.default.findOne({
-            where: {
-                [sequelize_1.Op.or]: [
-                    { username: username },
-                    { email: email }
-                ]
-            }
+        if (!username || !email || !password) {
+            return res.status(400).json({ msg: 'Todos los campos son obligatorios' });
+        }
+        const existingUser = yield user_1.default.findOne({
+            where: { [sequelize_1.Op.or]: [{ username }, { email }] }
         });
-        if (!user) {
-            // Si no existe lo crea
-            yield user_1.default.create(req.body);
-            res.json({
-                msg: 'Usuario agregado con exito.'
-            });
+        if (existingUser) {
+            return res.status(400).json({ msg: 'Email o Username no disponibles' });
         }
-        else {
-            console.log('Email o Username no disponibles');
-            res.status(400).json({ msg: 'Email o Username no disponibles' });
-        }
+        // Hashear la contraseña
+        const hashedPassword = yield bcrypt_1.default.hash(password, 10);
+        // Crear usuario con la contraseña cifrada
+        yield user_1.default.create({ username, email, password: hashedPassword });
+        res.status(201).json({ msg: 'Usuario registrado con éxito' });
     }
     catch (error) {
-        console.log(error);
-        res.status(500).json({ msg: 'Error al agregar un usuario' });
+        console.error(error);
+        res.status(500).json({ msg: 'Error al registrar el usuario' });
     }
 });
 exports.register = register;
@@ -67,48 +65,46 @@ exports.register = register;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
     try {
-        const user = yield user_1.default.findOne({ where: { email: email } });
-        if (user && user.password === password) {
-            const token = jsonwebtoken_1.default.sign({ id: user.id }, 'jcKey', { expiresIn: '1h' });
-            res.json({ token: token });
+        if (!email || !password) {
+            return res.status(400).json({ msg: 'Email y contraseña son obligatorios' });
         }
-        else {
-            res.status(401).json({ message: 'Email o contraseña incorrectos' });
+        const user = yield user_1.default.findOne({ where: { email } });
+        if (!user || !(yield bcrypt_1.default.compare(password, user.password))) {
+            return res.status(401).json({ msg: 'Email o contraseña incorrectos' });
         }
+        // Generar token JWT
+        const token = jsonwebtoken_1.default.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
+        res.json({ token });
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error del servidor' });
+        res.status(500).json({ msg: 'Error en el servidor' });
     }
 });
 exports.login = login;
+// Obtener usuario por token
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { token } = req.body;
     try {
         if (!token) {
-            return res.status(400).json({ message: 'No se proporcionó ningún token' });
+            return res.status(400).json({ msg: 'No se proporcionó ningún token' });
         }
-        const decoded = jsonwebtoken_1.default.verify(token, 'jcKey');
-        const userId = decoded.id;
-        const user = yield user_1.default.findByPk(userId);
-        if (user) {
-            res.json(user);
+        const decoded = jsonwebtoken_1.default.verify(token, JWT_SECRET);
+        const user = yield user_1.default.findByPk(decoded.id);
+        if (!user) {
+            return res.status(404).json({ msg: 'Usuario no encontrado' });
         }
-        else {
-            res.status(404).json({ message: 'Usuario no encontrado' });
-        }
+        res.json(user);
     }
     catch (error) {
         console.error(error);
         if (error instanceof jsonwebtoken_1.default.JsonWebTokenError) {
-            res.status(400).json({ message: 'Token inválido' });
+            return res.status(400).json({ msg: 'Token inválido' });
         }
-        else if (error instanceof jsonwebtoken_1.default.TokenExpiredError) {
-            res.status(400).json({ message: 'Token expirado' });
+        if (error instanceof jsonwebtoken_1.default.TokenExpiredError) {
+            return res.status(401).json({ msg: 'Token expirado' });
         }
-        else {
-            res.status(400).json({ message: 'Error desconocido al verificar el token' });
-        }
+        res.status(500).json({ msg: 'Error al procesar el token' });
     }
 });
 exports.getUser = getUser;

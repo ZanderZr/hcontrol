@@ -1,15 +1,15 @@
 import { DataTypes, Model } from 'sequelize';
 import database from '../database/connection';
 
-interface UserInstance extends Model {
+interface IUser extends Model {
     id: number;
     email: string;
     username: string;
     password: string;
-    role:  'COACH' | 'DIETITIST' | 'PSYCHOLOGIST' | 'DEVELOPER';
+    role:  'COACH' | 'DIETITIST' | 'PSYCHOLOGIST' | 'DEVELOPER' | 'USER';
   }
 
-const User = database.define<UserInstance>('User', {
+const User = database.define<IUser>('User', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

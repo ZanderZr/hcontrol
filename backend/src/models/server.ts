@@ -1,66 +1,61 @@
-
-import express, { Application, Request, Response } from 'express';
-import cors from 'cors';
-import routesUser from '../routes/user';
-import database from '../database/connection';
-import path from 'path';
+import express, { Application, Request, Response } from "express";
+import cors from "cors";
+import userRoutes from "../routes/user";
+import diaryRoutes from "../routes/diaryData";
+import exerciseRoutes from "../routes/exercise"; // Corregido
+import routineRoutes from "../routes/routine"; // Corregido
+import database from "../database/connection";
 
 // Definición de la clase Server
 class Server {
-    
-    // Propiedades privadas de la clase
-    private app: Application;
-    private port: string; // Puerto en el que el servidor escuchará
+  private app: Application;
+  private HOST: string;
+  private PORT: string | number;
 
-    // Constructor de la clase. Inicializa una nueva instancia de Express y la asigna a la propiedad 'app'. Inicializa listen()
-    constructor() {
-        console.log();
-        this.app = express();
-        this.port = process.env.PORT || '3001';
-        this.listen();
-        this.midlewares(); // El metodo de parseo antes que las rutas
-        this.routes();
-        this.dbConnect();
+  constructor() {
+    this.app = express(); // Se inicializa la app
+    this.HOST = process.env.HOST || "0.0.0.0";
+    this.PORT = process.env.PORT || 3001;
+
+    this.middlewares(); // Método de parseo antes que las rutas
+    this.routes();
+    this.dbConnect();
+    this.listen();
+  }
+
+  // Método 'listen' para iniciar el servidor
+  listen() {
+    database.sync().then(() => {
+      this.app.listen(Number(this.PORT), this.HOST, () =>
+        console.log(`Server running on http://${this.HOST}:${this.PORT}`)
+      );
+    });
+  }
+
+  routes() {
+    this.app.get("/", (req: Request, res: Response) => {
+      res.json({ msg: "API works" });
+    });
+
+    this.app.use("/api/users", userRoutes);
+    this.app.use("/api/diary", diaryRoutes);
+    this.app.use("/api/exercises", exerciseRoutes);
+    this.app.use("/api/routines", routineRoutes);
+  }
+
+  middlewares() {
+    this.app.use(express.json());
+    this.app.use(cors());
+  }
+
+  async dbConnect() {
+    try {
+      await database.authenticate();
+      console.log("Base de datos conectada");
+    } catch (error) {
+      console.error("Error al conectar la base de datos:", error);
     }
-
-    // Método 'listen' para iniciar el servidor
-    listen() {
-        // El servidor Express escucha en el puerto definido
-        this.app.listen(this.port, () => {
-            console.log(`Aplicación corriendo en el puerto ${this.port}`);
-        });
-    }
-
-    routes() {
-        this.app.get('/', (req: Request, res: Response) => {
-            res.json({
-                msg: 'API works'
-            })
-
-        })
-        
-        this.app.use('/api/users', routesUser)
-        // Servir archivos estáticos desde la carpeta 'uploads'
-        this.app.use('/uploads', express.static(path.resolve('uploads')));
-    }
-
-    midlewares() {
-        // Paresear el body
-        this.app.use(express.json());
-
-        // Cors
-        this.app.use(cors());
-    }
-
-    async dbConnect() {
-        try {
-            await database.authenticate();
-            console.log('Base de datos conectada');
-        } catch (error) {
-            console.log(error);
-            console.log('Error al conectar la base de datos');
-        }
-    }
+  }
 }
 
 export default Server;
