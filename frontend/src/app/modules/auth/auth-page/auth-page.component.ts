@@ -24,8 +24,7 @@ export class AuthPageComponent {
   formLogin: FormGroup;
   isLoginPage: boolean = true;
 
-  roles = ['COACH' ,'DIETITIST', 'PSYCHOLOGIST' ,'DEVELOPER' ,'USER'
-  ];
+  roles = ['COACH' ,'DIETITIST', 'PSYCHOLOGIST' ,'USER'];
 
   constructor(
     private router: Router,
