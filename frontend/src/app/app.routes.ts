@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { OptionsPageComponent } from './modules/options/options-page/options-page.component';
 
 export const routes: Routes = [
   {
@@ -21,5 +22,7 @@ export const routes: Routes = [
     path: 'feeding',
     loadChildren: () => import('./modules/feeding/feeding.routes').then((m) => m.FEEDING_ROUTES),
   },
+  { path: 'options', component: OptionsPageComponent,},
+
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

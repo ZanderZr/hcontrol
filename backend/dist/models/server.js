@@ -23,7 +23,7 @@ const connection_1 = __importDefault(require("../database/connection"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)(); // Se inicializa la app
-        this.HOST = process.env.HOST || "0.0.0.0";
+        this.HOST = process.env.HOST || "loscalhost";
         this.PORT = process.env.PORT || 3001;
         this.middlewares(); // Método de parseo antes que las rutas
         this.routes();

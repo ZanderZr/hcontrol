@@ -1,0 +1,31 @@
+<app-page>
+  <div class="settings-container">
+    <h1>Configuración de Usuario y Usabilidad</h1>
+    <form (ngSubmit)="saveSettings()" #settingsForm="ngForm" class="settings-form">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Nombre de usuario</mat-label>
+        <input matInput type="text" id="username" name="username" [(ngModel)]="settings.username" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput type="email" id="email" name="email" [(ngModel)]="settings.email" required />
+      </mat-form-field>
+
+      <mat-checkbox id="notifications" name="notifications" [(ngModel)]="settings.notifications">
+        Notificaciones activadas
+      </mat-checkbox>
+
+      <mat-checkbox id="darkMode" name="darkMode" [(ngModel)]="settings.darkMode">
+        Modo oscuro
+      </mat-checkbox>
+
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit" [disabled]="settingsForm.invalid">
+          Guardar Configuración
+        </button>
+      </div>
+    </form>
+  </div>
+
+</app-page>

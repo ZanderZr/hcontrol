@@ -16,7 +16,7 @@
   width: 80px;
   border: 5px solid rgb(0, 94 , 110); /* Aro inicial sin visibilidad */
   transform: scale(1);
-  animation: growShrink1 19s linear infinite; /* Usando la duración total */
+  animation: growShrink1 17s linear infinite; /* Usando la duración total */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +43,7 @@
 }
 
 .blob2 {
-  background: rgb(8, 8, 8);
+  background: rgba(0, 0, 0, 0);
   border-radius: 50%;
   margin: 10px;
   height: 80px;

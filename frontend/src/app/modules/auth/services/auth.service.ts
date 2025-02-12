@@ -9,25 +9,24 @@ import { User } from '../interfaces/user';
   providedIn: 'root'
 })
 export class AuthService {
-  private myAppUrl: string;
   private myApiUrl: string;
   private refreshNavbarSubject = new Subject<void>();
 
   constructor(private http: HttpClient, private cookies: CookieService) {
-    this.myAppUrl = environment.endpoint;
-    this.myApiUrl = 'api/users/'
+    this.myApiUrl = environment.apiUrl;
+
   }
 
   // La función tap de RxJS se usa para realizar efectos secundarios, en este caso, establecer el token, sin alterar el flujo del observable.
   login(user: User): Observable<any> {
-    return this.http.post(`${this.myAppUrl}${this.myApiUrl}login`, user).pipe(
+    return this.http.post(`${this.myApiUrl}/users/login`, user).pipe(
       tap((response: any) => {
         this.setToken(response.token);
       })
     );
   }
   register(user: User): Observable<any> {
-    return this.http.post(`${this.myAppUrl}${this.myApiUrl}register`, user);
+    return this.http.post(`${this.myApiUrl}/users/register`, user);
   }
 
   setToken(token: string) {
@@ -56,7 +55,7 @@ export class AuthService {
   getUser(): Observable<any> {
     const token = this.getToken();
     if (token) {
-      return this.http.get(`${this.myAppUrl}${this.myApiUrl}token`, {
+      return this.http.get(`${this.myApiUrl}/users/token`, {
         headers: {
           'Authorization': `Bearer ${token}` // Envía el token en el encabezado Authorization
         }

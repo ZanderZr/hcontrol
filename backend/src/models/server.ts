@@ -14,7 +14,7 @@ class Server {
 
   constructor() {
     this.app = express(); // Se inicializa la app
-    this.HOST = process.env.HOST || "0.0.0.0";
+    this.HOST = process.env.HOST || "loscalhost";
     this.PORT = process.env.PORT || 3001;
 
     this.middlewares(); // Método de parseo antes que las rutas

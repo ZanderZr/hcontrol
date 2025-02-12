@@ -3,11 +3,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { User, UserRole } from '../../modules/auth/interfaces/user';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [FontAwesomeModule],
+  imports: [FontAwesomeModule, CommonModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
@@ -45,7 +46,7 @@ export class HeaderComponent implements OnInit {
   }
 
   settingsButton(){
-    console.log("setings")
+    this.router.navigate(['options']);
   }
 
   profileButton(){
