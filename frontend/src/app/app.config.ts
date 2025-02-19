@@ -11,6 +11,9 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
+    importProvidersFrom(
+      ToastrModule.forRoot(), // Asegura que Toastr está importado correctamente
+    ),
     provideHttpClient(withFetch()),
     importProvidersFrom(ToastrModule.forRoot()), provideAnimationsAsync(), provideAnimationsAsync()
   ]

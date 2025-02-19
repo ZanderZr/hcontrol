@@ -10,7 +10,7 @@
           <input formControlName="password" type="text" class="form-control" placeholder="Introduce tu contraseña" />
         </form>
         <div class="buttons-container mt-4 text-center">
-          <button type="button" class="auth-button" (click)="setIsLogin(false)">
+          <button type="button" class="auth-button" (click)="toggleForm()">
             Registrarme
           </button>
           <button type="button" class="login-button" (click)="login()">
@@ -43,7 +43,7 @@
         </select>
         </form>
         <div class="buttons-container">
-          <button type="submit" class="auth-button" (click)="setIsLogin(true)">
+          <button type="submit" class="auth-button" (click)="toggleForm()">
             Autentificarme
           </button>
           <button type="button" class="register-button" (click)="register()">

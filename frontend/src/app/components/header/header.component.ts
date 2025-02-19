@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { User, UserRole } from '../../modules/auth/interfaces/user';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { After } from 'v8';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, AfterViewChecked{
 
   title: string = "";
   user: User = {
@@ -23,7 +24,10 @@ export class HeaderComponent implements OnInit {
     role: UserRole.DEVELOPER
   };
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+  ngAfterViewChecked(): void {
+this.cdr.detectChanges();
+  }
 
   ngOnInit() {
     this.router.events
@@ -34,6 +38,7 @@ export class HeaderComponent implements OnInit {
       .subscribe(title => {
         this.title = title || 'Default Title';
       });
+      this.cdr.detectChanges();
   }
 
   // Función recursiva para obtener el título de la ruta activa

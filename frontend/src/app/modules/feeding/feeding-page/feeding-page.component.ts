@@ -12,6 +12,7 @@ import { title } from 'process';
   styleUrl: './feeding-page.component.scss'
 })
 export class FeedingPageComponent {
+  
 
   recipe: Recipe = {
     id: 1,

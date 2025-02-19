@@ -24,21 +24,20 @@ export class AuthPageComponent {
   formLogin: FormGroup;
   isLoginPage: boolean = true;
 
-  roles = ['COACH' ,'DIETITIST', 'PSYCHOLOGIST' ,'USER'];
+  roles = ['COACH', 'DIETITIST', 'PSYCHOLOGIST', 'USER'];
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private _authService: AuthService,
-    private toastr: ToastrService,
-
+    private toastr: ToastrService
   ) {
     this.formRegister = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password1: ['', Validators.required],
       password2: ['', Validators.required],
-      role: []
+      role: ['', Validators.required]
     });
 
     this.formLogin = this.fb.group({
@@ -47,62 +46,45 @@ export class AuthPageComponent {
     });
   }
 
-  register() {
-    // Si las contraseñas coinciden...
-    if (this.formRegister.value.password1 === this.formRegister.value.password2) {
-      const user = {
-        username: this.formRegister.value.username,
-        email: this.formRegister.value.email,
-        password: this.formRegister.value.password1,
-        role: this.formRegister.value.role
-      };
+  async login() {
+    if (this.formLogin.invalid) {
+      this.toastr.error('Por favor, completa todos los campos.');
+      return;
+    }
 
-      // Llamada al servicio AuthService
-      this._authService.register(user).subscribe({
-        next: data => {
-          this._authService.setToken(data.token);
-          this.router.navigate(['/feeding']); // Navega tras el registro
-        },
-        error: error => {
-          console.log(error);
-          this.toastr.warning('Email o username existen', 'Warning');
-        }
-      });
-    } else {
-      this.toastr.warning('Las contraseñas deben ser iguales', 'Warning');
+    try {
+      const { email, password } = this.formLogin.value;
+      const response = await lastValueFrom(this._authService.login(email, password));
+      this._authService.saveToken(response.token);
+      this.toastr.success('Inicio de sesión exitoso');
+      this.router.navigate(['feeding']);
+    } catch (error) {
+      this.toastr.error('Credenciales incorrectas');
     }
   }
 
-  login() {
-
-    const user = {
-      email: this.formLogin.value.email,
-      password: this.formLogin.value.password
-    };
-
-    this._authService.login(user).subscribe({ // Llama al método login del servicio _usersService y se suscribe a la respuesta
-      next: data => { // En caso de éxito (respuesta positiva)
-        this._authService.setToken(data.token); // Guarda el token recibido en el servicio _usersService
-        this.router.navigateByUrl('/feeding'); // Redirige al usuario a la ruta '/list'
-        console.log("login ok")
-      },
-      error: error => { // En caso de error (respuesta negativa)
-        console.log(error); // Imprime el error en la consola
-        this.toastr.error('Email o contraseña incorrectos', 'Error'); // Muestra un mensaje de error usando toastr
-      }
+  async register() {
+    if (this.formRegister.invalid) {
+      this.toastr.error('Por favor, completa todos los campos.');
+      return;
     }
-    );
+
+    if (this.formRegister.value.password1 !== this.formRegister.value.password2) {
+      this.toastr.error('Las contraseñas no coinciden');
+      return;
+    }
+
+    try {
+      const { email, username, password1, role } = this.formRegister.value;
+      await lastValueFrom(this._authService.register(email, username, password1, role));
+      this.toastr.success('Registro exitoso. Ahora puedes iniciar sesión.');
+      this.isLoginPage = true;
+    } catch (error) {
+      this.toastr.error('Error en el registro');
+    }
   }
 
-  setIsLogin(value: boolean){
-    this.isLoginPage = value;
-  }
-
-  loginRoute() {
-    this.router.navigate(['/auth/login']);
-  }
-
-  registerRoute() {
-    this.router.navigate(['/auth/register']);
+  toggleForm() {
+    this.isLoginPage = !this.isLoginPage;
   }
 }

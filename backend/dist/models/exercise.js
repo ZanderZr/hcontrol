@@ -11,18 +11,13 @@ Exercise.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
-        primaryKey: true
+        primaryKey: true,
     },
     idUser: {
         type: sequelize_1.DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
     },
-    difficulty: { type: sequelize_1.DataTypes.STRING, allowNull: true },
-    equipment: { type: sequelize_1.DataTypes.STRING, allowNull: true },
-    instructions: { type: sequelize_1.DataTypes.STRING, allowNull: true },
-    muscle: { type: sequelize_1.DataTypes.STRING, allowNull: true },
     name: { type: sequelize_1.DataTypes.STRING, allowNull: false },
-    type: { type: sequelize_1.DataTypes.STRING, allowNull: true },
     max_weight: { type: sequelize_1.DataTypes.INTEGER },
     max_rep: { type: sequelize_1.DataTypes.INTEGER },
     exec_time: { type: sequelize_1.DataTypes.INTEGER },
