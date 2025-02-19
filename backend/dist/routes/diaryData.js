@@ -4,7 +4,7 @@ const express_1 = require("express");
 const diaryData_1 = require("../controllers/diaryData");
 const router = (0, express_1.Router)();
 router.get('/', diaryData_1.getAllDiary);
-router.post('/:id', diaryData_1.postDiary);
+router.post('/', diaryData_1.postDiary);
 router.get('/:id', diaryData_1.getDiary);
 router.delete('/:id', diaryData_1.deleteDiary);
 exports.default = router;

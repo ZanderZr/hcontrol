@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/', getAllRoutine);
 router.get('/:id', getRoutine);
-router.post('/:id', postRoutine);
+router.post('/', postRoutine);
 router.put('/:id', putRoutine);
 router.delete('/:id', deleteRoutine);
 

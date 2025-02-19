@@ -6,15 +6,15 @@ export interface IRoutine {
     idUser: number;
     name: string;
     description?: string;
-    exercises: IExercise[];
+    exercise: string;
 }
 
 class Routine extends Model {}
 Routine.init({
     idUser: { type: DataTypes.INTEGER, allowNull: false },
     name: { type: DataTypes.STRING, allowNull: false },
-    description: { type: DataTypes.STRING },
-    exercises: { type: DataTypes.JSON, allowNull: false }
-}, { sequelize: database, modelName: 'Routine' });
+    description: { type: DataTypes.STRING, allowNull: true },
+    exercise: { type: DataTypes.STRING, allowNull: false }
+}, { sequelize: database, modelName: 'routines', timestamps: false });
 
 export default Routine;

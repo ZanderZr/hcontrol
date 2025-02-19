@@ -16,33 +16,57 @@ exports.deleteDiary = exports.postDiary = exports.getDiary = exports.getAllDiary
 const express_1 = __importDefault(require("express"));
 const diaryData_1 = __importDefault(require("../models/diaryData"));
 const router = express_1.default.Router();
-exports.getAllDiary = router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield diaryData_1.default.findAll();
-    res.json(data);
-}));
-exports.getDiary = router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield diaryData_1.default.findByPk(req.params.id);
-    data ? res.json(data) : res.status(404).send('Not Found');
-}));
-exports.postDiary = router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllDiary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield diaryData_1.default.findAll();
+        res.json(data);
+    }
+    catch (error) {
+        console.error("Error al obtener el diario:", error);
+        res.status(500).json({ message: "Error al obtener las mediciones." });
+    }
+});
+exports.getAllDiary = getAllDiary;
+const getDiary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield diaryData_1.default.findByPk(req.params.id);
+        if (data) {
+            res.json(data);
+        }
+        else {
+            res.status(404).send('Not Found');
+        }
+    }
+    catch (error) {
+        console.error("Error al obtener el diario:", error);
+        res.status(500).json({ message: "Error al obtener el diario." });
+    }
+});
+exports.getDiary = getDiary;
+const postDiary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = yield diaryData_1.default.create(req.body);
         res.status(201).json(data);
     }
     catch (error) {
-        if (error instanceof Error) {
-            res.status(400).json({ error: error.message });
-        }
-        else {
-            res.status(400).json({ error: 'Unknown error' });
-        }
+        console.error("Error al crear el diario:", error);
+        res.status(400).json({ message: "Error al crear el diario." });
     }
-}));
-exports.deleteDiary = router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield diaryData_1.default.findByPk(req.params.id);
-    if (!data)
-        return res.status(404).send('Not Found');
-    yield data.destroy();
-    res.status(204).send();
-}));
+});
+exports.postDiary = postDiary;
+const deleteDiary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield diaryData_1.default.findByPk(req.params.id);
+        if (!data) {
+            return res.status(404).send('Not Found');
+        }
+        yield data.destroy();
+        res.status(204).send();
+    }
+    catch (error) {
+        console.error("Error al eliminar el diario:", error);
+        res.status(500).json({ message: "Error al eliminar el diario." });
+    }
+});
+exports.deleteDiary = deleteDiary;
 exports.default = router;

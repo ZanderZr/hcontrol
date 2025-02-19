@@ -13,43 +13,75 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteExercise = exports.putExercise = exports.postExercise = exports.getExercise = exports.getAllExercise = void 0;
-const express_1 = __importDefault(require("express"));
+const express_1 = require("express");
 const exercise_1 = __importDefault(require("../models/exercise"));
-const router = express_1.default.Router();
-exports.getAllExercise = router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield exercise_1.default.findAll();
-    res.json(data);
-}));
-exports.getExercise = router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield exercise_1.default.findByPk(req.params.id);
-    data ? res.json(data) : res.status(404).send('Not Found');
-}));
-exports.postExercise = router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const router = (0, express_1.Router)();
+const getAllExercise = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield exercise_1.default.findAll();
+        res.json(data);
+    }
+    catch (error) {
+        console.error("Error al obtener los ejercicios:", error);
+        res.status(500).json({ message: "Error al obtener los ejercicios." });
+    }
+});
+exports.getAllExercise = getAllExercise;
+const getExercise = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield exercise_1.default.findByPk(req.params.id);
+        if (data) {
+            res.json(data);
+        }
+        else {
+            res.status(404).send('Not Found');
+        }
+    }
+    catch (error) {
+        console.error("Error al obtener el ejercicio:", error);
+        res.status(500).json({ message: "Error al obtener el ejercicio." });
+    }
+});
+exports.getExercise = getExercise;
+const postExercise = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = yield exercise_1.default.create(req.body);
         res.status(201).json(data);
     }
     catch (error) {
-        if (error instanceof Error) {
-            res.status(400).json({ error: error.message });
-        }
-        else {
-            res.status(400).json({ error: 'Unknown error' });
-        }
+        console.error("Error al crear el ejercicio:", error);
+        res.status(400).json({ message: "Error al crear el ejercicio." });
     }
-}));
-exports.putExercise = router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield exercise_1.default.findByPk(req.params.id);
-    if (!data)
-        return res.status(404).send('Not Found');
-    yield data.update(req.body);
-    res.json(data);
-}));
-exports.deleteExercise = router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield exercise_1.default.findByPk(req.params.id);
-    if (!data)
-        return res.status(404).send('Not Found');
-    yield data.destroy();
-    res.status(204).send();
-}));
+});
+exports.postExercise = postExercise;
+const putExercise = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield exercise_1.default.findByPk(req.params.id);
+        if (!data) {
+            return res.status(404).send('Not Found');
+        }
+        yield data.update(req.body);
+        res.json(data);
+    }
+    catch (error) {
+        console.error("Error al actualizar el ejercicio:", error);
+        res.status(500).json({ message: "Error al actualizar el ejercicio." });
+    }
+});
+exports.putExercise = putExercise;
+const deleteExercise = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield exercise_1.default.findByPk(req.params.id);
+        if (!data) {
+            return res.status(404).send('Not Found');
+        }
+        yield data.destroy();
+        res.status(204).send();
+    }
+    catch (error) {
+        console.error("Error al eliminar el ejercicio:", error);
+        res.status(500).json({ message: "Error al eliminar el ejercicio." });
+    }
+});
+exports.deleteExercise = deleteExercise;
 exports.default = router;
