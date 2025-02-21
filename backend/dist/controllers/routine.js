@@ -15,11 +15,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteRoutine = exports.putRoutine = exports.postRoutine = exports.getRoutine = exports.getAllRoutine = void 0;
 const express_1 = require("express");
 const routine_1 = __importDefault(require("../models/routine"));
+const routineExercises_1 = __importDefault(require("../models/routineExercises"));
 const router = (0, express_1.Router)();
+// Obtener todas las rutinas con sus ejercicios
 const getAllRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield routine_1.default.findAll();
-        res.json(data);
+        const routines = yield routine_1.default.findAll();
+        const routineExercises = yield routineExercises_1.default.findAll();
+        const formattedRoutines = routines.map(routine => {
+            const exercisesForRoutine = routineExercises
+                .filter(re => re.routine_id === routine.id)
+                .map(re => re.exercise_name);
+            return {
+                id: routine.id,
+                idUser: routine.idUser,
+                name: routine.name,
+                description: routine.description,
+                exercises: exercisesForRoutine
+            };
+        });
+        res.json(formattedRoutines);
     }
     catch (error) {
         console.error("Error al obtener las rutinas:", error);
@@ -27,15 +42,23 @@ const getAllRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getAllRoutine = getAllRoutine;
+// Obtener una rutina con sus ejercicios
 const getRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield routine_1.default.findByPk(req.params.id);
-        if (data) {
-            res.json(data);
+        const routine = yield routine_1.default.findByPk(req.params.id);
+        if (!routine) {
+            return res.status(404).send('Not Found');
         }
-        else {
-            res.status(404).send('Not Found');
-        }
+        const routineExercises = yield routineExercises_1.default.findAll({
+            where: { routine_id: routine.id }
+        });
+        res.json({
+            id: routine.id,
+            idUser: routine.idUser,
+            name: routine.name,
+            description: routine.description,
+            exercises: routineExercises.map(re => re.exercise_name)
+        });
     }
     catch (error) {
         console.error("Error al obtener la rutina:", error);
@@ -43,10 +66,21 @@ const getRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getRoutine = getRoutine;
+// Crear una nueva rutina con ejercicios
 const postRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield routine_1.default.create(req.body);
-        res.status(201).json(data);
+        const { idUser, name, description, exercises } = req.body;
+        // Crear la rutina
+        const routine = yield routine_1.default.create({ idUser, name, description });
+        // Agregar los ejercicios a la rutina
+        if (exercises && exercises.length > 0) {
+            const routineExercises = exercises.map((exercise_name) => ({
+                routine_id: routine.id,
+                exercise_name
+            }));
+            yield routineExercises_1.default.bulkCreate(routineExercises);
+        }
+        res.status(201).json(Object.assign(Object.assign({}, routine.toJSON()), { exercises }));
     }
     catch (error) {
         console.error("Error al crear la rutina:", error);
@@ -54,14 +88,25 @@ const postRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.postRoutine = postRoutine;
+// Actualizar una rutina y sus ejercicios
 const putRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield routine_1.default.findByPk(req.params.id);
-        if (!data) {
+        const { idUser, name, description, exercises } = req.body;
+        const routine = yield routine_1.default.findByPk(req.params.id);
+        if (!routine) {
             return res.status(404).send('Not Found');
         }
-        yield data.update(req.body);
-        res.json(data);
+        yield routine.update({ idUser, name, description });
+        // Actualizar los ejercicios asociados
+        if (exercises) {
+            yield routineExercises_1.default.destroy({ where: { routine_id: routine.id } });
+            const newRoutineExercises = exercises.map((exercise_name) => ({
+                routine_id: routine.id,
+                exercise_name
+            }));
+            yield routineExercises_1.default.bulkCreate(newRoutineExercises);
+        }
+        res.json(Object.assign(Object.assign({}, routine.toJSON()), { exercises }));
     }
     catch (error) {
         console.error("Error al actualizar la rutina:", error);
@@ -69,13 +114,15 @@ const putRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.putRoutine = putRoutine;
+// Eliminar una rutina y sus relaciones con ejercicios
 const deleteRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield routine_1.default.findByPk(req.params.id);
-        if (!data) {
+        const routine = yield routine_1.default.findByPk(req.params.id);
+        if (!routine) {
             return res.status(404).send('Not Found');
         }
-        yield data.destroy();
+        yield routineExercises_1.default.destroy({ where: { routine_id: routine.id } });
+        yield routine.destroy();
         res.status(204).send();
     }
     catch (error) {

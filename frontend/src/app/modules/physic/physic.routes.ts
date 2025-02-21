@@ -4,8 +4,8 @@ import { PhysicRecordsComponent } from "./physic-records/physic-records.componen
 import { PhysicRoutineComponent } from "./physic-routine/physic-routine.component";
 
 export const PHYSIC_ROUTES: Routes = [
-  { path: 'records', component: PhysicRecordsComponent },
-  { path: 'routine', component: PhysicRoutineComponent },
+  { path: 'records', component: PhysicRecordsComponent, data: { title: 'Records' }  },
+  { path: 'routine', component: PhysicRoutineComponent, data: { title: 'Rutinas' }  },
   { path: '', component: PhysicPageComponent, data: { title: 'Salud física' }},
   { path: '**', redirectTo: '', pathMatch: 'full' }
 

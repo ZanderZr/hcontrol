@@ -6,15 +6,16 @@ header {
   align-items: center;
   position: relative; /* Para posicionar el pseudo-elemento */
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Define el grosor, el estilo y el color del borde */
 }
 
 .user-img-container{
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.5); /* Define el grosor, el estilo y el color del borde */
   box-sizing: border-box;
-  margin-left: 4%;
+  margin-right: 4%;
 }
 
 .user-img {
@@ -30,4 +31,10 @@ i{
   font-size: 150%;
   padding-left: 4%;
   padding-right: 4%;
+}
+
+button{
+  background-color: transparent;
+  border:none;
+  margin-left: 4%;
 }

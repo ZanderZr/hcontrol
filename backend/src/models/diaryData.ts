@@ -1,13 +1,14 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import database from "../database/connection";
 
-export interface IDiaryData {
-  idUser: number;
-  data: string;
-  timestamp: string;
-}
 
-class DiaryData extends Model {}
+class DiaryData extends Model {
+
+  idUser!: number;
+  data!: string;
+  timestamp!: string;
+
+}
 DiaryData.init(
   {
     idUser: { type: DataTypes.INTEGER, allowNull: false },
@@ -18,7 +19,7 @@ DiaryData.init(
       defaultValue: Sequelize.fn("NOW"),
     },
   },
-  { sequelize: database, modelName: "DiaryData" }
+  { sequelize: database, modelName: "diary_data" }
 );
 
 export default DiaryData;

@@ -9,7 +9,6 @@ class Exercise extends Model {
   maxRep?: number;
   execTime?: number;
 }
-
 Exercise.init(
   {
     id: {
@@ -21,7 +20,10 @@ Exercise.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    name: { type: DataTypes.STRING, allowNull: false },
+    name: {
+        type: DataTypes.STRING, 
+        allowNull: false 
+    },
     max_weight: { type: DataTypes.INTEGER },
     max_rep: { type: DataTypes.INTEGER },
     exec_time: { type: DataTypes.INTEGER },

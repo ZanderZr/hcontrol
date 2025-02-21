@@ -1,0 +1,22 @@
+<app-page *ngIf="recipe">
+  <h3>{{ recipe.title }}</h3>
+  <img [src]="recipe.image" [alt]="recipe.title" class="recipe-image" />
+
+  <h4>Ingredientes</h4>
+  <ul>
+    <li *ngFor="let ingredient of recipe.extendedIngredients">
+      {{ ingredient.original }}
+    </li>
+  </ul>
+
+  <h4>Pasos de preparación</h4>
+  <ol>
+    <li *ngFor="let step of recipe.analyzedInstructions[0]?.steps">
+      {{ step.step }}
+    </li>
+  </ol>
+</app-page>
+
+<div *ngIf="!recipe">
+  <p>Cargando receta...</p>
+</div>

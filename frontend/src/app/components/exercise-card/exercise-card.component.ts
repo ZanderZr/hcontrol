@@ -17,17 +17,19 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ExerciseCardComponent {
 
- @Output() cardClick = new EventEmitter<void>(); // Evento de salida
- @Output() clickAdd = new EventEmitter<void>(); // Evento de salida
+  @Output() cardClick = new EventEmitter<void>(); // Evento de salida para clic en la tarjeta
+  @Output() clickAdd = new EventEmitter<string>();
 
- @Input() exercise!:Exercise;
+  @Input() exercise!: Exercise;
+
+  isSelected = false; // Controla si el botón ha sido pulsado
 
   onCardClick() {
     this.cardClick.emit();
   }
 
-  onClickAdd() {
-    this.clickAdd.emit();
+  onClickAdd(name : string) {
+    this.isSelected = !this.isSelected; // Cambia el estado
+    this.clickAdd.emit(name); // Emite el ID del ejercicio al padre
   }
 }
-

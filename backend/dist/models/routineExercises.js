@@ -5,16 +5,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const connection_1 = __importDefault(require("../database/connection"));
-class Routine extends sequelize_1.Model {
+class RoutineExercises extends sequelize_1.Model {
 }
-Routine.init({
+RoutineExercises.init({
     id: {
         type: sequelize_1.DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    idUser: { type: sequelize_1.DataTypes.INTEGER, allowNull: false },
-    name: { type: sequelize_1.DataTypes.STRING, allowNull: false },
-    description: { type: sequelize_1.DataTypes.STRING, allowNull: true },
-}, { sequelize: connection_1.default, modelName: 'routines', timestamps: false });
-exports.default = Routine;
+    routine_id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    exercise_name: {
+        type: sequelize_1.DataTypes.CHAR,
+        allowNull: false,
+    },
+}, { sequelize: connection_1.default, modelName: "routine_exercises", timestamps: false });
+exports.default = RoutineExercises;

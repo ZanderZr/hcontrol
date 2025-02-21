@@ -22,7 +22,8 @@ export class RecipeCardComponent {
   @Output() cardClick = new EventEmitter<void>(); // Evento de salida
   @Output() clickAdd = new EventEmitter<void>(); // Evento de salida
 
-  @Input() recipe!: Recipe;
+  @Input() title!: string;
+  @Input() img!: string;
 
   onCardClick() {
     this.cardClick.emit();

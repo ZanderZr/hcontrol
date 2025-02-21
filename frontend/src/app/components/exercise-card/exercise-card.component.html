@@ -1,10 +1,8 @@
 <div class="full-width-card" (click)="onCardClick()">
 
-  <!--  <div class="icon-container">
-      <img mat-card-image [src]="'./assets/tool-icons/'+imageUrl" alt="Image">
-
-    </div> -->
-
+  <button type="button" class="add-button" (click)="onClickAdd(exercise.name)">
+    <mat-icon>{{ isSelected ? 'check' : 'add' }}</mat-icon>
+  </button>
 
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -17,8 +15,6 @@
     <mat-card-content>
       <p><strong>Difficulty:</strong> {{ exercise.difficulty }}</p>
       <p><strong>Equipment:</strong> {{ exercise.equipment }}</p>
-
-
       <p><strong>Muscle:</strong> {{ exercise.muscle }}</p>
       <p><strong>Type:</strong> {{ exercise.type }}</p>
       <mat-expansion-panel>
@@ -32,7 +28,4 @@
     </mat-card-content>
   </mat-expansion-panel>
 
-  <button type="button" class="add-button" (click)="onClickAdd()">
-    <mat-icon>add</mat-icon>
-  </button>
 </div>

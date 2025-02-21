@@ -10,6 +10,12 @@
 mat-expansion-panel{
   width: 100%;
 }
+.text-container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .example-button-container {
   display: flex;
   justify-content: center;
@@ -24,4 +30,17 @@ button {
   background-color: rgb(66, 131, 230);
   display: block; /* Asegura que ocupe todo el espacio disponible */
 }
-
+.card-content{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.img {
+  border-radius: 12px; /* Bordes más redondeados */
+  width: 150px; /* Ancho fijo */
+  height: 150px; /* Altura fija */
+  object-fit: cover; /* Recorta la imagen para llenar el tamaño sin distorsionarla */
+}

@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+padding:10px
 
 }
 
@@ -16,4 +17,8 @@ form {
 
 .routine-creation-container {
   width: 100%;
+}
+
+.form-control{
+  height: 30px;
 }

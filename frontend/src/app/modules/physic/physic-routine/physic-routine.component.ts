@@ -19,6 +19,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ApiService } from '../../../services/api.service';
 
 @Component({
   selector: 'app-physic-routine',
@@ -41,7 +42,7 @@ import {
   styleUrl: './physic-routine.component.scss',
 })
 export class PhysicRoutineComponent implements OnInit {
-  newRoutine!: Routine;
+
   newExercises: Exercise[] = [];
   routines: Routine[] = [];
   exercises: any[] = [];
@@ -79,9 +80,13 @@ export class PhysicRoutineComponent implements OnInit {
 
   routineCreation: boolean = false;
   formRoutine:FormGroup;
+
+  routineExercises: string[] = [];
+
   constructor(
     private _exerciseService: ExerciseService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _apiService: ApiService
   ) {
     this.formRoutine = this.fb.group({
       name: ['', Validators.required],
@@ -89,7 +94,32 @@ export class PhysicRoutineComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._apiService.getAllRoutine().subscribe(
+      (data) => {
+        this.routines = data;
+      },
+      (error) => {
+        console.error('Error al cargar rutinas:', error);
+      }
+    );
+  }
+
+
+  saveRoutine(){
+    const newRoutine = {
+      idUser: '2',
+      name: this.formRoutine.get('name')?.value,
+      description: this.formRoutine.get('description')?.value,
+      exercises: this.routineExercises
+    };
+
+    this._apiService.postRoutine(newRoutine).subscribe(
+      response => console.log("Rutina guardada:", response),
+      error => console.error("Error al guardar la rutina:", error)
+    );
+    console.log(newRoutine);
+  }
 
   // Llamada combinada para cargar ejercicios por los tres filtros
   loadExercises(): void {
@@ -105,16 +135,22 @@ export class PhysicRoutineComponent implements OnInit {
       (data) => {
         this.exercises = data;
         console.log('Ejercicios:', this.exercises);
+        this.routineCreation = !this.routineCreation
       },
       (error) => {
         console.error('Error al obtener ejercicios:', error);
       }
     );
+
   }
 
   setRoutineCreation(value: boolean) {
     this.routineCreation = value;
   }
 
-  pushToRoutine(exercise: Exercise) {}
+  pushToRoutine(name: string): void {
+    this.routineExercises.push(name);
+    console.log(this.routineExercises)
+  }
+
 }

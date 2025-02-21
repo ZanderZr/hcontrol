@@ -3,7 +3,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { User, UserRole } from '../../modules/auth/interfaces/user';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { After } from 'v8';
 
 @Component({
@@ -13,21 +13,16 @@ import { After } from 'v8';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit, AfterViewChecked{
+export class HeaderComponent implements OnInit{
 
   title: string = "";
-  user: User = {
-    id: 1,
-    email: "john.doe@example.com",
-    username: "johnnyD",
-    password: "1234",
-    role: UserRole.DEVELOPER
-  };
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private cdr: ChangeDetectorRef) {}
-  ngAfterViewChecked(): void {
-this.cdr.detectChanges();
-  }
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    private location: Location
+  ) {}
 
   ngOnInit() {
     this.router.events
@@ -56,6 +51,9 @@ this.cdr.detectChanges();
 
   profileButton(){
     console.log("profile")
+  }
 
+  back(){
+    this.location.back();
   }
 }

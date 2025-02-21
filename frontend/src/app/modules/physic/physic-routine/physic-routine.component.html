@@ -1,14 +1,16 @@
 <app-page>
 
   <div *ngIf="!routineCreation">
-    <app-routine-card></app-routine-card>
+    <app-routine-card *ngFor="let routine of routines"
+    [title]="routine.name"
+    [description]="routine.description!"></app-routine-card>
     <app-fab-button (fabClick)="setRoutineCreation(true)" icon="add"></app-fab-button>
   </div>
 
   <div class="routine-creation-container" *ngIf="routineCreation">
     <form [formGroup]="formRoutine">
-      <input  type="text" class="form-control" placeholder="Routine name" />
-      <input  type="text" class="form-control" placeholder="Description" />
+      <input  type="text" formControlName="name" class="form-control" placeholder="Routine name" />
+      <input  type="text"  formControlName="description" class="form-control" placeholder="Description" />
     </form>
     <div class="filter-container">
       <!-- Filtro de Tipo -->
@@ -37,8 +39,8 @@
 
     </div>
     <app-exercise-card *ngFor="let exercise of exercises" [exercise]="exercise"
-    (clickAdd)="pushToRoutine(exercise)"></app-exercise-card>
-    <app-fab-button (fabClick)="setRoutineCreation(true)" icon="save"></app-fab-button>
+    (clickAdd)="pushToRoutine($event)"></app-exercise-card>
+    <app-fab-button (fabClick)="saveRoutine()" icon="save"></app-fab-button>
 
   </div>
 

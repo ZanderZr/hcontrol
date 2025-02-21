@@ -38,10 +38,10 @@ export class ApiService {
   }
 
   /* ------------------ Routine ------------------ */
-
+  
   // Obtiene todas las rutinas
   getAllRoutine(): Observable<Routine[]> {
-    return this.http.get<Routine[]>(this.apiUrl);
+    return this.http.get<Routine[]>(`${this.apiUrl}/routines`);
   }
 
   // Obtiene una rutina específica por su ID
@@ -91,4 +91,6 @@ export class ApiService {
   deleteExercise(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/exercises/${id}`);
   }
+
+
 }

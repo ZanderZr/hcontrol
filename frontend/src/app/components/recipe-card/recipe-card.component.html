@@ -1,35 +1,8 @@
-<div class="full-width-card" (click)="onCardClick()">
-
-  <!--  <div class="icon-container">
-      <img mat-card-image [src]="'./assets/tool-icons/'+imageUrl" alt="Image">
-
-    </div> -->
-
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <mat-card-header>
-          <p><strong>Title:</strong> {{ recipe.title }}</p>
-        </mat-card-header>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <mat-card-content>
-      <img [src]="recipe.image" alt="">
-      <p><strong>Ingredients:</strong> </p>
-      <p *ngFor="let ingredient of recipe.ingredients">{{  ingredient  }}</p>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <strong>Instructions</strong>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <p>{{  recipe.instructions  }}</p>
-      </mat-expansion-panel>
-    </mat-card-content>
-  </mat-expansion-panel>
-
-  <button type="button" class="add-button" (click)="onClickAdd()">
-    <mat-icon>favorite</mat-icon>
-  </button>
-</div>
+<mat-card class="full-width-card" (click)="onCardClick()">
+  <div class="card-content">
+      <img class="img"  [src]="img" alt="Image">
+      <div class="text-container">
+        <mat-card-title>{{ title }}</mat-card-title>
+      </div>
+  </div>
+</mat-card>
