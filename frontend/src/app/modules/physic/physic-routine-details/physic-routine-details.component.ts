@@ -6,11 +6,18 @@ import { CommonModule } from '@angular/common';
 import { Exercise } from '../interfaces/exercise';
 import { ExerciseService } from '../services/exercise.service';
 import { PageComponent } from "../../page/page.component";
+import { MatExpansionModule } from '@angular/material/expansion';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-physic-routine-details',
   standalone: true,
-  imports: [CommonModule, PageComponent],
+  imports: [
+    CommonModule,
+    PageComponent,
+    MatExpansionModule,
+    FormsModule
+  ],
   templateUrl: './physic-routine-details.component.html',
   styleUrl: './physic-routine-details.component.scss'
 })
@@ -56,6 +63,18 @@ export class PhysicRoutineDetailsComponent implements OnInit {
         }
       },
       (error) => console.error('Error al obtener la rutina:', error)
+    );
+  }
+
+   // Guardar cambios en el ejercicio
+   saveExercise(exercise: Exercise): void {
+    this._apiService.postExercise(exercise).subscribe(
+      response => {
+        console.log('Ejercicio guardado en la BD:', response);
+      },
+      error => {
+        console.error('Error al guardar el ejercicio:', error);
+      }
     );
   }
 }

@@ -1,18 +1,61 @@
 <app-page>
-  <h2>{{ routine.name }}</h2>
-  <p><strong>Descripción:</strong> {{ routine.description || 'Sin descripción' }}</p>
-  <h4>Ejercicios:</h4>
+  <h3>{{ routine.name }}</h3>
+  <p>
+    <strong>Descripción:</strong> {{ routine.description || "Sin descripción" }}
+  </p>
+  <h5>Ejercicios:</h5>
 
   <div *ngIf="exercises.length > 0; else noExercises">
     <div *ngFor="let exercise of exercises" class="exercise-card">
+     <div class="title-container">
       <h5>{{ exercise.name }}</h5>
-      <p><strong>Tiempo de Ejecución:</strong> {{ exercise.execTime ? exercise.execTime + 's' : 'N/A' }}</p>
-      <p><strong>Peso Máximo:</strong> {{ exercise.maxWeight ? exercise.maxWeight + 'kg' : 'N/A' }}</p>
-      <p><strong>Repeticiones Máximas:</strong> {{ exercise.maxRep || 'N/A' }}</p>
+      <button class="save-button"><i class="fas fa-save"></i></button>
+     </div>
+      <!-- Tiempo de Ejecución -->
+      <p>
+        <strong>Tiempo de Ejecución:</strong>
+        {{ exercise.execTime ? exercise.execTime + "s" : "N/A" }}
+      </p>
+      <input
+        type="number"
+        [(ngModel)]="exercise.execTime"
+        placeholder="Tu récord (minutos)"
+      />
+
+      <!-- Peso Máximo -->
+      <p>
+        <strong>Peso Máximo:</strong>
+        {{ exercise.maxWeight ? exercise.maxWeight + "kg" : "N/A" }}
+      </p>
+      <input
+        type="number"
+        [(ngModel)]="exercise.maxWeight"
+        placeholder="Tu récord (kg)"
+      />
+
+      <!-- Repeticiones Máximas -->
+      <p>
+        <strong>Repeticiones Máximas:</strong> {{ exercise.maxRep || "N/A" }}
+      </p>
+      <input
+        type="number"
+        [(ngModel)]="exercise.maxRep"
+        placeholder="Tu récord"
+      />
+
+      <!-- Instrucciones desplegables -->
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Instrucciones </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>{{ exercise.instructions }}</p>
+      </mat-expansion-panel>
     </div>
   </div>
 
   <ng-template #noExercises>
     <p>No hay ejercicios en esta rutina.</p>
   </ng-template>
+
+  <div class="space"></div>
 </app-page>

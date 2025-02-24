@@ -45,12 +45,24 @@ const getExercise = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getExercise = getExercise;
 const postExercise = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield exercise_1.default.create(req.body);
-        res.status(201).json(data);
+        const { name, idUser, execTime, maxWeight, maxRep } = req.body;
+        // Buscar si ya existe un ejercicio con el mismo nombre y usuario
+        let exercise = yield exercise_1.default.findOne({ where: { name, idUser } });
+        if (exercise) {
+            // Si existe, actualizar los valores
+            exercise.execTime = execTime;
+            exercise.maxWeight = maxWeight;
+            exercise.maxRep = maxRep;
+            yield exercise.save();
+            return res.status(200).json({ message: "Ejercicio actualizado", exercise });
+        }
+        // Si no existe, crear un nuevo ejercicio
+        const newExercise = yield exercise_1.default.create(req.body);
+        return res.status(201).json({ message: "Ejercicio creado", newExercise });
     }
     catch (error) {
-        console.error("Error al crear el ejercicio:", error);
-        res.status(400).json({ message: "Error al crear el ejercicio." });
+        console.error("Error al crear/actualizar el ejercicio:", error);
+        res.status(500).json({ message: "Error en el servidor." });
     }
 });
 exports.postExercise = postExercise;

@@ -39,17 +39,56 @@ export class ExerciseService {
       'strongman'
     ];
 
-    const requests = types.map(type =>
+    const muscles = [
+      'abdominals',
+      'abductors',
+      'adductors',
+      'biceps',
+      'calves',
+      'chest',
+      'forearms',
+      'glutes',
+      'hamstrings',
+      'lats',
+      'lower_back',
+      'middle_back',
+      'neck',
+      'quadriceps',
+      'traps',
+      'triceps'
+    ];
+
+    // Crear peticiones para tipos de ejercicios
+    const typeRequests = types.map(type =>
       this.http.get<any[]>(`${this.apiUrl}?type=${type}`, {
         headers: new HttpHeaders({ 'X-Api-Key': this.apiKey })
       })
     );
 
-    return forkJoin(requests).pipe(
+    // Crear peticiones para músculos
+    const muscleRequests = muscles.map(muscle =>
+      this.http.get<any[]>(`${this.apiUrl}?muscle=${muscle}`, {
+        headers: new HttpHeaders({ 'X-Api-Key': this.apiKey })
+      })
+    );
+
+    // Ejecutar todas las peticiones en paralelo
+    return forkJoin([...typeRequests, ...muscleRequests]).pipe(
       map(responses => {
-        const allExercises = responses.flat(); // Unir todas las respuestas en un solo array
-        return allExercises.filter(exercise =>
-          names.some(name => name.toLowerCase().trim() === exercise.name.toLowerCase().trim())
+        console.log("API Responses:", responses); // 🔍 Debug
+
+        // Unir todas las respuestas en un solo array
+        const allExercises = responses.flatMap(response => response || []);
+        console.log("Total de ejercicios obtenidos:", allExercises.length);
+
+        // Eliminar duplicados (basado en el nombre del ejercicio)
+        const uniqueExercises = Array.from(
+          new Map(allExercises.map(ex => [ex.name.toLowerCase().trim(), ex])).values()
+        );
+
+        // Filtrar solo los ejercicios que están en el array `names`
+        return uniqueExercises.filter(exercise =>
+          names.some(name => exercise.name.toLowerCase().includes(name.toLowerCase().trim()))
         );
       })
     );
