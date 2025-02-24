@@ -45,7 +45,16 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!isMatch)
             return res.status(401).json({ message: 'Credenciales incorrectas' });
         const token = jsonwebtoken_1.default.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token });
+        // 🔥 Devolver también los datos del usuario junto con el token
+        res.json({
+            token,
+            user: {
+                id: user.id,
+                email: user.email,
+                username: user.username,
+                role: user.role
+            }
+        });
     }
     catch (error) {
         console.error("Error en el login:", error);

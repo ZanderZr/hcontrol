@@ -15,13 +15,19 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+
   login(email: string, password: string): Observable<any> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/users/login`, { email, password }).pipe(
+    return this.http.post<{ token: string, user: any }>(`${this.apiUrl}/users/login`, { email, password }).pipe(
       tap(response => {
         this.saveToken(response.token);
+        this.saveUserData(response.user); // 🔥 Guardar los datos del usuario
         this.isLoggedSubject.next(true);
       })
     );
+  }
+
+  saveUserData(user: any): void {
+    localStorage.setItem('userData', JSON.stringify(user));
   }
 
   register(email: string, username: string, password: string, role: string): Observable<any> {
@@ -35,12 +41,17 @@ export class AuthService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get(`${this.apiUrl}/protected`, { headers });
   }
-  
+
   getToken(): string | null {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('authToken');
     }
     return null;
+  }
+
+  getUserData(): any {
+    const userData = localStorage.getItem('userData');
+    return userData ? JSON.parse(userData) : null;
   }
 
   saveToken(token: string): void {
@@ -50,9 +61,9 @@ export class AuthService {
   }
 
   logout(): void {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('authToken');
-    }
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('userData'); // 🔥 Eliminar los datos del usuario al cerrar sesión
+    this.isLoggedSubject.next(false);
   }
 
   private hasToken(): boolean {

@@ -16,6 +16,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
 
+
   /* ------------------ Diary ------------------ */
 
   getAllDiary(): Observable<DiaryData[]> {
@@ -38,15 +39,15 @@ export class ApiService {
   }
 
   /* ------------------ Routine ------------------ */
-  
+
   // Obtiene todas las rutinas
-  getAllRoutine(): Observable<Routine[]> {
-    return this.http.get<Routine[]>(`${this.apiUrl}/routines`);
+  getAllRoutine(id:number): Observable<Routine[]> {
+    return this.http.get<Routine[]>(`${this.apiUrl}/routines/${id}`);
   }
 
   // Obtiene una rutina específica por su ID
   getRoutine(id: number): Observable<Routine> {
-    return this.http.get<Routine>(`${this.apiUrl}/routines/${id}`);
+    return this.http.get<Routine>(`${this.apiUrl}/routines/details/${id}`);
   }
 
   // Crea una nueva rutina

@@ -1,0 +1,18 @@
+<app-page>
+  <h2>{{ routine.name }}</h2>
+  <p><strong>Descripción:</strong> {{ routine.description || 'Sin descripción' }}</p>
+  <h4>Ejercicios:</h4>
+
+  <div *ngIf="exercises.length > 0; else noExercises">
+    <div *ngFor="let exercise of exercises" class="exercise-card">
+      <h5>{{ exercise.name }}</h5>
+      <p><strong>Tiempo de Ejecución:</strong> {{ exercise.execTime ? exercise.execTime + 's' : 'N/A' }}</p>
+      <p><strong>Peso Máximo:</strong> {{ exercise.maxWeight ? exercise.maxWeight + 'kg' : 'N/A' }}</p>
+      <p><strong>Repeticiones Máximas:</strong> {{ exercise.maxRep || 'N/A' }}</p>
+    </div>
+  </div>
+
+  <ng-template #noExercises>
+    <p>No hay ejercicios en esta rutina.</p>
+  </ng-template>
+</app-page>

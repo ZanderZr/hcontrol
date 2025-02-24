@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { forkJoin, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -27,4 +27,32 @@ export class ExerciseService {
       }
     });
   }
+
+  getExercisesByNames(names: string[]): Observable<any[]> {
+    const types = [
+      'cardio',
+      'olympic_weightlifting',
+      'plyometrics',
+      'powerlifting',
+      'strength',
+      'stretching',
+      'strongman'
+    ];
+
+    const requests = types.map(type =>
+      this.http.get<any[]>(`${this.apiUrl}?type=${type}`, {
+        headers: new HttpHeaders({ 'X-Api-Key': this.apiKey })
+      })
+    );
+
+    return forkJoin(requests).pipe(
+      map(responses => {
+        const allExercises = responses.flat(); // Unir todas las respuestas en un solo array
+        return allExercises.filter(exercise =>
+          names.some(name => name.toLowerCase().trim() === exercise.name.toLowerCase().trim())
+        );
+      })
+    );
+  }
+
 }

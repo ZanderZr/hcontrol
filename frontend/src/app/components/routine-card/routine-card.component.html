@@ -1,21 +1,16 @@
 <mat-card class="full-width-card" (click)="onCardClick()">
-  <div class="card-content">
-    <div class="icon-container">
-    </div>
+  <div class="card-content" >
     <div class="text-container">
-      <mat-card-header>
+      <div class="mat-card-header">
         <mat-card-title>{{ title }}</mat-card-title>
         <div class="button-row">
-          <button mat-button (click)="onEdit($event)">
-            <i class="fas fa-edit"></i>
-          </button>
           <button mat-button (click)="onDelete($event)">
             <i class="fas fa-trash-alt"></i>
           </button>
          </div>
-      </mat-card-header>
+      </div>
       <mat-card-content>
-        <p>{{ description }}</p>
+        <p>{{ 'Cantidad de ejercicios: ' + exercisesNumber! + ' | ' + description }}</p>
       </mat-card-content>
     </div>
   </div>

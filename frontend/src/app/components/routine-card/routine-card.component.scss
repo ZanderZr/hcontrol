@@ -18,7 +18,7 @@
   }
 }
 
-mat-card-header{
+.mat-card-header{
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
@@ -26,10 +26,15 @@ mat-card-header{
   flex-direction: row;
 
 }
+
+.text-container{
+  width:100%
+}
+
 .card-content {
   display: flex;
   align-items: center;
-  padding: 0 0 0 15px;
+  padding: 15px;
 }
 
 .icon-container {

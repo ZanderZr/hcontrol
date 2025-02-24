@@ -34,12 +34,24 @@ export const loginUser = async (req: Request, res: Response) => {
       if (!isMatch) return res.status(401).json({ message: 'Credenciales incorrectas' });
 
       const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
-      res.json({ token });
+
+      // 🔥 Devolver también los datos del usuario junto con el token
+      res.json({
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          role: user.role
+        }
+      });
+
   } catch (error) {
       console.error("Error en el login:", error);
       res.status(500).json({ message: "Error en el servidor." });
   }
 };
+
 
 export const registerUser = async (req: Request, res: Response) => {
   try {

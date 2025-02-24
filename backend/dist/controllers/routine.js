@@ -12,15 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteRoutine = exports.putRoutine = exports.postRoutine = exports.getRoutine = exports.getAllRoutine = void 0;
+exports.deleteRoutine = exports.putRoutine = exports.postRoutine = exports.getRoutine = exports.getAllRoutinesById = void 0;
 const express_1 = require("express");
 const routine_1 = __importDefault(require("../models/routine"));
 const routineExercises_1 = __importDefault(require("../models/routineExercises"));
 const router = (0, express_1.Router)();
 // Obtener todas las rutinas con sus ejercicios
-const getAllRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllRoutinesById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const routines = yield routine_1.default.findAll();
+        const { id } = req.params; // Obtener el id de los parámetros de la solicitud
+        const routines = yield routine_1.default.findAll({ where: { idUser: id } });
         const routineExercises = yield routineExercises_1.default.findAll();
         const formattedRoutines = routines.map(routine => {
             const exercisesForRoutine = routineExercises
@@ -41,7 +42,7 @@ const getAllRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(500).json({ message: "Error al obtener las rutinas." });
     }
 });
-exports.getAllRoutine = getAllRoutine;
+exports.getAllRoutinesById = getAllRoutinesById;
 // Obtener una rutina con sus ejercicios
 const getRoutine = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

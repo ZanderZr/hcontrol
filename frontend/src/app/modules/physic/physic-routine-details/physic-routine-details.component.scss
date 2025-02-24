@@ -1,0 +1,32 @@
+
+h2 {
+  color: #2c3e50;
+  text-align: center;
+}
+
+p {
+  color: #555;
+  font-size: 14px;
+}
+
+.exercise-card {
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 10px 0;
+  transition: transform 0.2s ease-in-out;
+}
+
+.exercise-card:hover {
+  transform: scale(1.02);
+}
+
+h5 {
+  color: #34495e;
+  margin-bottom: 5px;
+}
+
+strong {
+  color: #333;
+}

@@ -1,5 +1,6 @@
+import { Router } from '@angular/router';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { PageComponent } from '../../page/page.component';
 import { ExerciseService } from '../services/exercise.service';
 import { ExerciseCardComponent } from '../../../components/exercise-card/exercise-card.component';
@@ -20,6 +21,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ApiService } from '../../../services/api.service';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-physic-routine',
@@ -36,13 +38,12 @@ import { ApiService } from '../../../services/api.service';
     MatButtonToggleModule,
     RoutineCardComponent,
     FabButtonComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   templateUrl: './physic-routine.component.html',
   styleUrl: './physic-routine.component.scss',
 })
 export class PhysicRoutineComponent implements OnInit {
-
   newExercises: Exercise[] = [];
   routines: Routine[] = [];
   exercises: any[] = [];
@@ -77,26 +78,35 @@ export class PhysicRoutineComponent implements OnInit {
   selectedMuscle: string = '';
   selectedType: string = '';
   selectedDiff: string = '';
-
+  idUser!: number;
   routineCreation: boolean = false;
-  formRoutine:FormGroup;
+  formRoutine: FormGroup;
 
   routineExercises: string[] = [];
 
   constructor(
     private _exerciseService: ExerciseService,
     private fb: FormBuilder,
-    private _apiService: ApiService
+    private _apiService: ApiService,
+    private cdr: ChangeDetectorRef,
+    private _authService: AuthService,
+    private router: Router
   ) {
     this.formRoutine = this.fb.group({
       name: ['', Validators.required],
       description: [''],
     });
+    this.idUser = this._authService.getUserData().id;
   }
 
   ngOnInit(): void {
-    this._apiService.getAllRoutine().subscribe(
+    this.getAllRoutines();
+  }
+
+  getAllRoutines() {
+    this._apiService.getAllRoutine(this.idUser).subscribe(
       (data) => {
+        this.routines = [];
         this.routines = data;
       },
       (error) => {
@@ -105,20 +115,42 @@ export class PhysicRoutineComponent implements OnInit {
     );
   }
 
+  goToRoutineDetails(id: number) {
+    this.router.navigate(['/physic/details', id]);
+  }
 
-  saveRoutine(){
+  deleteRoutine(id: number) {
+    this._apiService.deleteRoutine(id).subscribe(
+      () => {
+        console.log(`Rutina con ID ${id} eliminada correctamente.`);
+        this.getAllRoutines();
+      },
+      (error) => {
+        console.error('Error al eliminar la rutina:', error);
+      }
+    );
+  }
+
+  saveRoutine() {
     const newRoutine = {
       idUser: '2',
       name: this.formRoutine.get('name')?.value,
       description: this.formRoutine.get('description')?.value,
-      exercises: this.routineExercises
+      exercises: this.routineExercises,
     };
 
     this._apiService.postRoutine(newRoutine).subscribe(
-      response => console.log("Rutina guardada:", response),
-      error => console.error("Error al guardar la rutina:", error)
+      (response) => {
+        console.log('Rutina guardada:', response);
+
+        // Agregar la nueva rutina a la lista local para actualizar la vista
+        this.routines = [...this.routines, response];
+
+        this.setRoutineCreation(false);
+        this.cdr.detectChanges();
+      },
+      (error) => console.error('Error al guardar la rutina:', error)
     );
-    console.log(newRoutine);
   }
 
   // Llamada combinada para cargar ejercicios por los tres filtros
@@ -135,13 +167,11 @@ export class PhysicRoutineComponent implements OnInit {
       (data) => {
         this.exercises = data;
         console.log('Ejercicios:', this.exercises);
-        this.routineCreation = !this.routineCreation
       },
       (error) => {
         console.error('Error al obtener ejercicios:', error);
       }
     );
-
   }
 
   setRoutineCreation(value: boolean) {
@@ -150,7 +180,6 @@ export class PhysicRoutineComponent implements OnInit {
 
   pushToRoutine(name: string): void {
     this.routineExercises.push(name);
-    console.log(this.routineExercises)
+    console.log(this.routineExercises);
   }
-
 }

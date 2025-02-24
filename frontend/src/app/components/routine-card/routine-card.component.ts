@@ -11,10 +11,10 @@ import { MatCardModule } from '@angular/material/card';
 export class RoutineCardComponent {
   @Input() title: string = 'Card Title';
   @Input() description: string = 'This is a brief description of the content.';
-  @Input() imageUrl: string = 'book-solid.svg';
   @Output() cardClick = new EventEmitter<void>(); // Evento de salida
   @Output() deleteClick = new EventEmitter<void>(); // Evento de salida
   @Output() editClick = new EventEmitter<void>(); // Evento de salida
+  @Input() exercisesNumber: number | undefined;
 
   onCardClick() {
     this.cardClick.emit();
@@ -23,12 +23,13 @@ export class RoutineCardComponent {
   }
 
   onDelete(event: MouseEvent){
-    event.stopPropagation(); // Esto evita que el clic se propague a la tarjeta
-    console.log("Delete")
+    event.stopPropagation();
+    this.deleteClick.emit(); // Emitir el evento cuando se hace clic en borrar
   }
 
   onEdit(event: MouseEvent){
-    event.stopPropagation(); // Esto evita que el clic se propague a la tarjeta
-    console.log("Edit")
+    event.stopPropagation();
+    this.editClick.emit(); // Emitir el evento cuando se hace clic en editar
   }
+
 }

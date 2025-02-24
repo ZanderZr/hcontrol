@@ -5,9 +5,11 @@ import RoutineExercises from '../models/routineExercises';
 const router = Router();
 
 // Obtener todas las rutinas con sus ejercicios
-export const getAllRoutine = async (req: Request, res: Response) => {
+export const getAllRoutinesById = async (req: Request, res: Response) => {
   try {
-    const routines = await Routine.findAll();
+    const { id } = req.params; // Obtener el id de los parámetros de la solicitud
+    
+    const routines = await Routine.findAll({ where: { idUser: id } });
     const routineExercises = await RoutineExercises.findAll();
 
     const formattedRoutines = routines.map(routine => {
