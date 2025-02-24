@@ -3,7 +3,7 @@ import database from "../database/connection";
 
 
 class DiaryData extends Model {
-
+  id?:number
   idUser!: number;
   data!: string;
   timestamp!: string;
@@ -11,6 +11,11 @@ class DiaryData extends Model {
 }
 DiaryData.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+  },
     idUser: { type: DataTypes.INTEGER, allowNull: false },
     data: { type: DataTypes.STRING, allowNull: false },
     timestamp: {

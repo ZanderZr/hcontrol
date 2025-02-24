@@ -4,7 +4,7 @@
       <span class="day">{{ day }}</span>
       <span class="date">{{ getDate() }}</span>
     </div>
-    <input matInput [matDatepicker]="picker">
+    <input matInput [matDatepicker]="picker"  [matDatepickerFilter]="dateFilter" readonly>
     <mat-datepicker #picker></mat-datepicker>
     <button class="calendar-button" (click)="picker.open()">
       <i class="fa-solid fa-calendar-days"></i>

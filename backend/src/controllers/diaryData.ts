@@ -4,8 +4,10 @@ import DiaryData from '../models/diaryData';
 const router = express.Router();
 
 export const getAllDiary = async (req: Request, res: Response) => {
+    const { id } = req.params; // Obtener el id de los parámetros de la solicitud
+
  try {
-    const data = await DiaryData.findAll();
+    const data = await DiaryData.findAll({ where: { idUser: id } });
     res.json(data);
  } catch (error){
     console.error("Error al obtener el diario:", error);

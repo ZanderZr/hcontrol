@@ -17,8 +17,9 @@ const express_1 = __importDefault(require("express"));
 const diaryData_1 = __importDefault(require("../models/diaryData"));
 const router = express_1.default.Router();
 const getAllDiary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params; // Obtener el id de los parámetros de la solicitud
     try {
-        const data = yield diaryData_1.default.findAll();
+        const data = yield diaryData_1.default.findAll({ where: { idUser: id } });
         res.json(data);
     }
     catch (error) {

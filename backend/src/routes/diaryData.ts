@@ -3,9 +3,8 @@ import { getAllDiary, deleteDiary, getDiary, postDiary } from '../controllers/di
 
 const router = Router();
 
-router.get('/', getAllDiary);
+router.get('/:id', getAllDiary);
 router.post('/', postDiary);
-router.get('/:id', getDiary);
 router.delete('/:id', deleteDiary);
 
 export default router;

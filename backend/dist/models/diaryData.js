@@ -8,6 +8,11 @@ const connection_1 = __importDefault(require("../database/connection"));
 class DiaryData extends sequelize_1.Model {
 }
 DiaryData.init({
+    id: {
+        type: sequelize_1.DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     idUser: { type: sequelize_1.DataTypes.INTEGER, allowNull: false },
     data: { type: sequelize_1.DataTypes.STRING, allowNull: false },
     timestamp: {

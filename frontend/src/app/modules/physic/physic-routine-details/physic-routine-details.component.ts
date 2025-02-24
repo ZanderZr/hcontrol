@@ -8,6 +8,7 @@ import { ExerciseService } from '../services/exercise.service';
 import { PageComponent } from "../../page/page.component";
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-physic-routine-details',
@@ -25,12 +26,16 @@ export class PhysicRoutineDetailsComponent implements OnInit {
   routine!: Routine;
   routineId!: number;
   exercises: Exercise[] = [];
+  idUser!:number;
 
   constructor(
     private _apiService: ApiService,
     private route: ActivatedRoute,
-    private _exerciseService: ExerciseService
-  ) {}
+    private _exerciseService: ExerciseService,
+    private _authService: AuthService
+  ) {
+    this.idUser = this._authService.getUserData().id;
+  }
 
   ngOnInit(): void {
     // Esperamos a que el ID esté disponible antes de hacer la llamada a la API
@@ -68,7 +73,15 @@ export class PhysicRoutineDetailsComponent implements OnInit {
 
    // Guardar cambios en el ejercicio
    saveExercise(exercise: Exercise): void {
-    this._apiService.postExercise(exercise).subscribe(
+    const exer: Exercise = {
+      name: exercise.name,
+      idUser: this.idUser, // Asegurar que tiene un valor
+      exec_time: exercise.exec_time,
+      max_weight: exercise.max_weight,
+      max_rep: exercise.max_rep
+    };
+
+    this._apiService.postExercise(exer).subscribe(
       response => {
         console.log('Ejercicio guardado en la BD:', response);
       },

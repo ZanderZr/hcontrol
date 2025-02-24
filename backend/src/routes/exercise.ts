@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-router.get('/', getAllExercise);
+router.get('/:id', getAllExercise);
 router.get('/:id', getExercise);
 router.post('/', postExercise);
 router.put('/:id', putExercise);

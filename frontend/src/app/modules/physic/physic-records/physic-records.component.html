@@ -1,1 +1,22 @@
-<app-page></app-page>
+<app-page>
+  <div class="table-container">
+    <table class="exercise-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Peso Máximo (kg)</th>
+          <th>Repeticiones Máximas</th>
+          <th>Tiempo de Ejecución (m)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let exercise of exercises">
+          <td>{{ exercise.name }}</td>
+          <td>{{ exercise.max_weight || 'N/A' }}</td>
+          <td>{{ exercise.max_rep || 'N/A' }}</td>
+          <td>{{ exercise.exec_time || 'N/A' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-page>

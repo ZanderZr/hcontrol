@@ -5,8 +5,8 @@ export interface Exercise {
   muscle?: string;
   name: string;
   type?: string;
-  maxWeight?: number;
-  maxRep?:number;
-  execTime?:number;
+  max_weight?: number;
+  max_rep?:number;
+  exec_time?:number;
   idUser:number;
 }

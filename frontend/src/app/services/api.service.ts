@@ -19,8 +19,8 @@ export class ApiService {
 
   /* ------------------ Diary ------------------ */
 
-  getAllDiary(): Observable<DiaryData[]> {
-    return this.http.get<DiaryData[]>(this.apiUrl);
+  getAllDiary(id:number): Observable<DiaryData[]> {
+    return this.http.get<DiaryData[]>(`${this.apiUrl}/diary/${id}`);
   }
 
   // Obtiene un registro del diario por su ID
@@ -69,8 +69,8 @@ export class ApiService {
   /* ------------------ Exercise ------------------ */
 
   // Obtiene todos los ejercicios
-  getAllExercise(): Observable<Exercise[]> {
-    return this.http.get<Exercise[]>(this.apiUrl);
+  getAllExercise(id:number): Observable<Exercise[]> {
+    return this.http.get<Exercise[]>(`${this.apiUrl}/exercises/${id}`);
   }
 
   // Obtiene un ejercicio específico por su ID
@@ -80,6 +80,7 @@ export class ApiService {
 
   // Crea un nuevo ejercicio
   postExercise(exercise: Exercise): Observable<Exercise> {
+    console.log(exercise)
     return this.http.post<Exercise>(`${this.apiUrl}/exercises`, exercise);
   }
 

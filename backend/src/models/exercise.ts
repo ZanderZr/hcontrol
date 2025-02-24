@@ -5,9 +5,9 @@ class Exercise extends Model {
   id!: number;
   idUser!: number;
   name!: string;
-  maxWeight?: number;
-  maxRep?: number;
-  execTime?: number;
+  max_weight?: number;
+  max_rep?: number;
+  exec_time?: number;
 }
 
 Exercise.init(
