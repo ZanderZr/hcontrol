@@ -30,7 +30,7 @@
 }
 input{
   border:none;
-  
+
 }
 
 .content-diary {
@@ -66,6 +66,16 @@ input{
 
   &:active {
     background-color: #047b8d;
+  }
+}
+
+.datepicker{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  
+  input{
+    max-width: 80px;
   }
 }
 

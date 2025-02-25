@@ -1,5 +1,5 @@
 export interface DiaryData {
-  idUser: string;
+  idUser: number;
   data: string;
-  timestap: string;
+  timestamp?: string;
 }

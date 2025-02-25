@@ -24,7 +24,9 @@ DiaryData.init(
       defaultValue: Sequelize.fn("NOW"),
     },
   },
-  { sequelize: database, modelName: "diary_data" }
+  { timestamps: false,
+    sequelize: database, 
+    modelName: "diary_data" }
 );
 
 export default DiaryData;

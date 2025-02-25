@@ -1,0 +1,39 @@
+.settings-container {
+  max-width: 400px;
+}
+
+h5 {
+  text-align: center;
+  color: #333;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.settings-list {
+  background: #f9f9f9;
+  border-radius: 8px;
+  padding: 10px 0;
+}
+
+mat-list-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+mat-list-item:hover {
+  background: #e0e0e0;
+  border-radius: 4px;
+
+}
+
+mat-icon {
+  color: #555;
+}
+
+mat-checkbox {
+  margin-left: 16px;
+}

@@ -4,6 +4,8 @@ import { getAllDiary, deleteDiary, getDiary, postDiary } from '../controllers/di
 const router = Router();
 
 router.get('/:id', getAllDiary);
+/* router.get('/', getDiary);
+ */
 router.post('/', postDiary);
 router.delete('/:id', deleteDiary);
 

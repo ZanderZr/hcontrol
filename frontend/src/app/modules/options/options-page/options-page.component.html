@@ -1,31 +1,28 @@
 <app-page>
   <div class="settings-container">
-    <h1>Configuración de Usuario y Usabilidad</h1>
-    <form (ngSubmit)="saveSettings()" #settingsForm="ngForm" class="settings-form">
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Nombre de usuario</mat-label>
-        <input matInput type="text" id="username" name="username" [(ngModel)]="settings.username" required />
-      </mat-form-field>
+    <h5>Configuración de Usuario</h5>
+    <mat-list class="settings-list">
+      <mat-list-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Cerrar sesión</span>
+      </mat-list-item>
 
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Correo electrónico</mat-label>
-        <input matInput type="email" id="email" name="email" [(ngModel)]="settings.email" required />
-      </mat-form-field>
+      <mat-list-item (click)="changeEmail()">
+        <mat-icon>email</mat-icon>
+        <span>Cambiar correo electrónico</span>
+      </mat-list-item>
 
-      <mat-checkbox id="notifications" name="notifications" [(ngModel)]="settings.notifications">
-        Notificaciones activadas
-      </mat-checkbox>
+      <mat-list-item (click)="changePassword()">
+        <mat-icon>lock</mat-icon>
+        <span>Cambiar contraseña</span>
+      </mat-list-item>
 
-      <mat-checkbox id="darkMode" name="darkMode" [(ngModel)]="settings.darkMode">
-        Modo oscuro
-      </mat-checkbox>
+      <mat-list-item>
+        <mat-checkbox [(ngModel)]="settings.notifications">
+          Notificaciones activadas
+        </mat-checkbox>
+      </mat-list-item>
 
-      <div class="button-container">
-        <button mat-raised-button color="primary" type="submit" [disabled]="settingsForm.invalid">
-          Guardar Configuración
-        </button>
-      </div>
-    </form>
+    </mat-list>
   </div>
-
 </app-page>

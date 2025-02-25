@@ -1,7 +1,8 @@
-import express, { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import DiaryData from '../models/diaryData';
+import { Op } from "sequelize";
 
-const router = express.Router();
+const router = Router();
 
 export const getAllDiary = async (req: Request, res: Response) => {
     const { id } = req.params; // Obtener el id de los parámetros de la solicitud
@@ -30,13 +31,35 @@ export const getDiary = async (req: Request, res: Response) => {
 };
 
 export const postDiary = async (req: Request, res: Response) => {
-    
     try {
-        const data = await DiaryData.create(req.body);
-        res.status(201).json(data);
+        const { idUser, data, timestamp } = req.body;
+
+        // Convertir timestamp a formato 'YYYY-MM-DD' para comparar solo la fecha
+        const dateOnly = new Date(timestamp).toISOString().split("T")[0];
+
+        // Buscar si ya existe una entrada con el mismo idUser y la misma fecha
+        const existingDiary = await DiaryData.findOne({
+            where: {
+                idUser,
+                timestamp: {
+                    [Op.between]: [`${dateOnly} 00:00:00`, `${dateOnly} 23:59:59`]
+                }
+            }
+        });
+
+        if (existingDiary) {
+            // Si existe, actualizar el contenido del diario
+            existingDiary.data = data;
+            await existingDiary.save();
+            return res.status(200).json(existingDiary);
+        } else {
+            // Si no existe, crear un nuevo registro
+            const newDiary = await DiaryData.create(req.body);
+            return res.status(201).json(newDiary);
+        }
     } catch (error) {
-        console.error("Error al crear el diario:", error);
-        res.status(400).json({ message: "Error al crear el diario." });
+        console.error("❌ Error al guardar el diario:", error);
+        res.status(400).json({ message: "Error al guardar el diario." });
     }
 };
 

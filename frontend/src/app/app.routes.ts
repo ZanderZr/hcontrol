@@ -30,7 +30,7 @@ export const routes: Routes = [
   },
   {
     path: 'options',
-    component: OptionsPageComponent,
+    component: OptionsPageComponent,data: { title: 'Configuración' } ,
     canActivate: [AuthGuard] // Protegido
   },
 

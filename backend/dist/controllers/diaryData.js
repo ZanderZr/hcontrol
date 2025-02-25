@@ -13,9 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteDiary = exports.postDiary = exports.getDiary = exports.getAllDiary = void 0;
-const express_1 = __importDefault(require("express"));
+const express_1 = require("express");
 const diaryData_1 = __importDefault(require("../models/diaryData"));
-const router = express_1.default.Router();
+const sequelize_1 = require("sequelize");
+const router = (0, express_1.Router)();
 const getAllDiary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params; // Obtener el id de los parámetros de la solicitud
     try {
@@ -46,12 +47,33 @@ const getDiary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getDiary = getDiary;
 const postDiary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = yield diaryData_1.default.create(req.body);
-        res.status(201).json(data);
+        const { idUser, data, timestamp } = req.body;
+        // Convertir timestamp a formato 'YYYY-MM-DD' para comparar solo la fecha
+        const dateOnly = new Date(timestamp).toISOString().split("T")[0];
+        // Buscar si ya existe una entrada con el mismo idUser y la misma fecha
+        const existingDiary = yield diaryData_1.default.findOne({
+            where: {
+                idUser,
+                timestamp: {
+                    [sequelize_1.Op.between]: [`${dateOnly} 00:00:00`, `${dateOnly} 23:59:59`]
+                }
+            }
+        });
+        if (existingDiary) {
+            // Si existe, actualizar el contenido del diario
+            existingDiary.data = data;
+            yield existingDiary.save();
+            return res.status(200).json(existingDiary);
+        }
+        else {
+            // Si no existe, crear un nuevo registro
+            const newDiary = yield diaryData_1.default.create(req.body);
+            return res.status(201).json(newDiary);
+        }
     }
     catch (error) {
-        console.error("Error al crear el diario:", error);
-        res.status(400).json({ message: "Error al crear el diario." });
+        console.error("❌ Error al guardar el diario:", error);
+        res.status(400).json({ message: "Error al guardar el diario." });
     }
 });
 exports.postDiary = postDiary;

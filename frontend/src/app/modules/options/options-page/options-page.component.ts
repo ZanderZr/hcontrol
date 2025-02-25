@@ -5,7 +5,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { PageComponent } from '../../page/page.component';
-
+import {MatListModule} from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from '../../auth/services/auth.service';
+import { Router } from '@angular/router';
 interface UserSettings {
   username: string;
   email: string;
@@ -22,7 +25,11 @@ interface UserSettings {
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    PageComponent
+    PageComponent,
+    FormsModule,
+    MatListModule,
+    MatButtonModule,
+    MatIconModule
 ],
   templateUrl: './options-page.component.html',
   styleUrl: './options-page.component.scss'
@@ -37,8 +44,12 @@ export class OptionsPageComponent {
     darkMode: false
   };
 
-  constructor() {
+  constructor(
+    private _authService:AuthService,
+    private router: Router
+  ) {
     this.loadSettings();
+
   }
 
   loadSettings(): void {
@@ -53,5 +64,19 @@ export class OptionsPageComponent {
     // Ejemplo: guarda settings en localStorage
     localStorage.setItem('userSettings', JSON.stringify(this.settings));
     alert('Configuración guardada');
+  }
+
+  changePassword(){
+
+  }
+
+  changeEmail(){
+
+  }
+
+  logout(){
+    this._authService.logout();
+    this.router.navigate(['auth']);
+
   }
 }
