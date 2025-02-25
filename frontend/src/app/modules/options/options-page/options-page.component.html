@@ -1,27 +1,23 @@
 <app-page>
   <div class="settings-container">
-    <h5>Configuración de Usuario</h5>
     <mat-list class="settings-list">
       <mat-list-item (click)="logout()">
-        <mat-icon>exit_to_app</mat-icon>
-        <span>Cerrar sesión</span>
+        <span><i class="fa-solid fa-right-from-bracket"></i>Cerrar sesión</span>
       </mat-list-item>
-
+<!--
       <mat-list-item (click)="changeEmail()">
-        <mat-icon>email</mat-icon>
-        <span>Cambiar correo electrónico</span>
+        <span><i class="fa-solid fa-envelope"></i>Cambiar correo electrónico</span>
       </mat-list-item>
 
       <mat-list-item (click)="changePassword()">
-        <mat-icon>lock</mat-icon>
-        <span>Cambiar contraseña</span>
+        <span><i class="fa-solid fa-lock"></i>Cambiar contraseña</span>
       </mat-list-item>
-
-      <mat-list-item>
+ -->
+     <!--  <mat-list-item>
         <mat-checkbox [(ngModel)]="settings.notifications">
           Notificaciones activadas
         </mat-checkbox>
-      </mat-list-item>
+      </mat-list-item> -->
 
     </mat-list>
   </div>

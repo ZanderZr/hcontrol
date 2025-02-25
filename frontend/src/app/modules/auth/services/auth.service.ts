@@ -19,7 +19,6 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http.post<{ token: string, user: any }>(`${this.apiUrl}/users/login`, { email, password }).pipe(
       tap(response => {
-        this.saveToken(response.token);
         this.saveUserData(response.user); // 🔥 Guardar los datos del usuario
         this.isLoggedSubject.next(true);
       })
@@ -54,9 +53,11 @@ export class AuthService {
     return userData ? JSON.parse(userData) : null;
   }
 
-  saveToken(token: string): void {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('authToken', token);
+  saveToken(token: string, rememberMe: boolean) {
+    if (rememberMe) {
+      localStorage.setItem('authToken', token); // Guarda en localStorage para persistencia
+    } else {
+      sessionStorage.setItem('authToken', token); // Solo mantiene la sesión activa hasta que se cierre el navegador
     }
   }
 

@@ -10,7 +10,6 @@ h5 {
 }
 
 .settings-list {
-  background: #f9f9f9;
   border-radius: 8px;
   padding: 10px 0;
 }
@@ -18,22 +17,22 @@ h5 {
 mat-list-item {
   display: flex !important;
   align-items: center !important;
-  gap: 12px;
   padding: 10px 16px;
   cursor: pointer;
   transition: background 0.3s;
 }
-
+span{
+  margin-left: 10px;
+  font-size: 20px;
+}
+i{
+  margin-right: 10px;
+}
 mat-list-item:hover {
   background: #e0e0e0;
   border-radius: 4px;
-
 }
 
 mat-icon {
   color: #555;
-}
-
-mat-checkbox {
-  margin-left: 16px;
 }

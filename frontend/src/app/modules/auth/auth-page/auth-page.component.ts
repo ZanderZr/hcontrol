@@ -41,9 +41,11 @@ export class AuthPageComponent {
     });
 
     this.formLogin = this.fb.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      rememberMe: [false]
     });
+
   }
 
   async login() {
@@ -53,9 +55,9 @@ export class AuthPageComponent {
     }
 
     try {
-      const { email, password } = this.formLogin.value;
+      const { email, password, rememberMe } = this.formLogin.value; // Obtener el nuevo campo
       const response = await lastValueFrom(this._authService.login(email, password));
-      this._authService.saveToken(response.token);
+      this._authService.saveToken(response.token, rememberMe);
       this.toastr.success('Inicio de sesión exitoso');
       this.router.navigate(['feeding']);
     } catch (error) {

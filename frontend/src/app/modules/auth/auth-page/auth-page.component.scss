@@ -26,6 +26,27 @@ form {
   width: 100%;
 }
 
+.form-check {
+  display: flex;
+  align-items: center; // Centra verticalmente el checkbox y el label
+  gap: 8px; // Espaciado entre el checkbox y el texto
+  cursor: pointer;
+
+  input {
+    width: 16px; // Tamaño más estándar para checkboxes
+    height: 16px;
+    accent-color: #005e6e; // Cambia el color del checkbox si el navegador lo soporta
+    cursor: pointer;
+  }
+
+  label {
+    font-size: 14px;
+    color: #333;
+    user-select: none; // Evita la selección accidental del texto
+  }
+}
+
+
 input {
   width: 100%;
   /* Ocupan el ancho completo del contenedor */

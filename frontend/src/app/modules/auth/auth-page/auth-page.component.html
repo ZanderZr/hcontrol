@@ -8,6 +8,10 @@
           <input formControlName="email" type="text" class="form-control" placeholder="Introduce tu email" />
           <label for="exampleInputEmail1" class="form-label mt-4">Password</label>
           <input formControlName="password" type="password" class="form-control" placeholder="Introduce tu contraseña" />
+          <div class="form-check mt-6">
+            <input type="checkbox" id="rememberMe" class="form-check-input" formControlName="rememberMe" />
+            <label for="rememberMe" class="form-check-label">Mantener sesión iniciada</label>
+          </div>
         </form>
         <div class="buttons-container mt-4 text-center">
           <button type="button" class="auth-button" (click)="toggleForm()">
@@ -17,6 +21,7 @@
             LOGIN
           </button>
         </div>
+
       </div>
     </div>
   </div>

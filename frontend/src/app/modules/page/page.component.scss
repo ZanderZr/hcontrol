@@ -1,7 +1,7 @@
 .content {
   height: 100vw;
   flex-grow: 1; /* Esto empuja el footer al final de la página */
-  padding: 10px 15px;
+  padding: 0 15px;
   background-color: #ffffff; /* Color de fondo del contenido */
   margin-bottom: 60px;
 }
@@ -9,4 +9,9 @@
 .space
 {
   height: 60px;
+}
+
+.space-h
+{
+  height: 50px;
 }
