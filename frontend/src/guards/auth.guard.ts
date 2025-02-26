@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
           this.router.navigate(['/feeding']); // Redirigir si intenta acceder a /auth ya autenticado
           return false;
         } else if (!isLogged && !isAuthRoute) {
-          this.router.navigate(['/auth']); // Redirigir si intenta acceder a rutas protegidas sin estar autenticado
+          this.router.navigate(['/home']); // Redirigir si intenta acceder a rutas protegidas sin estar autenticado
           return false;
         }
         return true;

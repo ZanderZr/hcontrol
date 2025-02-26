@@ -6,7 +6,6 @@ export const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./modules/main/main.routes').then((m) => m.MAIN_ROUTES),
-    canActivate: [AuthGuard], // Protegido
   },
   {
     path: 'auth',

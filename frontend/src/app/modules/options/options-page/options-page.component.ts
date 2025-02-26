@@ -76,7 +76,7 @@ export class OptionsPageComponent {
 
   logout(){
     this._authService.logout();
-    this.router.navigate(['auth']);
+    this.router.navigate(['/home']);
 
   }
 }
