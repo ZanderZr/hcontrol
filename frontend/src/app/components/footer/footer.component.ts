@@ -25,6 +25,7 @@ export class FooterComponent {
   isFeedingButtonActive:boolean | undefined;
   isPhysicButtonActive :boolean | undefined;
   isMentalButtonActive :boolean | undefined;
+  isHomeButtonActive:boolean | undefined;
 
   constructor(private router: Router){}
 
@@ -47,10 +48,18 @@ export class FooterComponent {
     this.isPhysicButtonActive = true;
 
   }
+  homeButton(){
+    this.router.navigate(['home']);
+    this.setButtonFalse()
+    this.isHomeButtonActive = true;
+
+  }
 
   setButtonFalse(){
     this.isMentalButtonActive = false;
     this.isFeedingButtonActive = false;
     this.isPhysicButtonActive = false;
+    this.isHomeButtonActive = false;
+
   }
 }

@@ -1,10 +1,11 @@
 import { Routes } from '@angular/router';
 import { OptionsPageComponent } from './modules/options/options-page/options-page.component';
 import { AuthGuard } from '../guards/auth.guard';
+import { HomePageComponent } from './modules/home/home-page/home-page.component';
 
 export const routes: Routes = [
   {
-    path: 'home',
+    path: 'main',
     loadChildren: () => import('./modules/main/main.routes').then((m) => m.MAIN_ROUTES),
   },
   {
@@ -29,9 +30,13 @@ export const routes: Routes = [
   },
   {
     path: 'options',
-    component: OptionsPageComponent,data: { title: 'Configuración' } ,
+    component: OptionsPageComponent, data: { title: 'Configuración' } ,
     canActivate: [AuthGuard] // Protegido
   },
-
-  { path: '**', redirectTo: 'home', pathMatch: 'full' },
+  {
+    path: 'home',
+    component: HomePageComponent, data: { title: 'Tablón' } ,
+    canActivate: [AuthGuard] // Protegido
+  },
+  { path: '**', redirectTo: 'main', pathMatch: 'full' },
 ];

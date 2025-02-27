@@ -1,0 +1,44 @@
+.bubble-card {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  transition: transform 0.2s ease-in-out;
+margin-bottom: 10px;
+  &:hover {
+    transform: scale(1.03);
+  }
+}
+
+.bubble-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 15px;
+  object-fit: cover;
+  margin-right: 15px;
+}
+
+.bubble-content {
+  flex: 1;
+}
+
+.bubble-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.bubble-description {
+  font-size: 14px;
+  color: #555;
+  margin: 5px 0;
+}
+
+.bubble-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #28a745;
+}

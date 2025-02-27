@@ -1,6 +1,13 @@
 <div class="footer">
   <button
     class="button-container"
+    [ngClass]="{ active: isHomeButtonActive }"
+    (click)="homeButton()"
+  >
+  <i class="far fa-newspaper"></i>
+  </button>
+  <button
+    class="button-container"
     [ngClass]="{ active: isFeedingButtonActive }"
     (click)="feedingButton()"
   >

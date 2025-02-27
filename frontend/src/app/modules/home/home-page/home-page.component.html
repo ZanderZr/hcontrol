@@ -1,0 +1,17 @@
+<app-page>
+  <app-board-card
+  [board]="board1"
+></app-board-card>
+
+  <app-fab-button *ngIf="user.role !== 'USER' && !showForm" icon="add" (click)="showForm = true"></app-fab-button>
+
+  <div class="bubble-form" *ngIf="showForm">
+    <form [formGroup]="boardForm" (ngSubmit)="saveBoard()">
+      <label for="">Publica tu anuncio:</label>
+      <input type="text" formControlName="title" placeholder="Título" required>
+      <textarea formControlName="description" placeholder="Descripción" required></textarea>
+      <input type="number" formControlName="price" placeholder="Precio" required>
+      <button type="submit" [disabled]="boardForm.invalid">Enviar</button>
+    </form>
+  </div>
+</app-page>

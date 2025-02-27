@@ -1,0 +1,49 @@
+.bubble-form {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  background: white;
+  border-radius: 20px;
+  padding: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+  margin-bottom: 50px;
+}
+.bubble-form:hover {
+  transform: translateX(-50%) scale(1.03);
+}
+.bubble-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bubble-form input,
+.bubble-form textarea {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.bubble-form input:focus,
+.bubble-form textarea:focus {
+  border-color: #1565c0;
+}
+.bubble-form button {
+  background-color: #1565c0;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.bubble-form button:hover {
+  background-color: #218838;
+}

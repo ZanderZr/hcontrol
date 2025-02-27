@@ -19,7 +19,7 @@ export class AppComponent {
 
   isLogged: boolean = false;
   currentRoute: string = '';
-  private protectedRoutes = ['/auth', '/home'];
+  private protectedRoutes = ['/auth', '/main'];
 
   constructor(private authService: AuthService, private router: Router) {}
 
