@@ -1,0 +1,31 @@
+.notification-bubble {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #e0f7fa; /* Color de fondo inicial */
+  border-radius: 20px;
+  padding: 10px 15px;
+  max-width: 100%;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.notification-bubble:active {
+  transform: scale(0.95);
+  background-color: #b2ebf2; /* Color de fondo al hacer click */
+}
+
+.notification-description {
+  margin: 0;
+  font-size: 14px;
+  color: #006064;
+}
+button{
+  width:30px;
+  height: 30px;
+  border:none;
+  border-radius: 50%;
+  background-color: #006064;
+  color: white;
+}

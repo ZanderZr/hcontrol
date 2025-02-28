@@ -1,24 +1,18 @@
 <app-page>
+  <div class="notifications-container">
+    <h5>Notificaciones</h5>
+    <app-notification-card
+      *ngFor="let notification of notifications"
+      [notification]="notification"
+      (clickCard)="createService(notification.idEmitter)"
+      (clickTrash)="deleteNotification(notification.id!)"
+    ></app-notification-card>
+  </div>
   <div class="settings-container">
     <mat-list class="settings-list">
       <mat-list-item (click)="logout()">
         <span><i class="fa-solid fa-right-from-bracket"></i>Cerrar sesión</span>
       </mat-list-item>
-<!--
-      <mat-list-item (click)="changeEmail()">
-        <span><i class="fa-solid fa-envelope"></i>Cambiar correo electrónico</span>
-      </mat-list-item>
-
-      <mat-list-item (click)="changePassword()">
-        <span><i class="fa-solid fa-lock"></i>Cambiar contraseña</span>
-      </mat-list-item>
- -->
-     <!--  <mat-list-item>
-        <mat-checkbox [(ngModel)]="settings.notifications">
-          Notificaciones activadas
-        </mat-checkbox>
-      </mat-list-item> -->
-
     </mat-list>
   </div>
 </app-page>

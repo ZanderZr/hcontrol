@@ -16,7 +16,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const user_1 = __importDefault(require("../routes/user"));
 const diaryData_1 = __importDefault(require("../routes/diaryData"));
-const notifications_1 = __importDefault(require("../routes/notifications"));
+const notification_1 = __importDefault(require("../routes/notification"));
 const board_1 = __importDefault(require("../routes/board"));
 const exercise_1 = __importDefault(require("../routes/exercise")); // Corregido
 const routine_1 = __importDefault(require("../routes/routine")); // Corregido
@@ -49,7 +49,7 @@ class Server {
         this.app.use("/api/diary", diaryData_1.default);
         this.app.use("/api/exercises", exercise_1.default);
         this.app.use("/api/routines", routine_1.default);
-        this.app.use("/api/notifications", notifications_1.default);
+        this.app.use("/api/notifications", notification_1.default);
         this.app.use("/api/boards", board_1.default);
     }
     middlewares() {

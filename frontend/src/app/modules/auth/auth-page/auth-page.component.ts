@@ -58,7 +58,6 @@ export class AuthPageComponent {
       const { email, password, rememberMe } = this.formLogin.value; // Obtener el nuevo campo
       const response = await lastValueFrom(this._authService.login(email, password));
       this._authService.saveToken(response.token, rememberMe);
-      this.toastr.success('Inicio de sesión exitoso');
       this.router.navigate(['home']);
     } catch (error) {
       this.toastr.error('Credenciales incorrectas');

@@ -12,7 +12,7 @@ header {
 }
 
 .user-img-container{
-  width: 35px;
+  min-width: 35px;
   height: 35px;
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.5); /* Define el grosor, el estilo y el color del borde */
@@ -35,8 +35,28 @@ i{
   padding-right: 4%;
 }
 
+.fa-solid{
+  font-size: 100%;
+
+}
+.active-bell {
+  color: red; /* Si la variable es true */
+}
+
+.inactive-bell {
+  color: gray; /* Si la variable es false */
+}
 button{
   background-color: transparent;
   border:none;
   margin-left: 4%;
+}
+
+.user-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap:10px;
+  margin-right: 4%;
 }

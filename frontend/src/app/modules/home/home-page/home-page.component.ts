@@ -61,16 +61,27 @@ export class HomePageComponent implements OnInit {
     const notification: Notification = {
       idEmitter: this.user.id!,
       idReceiver: board.idPro,
-      description: "Oferta: " + board.title + " aceptada"
+      description: "Oferta: " + board.title + " aceptada por " + this.user.username
     };
 
     this._apiService.postNotification(notification).subscribe(
-      (response: Notification) => {
-        console.log("Notificación creada exitosamente:", response);
-        this.toastr.success('Servicio solicitado');
+      (response: any) => {
+        if (response.message && response.message === 'El emisor y receptor no pueden ser el mismo.') {
+          console.log("Mismo id:", response.notification);
+          this.toastr.info('No puedes solicitar tus propios servicios');
+
+        }
+        else if (response.message && response.message === 'La notificación ya existe') {
+          console.log("Notificación ya existente:", response.notification);
+          this.toastr.info('El servicio ya fue solicitado previamente');
+        } else {
+          console.log("Notificación creada exitosamente:", response);
+          this.toastr.success('Servicio solicitado');
+        }
       },
       (error) => {
         console.error("Error al solicitar el servicio:", error);
+        this.toastr.error('Error al solicitar el servicio');
       }
     );
   }

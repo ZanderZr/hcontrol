@@ -1,19 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, interval, Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
+import { ApiService } from '../../../services/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
+  user: any;
   private isLoggedSubject = new BehaviorSubject<boolean>(this.hasToken());
-
   isLogged$ = this.isLoggedSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  idUser!:number
+  constructor(
+    private http: HttpClient,
+    private _apiService: ApiService
+  ) {
+
+  }
 
 
   login(email: string, password: string): Observable<any> {

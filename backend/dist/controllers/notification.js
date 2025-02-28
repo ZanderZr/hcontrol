@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postNotifications = exports.getAllNotification = void 0;
+exports.deleteNotification = exports.postNotifications = exports.getAllNotification = void 0;
 const express_1 = require("express");
 const notification_1 = __importDefault(require("../models/notification"));
 const socket_1 = require("../services/socket"); // asegúrate de exportar la instancia de Socket.IO
@@ -34,9 +34,29 @@ exports.getAllNotification = getAllNotification;
 const postNotifications = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
-        socket_1.io.to(body.idReceiver.toString()).emit("new-notification", body);
-        yield notification_1.default.create(body);
-        return res.status(201).json(body);
+        // Validar que el emisor y el receptor sean diferentes
+        if (body.idEmitter === body.idReceiver) {
+            return res.status(200).json({ message: "El emisor y receptor no pueden ser el mismo." });
+        }
+        // Buscar si ya existe una notificación con los mismos datos
+        const existingNotification = yield notification_1.default.findOne({
+            where: {
+                idEmitter: body.idEmitter,
+                idReceiver: body.idReceiver,
+                description: body.description,
+            }
+        });
+        if (existingNotification) {
+            return res.status(200).json({
+                message: "La notificación ya existe",
+                notification: existingNotification
+            });
+        }
+        // Crear la notificación
+        const notification = yield notification_1.default.create(body);
+        // 📡 Emitir evento en tiempo real SOLO al usuario con idReceiver
+        socket_1.io.to(`user_${body.idReceiver}`).emit("new_notification", notification);
+        return res.status(201).json(notification);
     }
     catch (error) {
         console.error("❌ Error al guardar la notificación:", error);
@@ -44,4 +64,19 @@ const postNotifications = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.postNotifications = postNotifications;
+const deleteNotification = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield notification_1.default.findByPk(req.params.id);
+        if (!data) {
+            return res.status(404).send('Not Found');
+        }
+        yield data.destroy();
+        res.status(204).send();
+    }
+    catch (error) {
+        console.error("Error al eliminar la notificacion:", error);
+        res.status(500).json({ message: "Error al eliminar la notificacion." });
+    }
+});
+exports.deleteNotification = deleteNotification;
 exports.default = router;

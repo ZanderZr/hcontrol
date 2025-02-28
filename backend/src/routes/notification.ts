@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { getAllNotification, postNotifications } from '../controllers/notification';
+import { deleteNotification, getAllNotification, postNotifications } from '../controllers/notification';
 
 const router = Router();
 
 router.get('/:idReceiver', getAllNotification);
 router.post('/', postNotifications);
+router.delete('/:id', deleteNotification);
 
 export default router;

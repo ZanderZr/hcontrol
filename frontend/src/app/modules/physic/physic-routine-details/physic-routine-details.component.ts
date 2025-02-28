@@ -42,8 +42,6 @@ export class PhysicRoutineDetailsComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.routineId = Number(params.get('id')); // Convierte el ID a número
       console.log('ID de la rutina:', this.routineId);
-
-
     });
 
     // Ahora que tenemos el ID, hacemos la petición para obtener la rutina

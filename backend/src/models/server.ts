@@ -2,7 +2,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import userRoutes from "../routes/user";
 import diaryRoutes from "../routes/diaryData";
-import notificationRoutes from "../routes/notifications";
+import notificationRoutes from "../routes/notification";
 import boardRoutes from "../routes/board";
 import exerciseRoutes from "../routes/exercise"; // Corregido
 import routineRoutes from "../routes/routine"; // Corregido

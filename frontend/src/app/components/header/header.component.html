@@ -1,10 +1,16 @@
 <header>
-
   <button (click)="back()">
-    <i class="fas fa-chevron-left"></i>  </button>
-<span>{{title}}</span>
-
-<div class="user-img-container" (click)="settingsButton()">
-  <img class="user-img" src="https://s1.elespanol.com/2017/07/14/ciencia/medio-ambiente/medio_ambiente_231238002_39634877_1706x1280.jpg" alt="">
-</div>
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <span>{{ title || "Tablón" }} </span>
+  <div class="user-container">
+    <i class="fa-solid fa-bell" [ngClass]="{ 'active-bell': hasNotifications, 'inactive-bell': !hasNotifications }"></i>
+    <div class="user-img-container" (click)="settingsButton()">
+      <img
+        class="user-img"
+        src="https://s1.elespanol.com/2017/07/14/ciencia/medio-ambiente/medio_ambiente_231238002_39634877_1706x1280.jpg"
+        alt=""
+      />
+    </div>
+  </div>
 </header>

@@ -117,4 +117,9 @@ export class ApiService {
     console.log(notification);
     return this.http.post<Notification>(`${this.apiUrl}/notifications`, notification);
   }
+
+  // Elimina un ejercicio por su ID
+  deleteNotification(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/notifications/${id}`);
+  }
 }

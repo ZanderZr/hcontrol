@@ -1,3 +1,4 @@
+import { Notification } from './../../auth/interfaces/notification';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -9,12 +10,9 @@ import {MatListModule} from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../auth/services/auth.service';
 import { Router } from '@angular/router';
-interface UserSettings {
-  username: string;
-  email: string;
-  notifications: boolean;
-  darkMode: boolean;
-}
+import { NotificationCardComponent } from '../../../components/notification-card/notification-card.component';
+import { ApiService } from '../../../services/api.service';
+import { User } from '../../auth/interfaces/user';
 
 @Component({
   selector: 'app-options-page',
@@ -29,7 +27,8 @@ interface UserSettings {
     FormsModule,
     MatListModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    NotificationCardComponent
 ],
   templateUrl: './options-page.component.html',
   styleUrl: './options-page.component.scss'
@@ -37,46 +36,47 @@ interface UserSettings {
 
 
 export class OptionsPageComponent {
-  settings: UserSettings = {
-    username: '',
-    email: '',
-    notifications: false,
-    darkMode: false
-  };
+
+  notifications: Notification[]=[];
+  user!:User;
 
   constructor(
     private _authService:AuthService,
-    private router: Router
+    private router: Router,
+    private _apiService: ApiService
   ) {
-    this.loadSettings();
-
+    this.user = this._authService.getUserData();
+    this.getAllNotifications();
   }
 
-  loadSettings(): void {
-    // Ejemplo: carga de settings desde localStorage
-    const stored = localStorage.getItem('userSettings');
-    if (stored) {
-      this.settings = JSON.parse(stored);
-    }
+  deleteNotification(id:number){
+    this._apiService.deleteNotification(id).subscribe(
+      () => {
+        console.log(`Notificacion eliminada correctamente.`);
+        this.getAllNotifications();
+      },
+      (error) => {
+        console.error('Error al eliminar la rutina:', error);
+      }
+    );
   }
 
-  saveSettings(): void {
-    // Ejemplo: guarda settings en localStorage
-    localStorage.setItem('userSettings', JSON.stringify(this.settings));
-    alert('Configuración guardada');
+  getAllNotifications() {
+    this._apiService.getAllNotifications(this.user.id!).subscribe(
+      (data) => {
+        this.notifications = data;
+      },
+      (error) => {
+        console.error('Error al cargar rutinas:', error);
+      }
+    );
   }
-
-  changePassword(){
-
-  }
-
-  changeEmail(){
-
-  }
-
   logout(){
     this._authService.logout();
     this.router.navigate(['/home']);
+  }
 
+  createService(idUser: number){
+    this.router.navigate(['/physic/personal-routine', idUser]);
   }
 }

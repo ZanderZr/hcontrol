@@ -8,11 +8,14 @@
   max-width: 400px;
   transition: transform 0.2s ease-in-out;
 margin-bottom: 10px;
+transition: transform 0.2s ease-in-out;
   &:hover {
     transform: scale(1.03);
   }
 }
-
+.bubble-card:active {
+  transform: scale(0.95);
+}
 .bubble-image {
   width: 80px;
   height: 80px;

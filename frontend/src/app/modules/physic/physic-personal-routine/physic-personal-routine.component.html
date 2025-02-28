@@ -1,0 +1,38 @@
+<app-page>
+  <div class="routine-creation-container">
+    <form [formGroup]="formRoutine">
+      <label for="">Rutina para el usuario: {{idUser}}</label>
+      <input  type="text" formControlName="name" class="form-control" placeholder="Routine name" />
+      <input  type="text"  formControlName="description" class="form-control" placeholder="Description" />
+    </form>
+    <div class="filter-container">
+      <!-- Filtro de Tipo -->
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Tipo</mat-label>
+        <mat-select [(value)]="selectedType" (selectionChange)="loadExercises()">
+          <mat-option *ngFor="let type of types" [value]="type">{{ type }}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+
+      <!-- Filtro de Músculo -->
+      <mat-form-field appearance="outline">
+        <mat-label>Músculo</mat-label>
+        <mat-select [(value)]="selectedMuscle" (selectionChange)="loadExercises()">
+          <mat-option *ngFor="let muscle of muscles" [value]="muscle">{{ muscle }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Filtro de Dificultad -->
+      <mat-form-field appearance="outline">
+        <mat-label>Dificultad</mat-label>
+        <mat-select [(value)]="selectedDiff" (selectionChange)="loadExercises()">
+          <mat-option *ngFor="let difficult of difficulty" [value]="difficult">{{ difficult }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+    <app-exercise-card *ngFor="let exercise of exercises" [exercise]="exercise"
+    (clickAdd)="pushToRoutine($event)"></app-exercise-card>
+    <app-fab-button (fabClick)="saveRoutine()" icon="send"></app-fab-button>
+  </div>
+</app-page>

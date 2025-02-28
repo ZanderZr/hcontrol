@@ -23,6 +23,7 @@ export class BoardCardComponent implements OnInit{
   }
 
   onClickBoard() {
-    this.clickBoard.emit(); // Emite el ID del ejercicio al padre
+    this.clickBoard.emit();
+    
   }
 }
