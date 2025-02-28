@@ -132,8 +132,8 @@ export class PhysicRoutineComponent implements OnInit {
   }
 
   saveRoutine() {
-    const newRoutine = {
-      idUser: '2',
+    const newRoutine: Routine = {
+      idUser: this.idUser,
       name: this.formRoutine.get('name')?.value,
       description: this.formRoutine.get('description')?.value,
       exercises: this.routineExercises,

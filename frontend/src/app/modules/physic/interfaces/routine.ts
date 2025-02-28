@@ -1,6 +1,6 @@
 export interface Routine {
   id?: number;
-  idUser: string;
+  idUser: number;
   name: string;
   description?: string;
   exercises: string[];

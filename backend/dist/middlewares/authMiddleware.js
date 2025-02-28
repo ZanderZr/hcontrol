@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyToken = void 0;
+exports.parseJsonBody = exports.verifyToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const verifyToken = (req, res, next) => {
     var _a;
@@ -21,3 +21,29 @@ const verifyToken = (req, res, next) => {
     });
 };
 exports.verifyToken = verifyToken;
+const parseJsonBody = (req, res, next) => {
+    // Si el header no es application/json
+    if (!req.headers['content-type'] || !req.headers['content-type'].includes('application/json')) {
+        let rawData = '';
+        req.setEncoding('utf8');
+        req.on('data', (chunk) => {
+            rawData += chunk;
+        });
+        req.on('end', () => {
+            if (rawData) {
+                try {
+                    req.body = JSON.parse(rawData);
+                }
+                catch (error) {
+                    console.error('Error al parsear JSON:', error);
+                    return res.status(400).json({ message: 'JSON inválido' });
+                }
+            }
+            next();
+        });
+    }
+    else {
+        next();
+    }
+};
+exports.parseJsonBody = parseJsonBody;

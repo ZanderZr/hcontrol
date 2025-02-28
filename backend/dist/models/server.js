@@ -16,9 +16,13 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const user_1 = __importDefault(require("../routes/user"));
 const diaryData_1 = __importDefault(require("../routes/diaryData"));
+const notifications_1 = __importDefault(require("../routes/notifications"));
+const board_1 = __importDefault(require("../routes/board"));
 const exercise_1 = __importDefault(require("../routes/exercise")); // Corregido
 const routine_1 = __importDefault(require("../routes/routine")); // Corregido
 const connection_1 = __importDefault(require("../database/connection"));
+const socket_1 = require("../services/socket"); // ajusta la ruta
+const authMiddleware_1 = require("../middlewares/authMiddleware");
 // Definición de la clase Server
 class Server {
     constructor() {
@@ -33,7 +37,8 @@ class Server {
     // Método 'listen' para iniciar el servidor
     listen() {
         connection_1.default.sync().then(() => {
-            this.app.listen(Number(this.PORT), this.HOST, () => console.log(`Server running on http://${this.HOST}:${this.PORT}`));
+            const httpServer = this.app.listen(Number(this.PORT), this.HOST, () => console.log(`Server running on http://${this.HOST}:${this.PORT}`));
+            (0, socket_1.initSocket)(httpServer);
         });
     }
     routes() {
@@ -44,8 +49,11 @@ class Server {
         this.app.use("/api/diary", diaryData_1.default);
         this.app.use("/api/exercises", exercise_1.default);
         this.app.use("/api/routines", routine_1.default);
+        this.app.use("/api/notifications", notifications_1.default);
+        this.app.use("/api/boards", board_1.default);
     }
     middlewares() {
+        this.app.use(authMiddleware_1.parseJsonBody);
         this.app.use(express_1.default.json());
         this.app.use((0, cors_1.default)());
     }

@@ -6,7 +6,6 @@ class Routine extends Model {
     public idUser!: number;
     public name!: string;
     public description?: string;
-    public exercises!: string[];
 }
 
 Routine.init(
@@ -18,7 +17,7 @@ Routine.init(
         },
         idUser: { type: DataTypes.INTEGER, allowNull: false },
         name: { type: DataTypes.STRING, allowNull: false },
-        description: { type: DataTypes.STRING, allowNull: true },
+        description: { type: DataTypes.STRING, allowNull: true }
     },
     { sequelize: database, modelName: 'routines', timestamps: false }
 );

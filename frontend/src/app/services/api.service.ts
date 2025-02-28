@@ -5,21 +5,20 @@ import { Observable } from 'rxjs';
 import { DiaryData } from '../modules/mental/interfaces/diary-data';
 import { Exercise } from '../modules/physic/interfaces/exercise';
 import { Routine } from '../modules/physic/interfaces/routine';
+import { Board } from '../modules/home/interfaces/board';
+import { Notification } from '../modules/auth/interfaces/notification';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiService {
-
   private apiUrl = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
-
-
+  constructor(private http: HttpClient) {}
 
   /* ------------------ Diary ------------------ */
 
-  getAllDiary(id:number): Observable<DiaryData[]> {
+  getAllDiary(id: number): Observable<DiaryData[]> {
     return this.http.get<DiaryData[]>(`${this.apiUrl}/diary/${id}`);
   }
 
@@ -41,7 +40,7 @@ export class ApiService {
   /* ------------------ Routine ------------------ */
 
   // Obtiene todas las rutinas
-  getAllRoutine(id:number): Observable<Routine[]> {
+  getAllRoutine(id: number): Observable<Routine[]> {
     return this.http.get<Routine[]>(`${this.apiUrl}/routines/${id}`);
   }
 
@@ -65,11 +64,10 @@ export class ApiService {
     return this.http.delete<void>(`${this.apiUrl}/routines/${id}`);
   }
 
-
   /* ------------------ Exercise ------------------ */
 
   // Obtiene todos los ejercicios
-  getAllExercise(id:number): Observable<Exercise[]> {
+  getAllExercise(id: number): Observable<Exercise[]> {
     return this.http.get<Exercise[]>(`${this.apiUrl}/exercises/${id}`);
   }
 
@@ -80,7 +78,7 @@ export class ApiService {
 
   // Crea un nuevo ejercicio
   postExercise(exercise: Exercise): Observable<Exercise> {
-    console.log(exercise)
+    console.log(exercise);
     return this.http.post<Exercise>(`${this.apiUrl}/exercises`, exercise);
   }
 
@@ -94,5 +92,29 @@ export class ApiService {
     return this.http.delete<void>(`${this.apiUrl}/exercises/${id}`);
   }
 
+  /* ------------------ Boards ------------------ */
 
+  // Obtiene todos los boards
+  getAllBoard(): Observable<Board[]> {
+    return this.http.get<Board[]>(`${this.apiUrl}/boards`);
+  }
+
+  // Crea un nuevo board
+  postBoard(board: Board): Observable<Board> {
+    console.log(board);
+    return this.http.post<Board>(`${this.apiUrl}/boards`, board);
+  }
+
+  /* ------------------ Notifications ------------------ */
+
+   // Obtiene todos los notifications
+   getAllNotifications(idReceiver: number): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${this.apiUrl}/notifications/${idReceiver}`);
+  }
+
+  // Crea un nuevo notification
+  postNotification(notification: Notification): Observable<Notification> {
+    console.log(notification);
+    return this.http.post<Notification>(`${this.apiUrl}/notifications`, notification);
+  }
 }

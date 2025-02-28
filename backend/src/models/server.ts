@@ -2,10 +2,13 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import userRoutes from "../routes/user";
 import diaryRoutes from "../routes/diaryData";
+import notificationRoutes from "../routes/notifications";
+import boardRoutes from "../routes/board";
 import exerciseRoutes from "../routes/exercise"; // Corregido
 import routineRoutes from "../routes/routine"; // Corregido
 import database from "../database/connection";
-
+import { initSocket } from "../services/socket"; // ajusta la ruta
+import { parseJsonBody } from "../middlewares/authMiddleware";
 // Definición de la clase Server
 class Server {
   private app: Application;
@@ -26,9 +29,10 @@ class Server {
   // Método 'listen' para iniciar el servidor
   listen() {
     database.sync().then(() => {
-      this.app.listen(Number(this.PORT), this.HOST, () =>
+      const httpServer = this.app.listen(Number(this.PORT), this.HOST, () =>
         console.log(`Server running on http://${this.HOST}:${this.PORT}`)
       );
+      initSocket(httpServer);
     });
   }
 
@@ -41,9 +45,12 @@ class Server {
     this.app.use("/api/diary", diaryRoutes);
     this.app.use("/api/exercises", exerciseRoutes);
     this.app.use("/api/routines", routineRoutes);
+    this.app.use("/api/notifications", notificationRoutes);
+    this.app.use("/api/boards", boardRoutes);
   }
 
   middlewares() {
+    this.app.use(parseJsonBody);
     this.app.use(express.json());
     this.app.use(cors());
   }

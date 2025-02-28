@@ -1,5 +1,5 @@
 import { Board } from './../interfaces/board';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PageComponent } from '../../page/page.component';
 import { BoardCardComponent } from "../../../components/board-card/board-card.component";
 import { FabButtonComponent } from "../../../components/fab-button/fab-button.component";
@@ -7,6 +7,9 @@ import { AuthService } from '../../auth/services/auth.service';
 import { User, UserRole } from '../../auth/interfaces/user';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ApiService } from '../../../services/api.service';
+import { Notification } from '../../auth/interfaces/notification';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home-page',
@@ -21,24 +24,19 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit {
   user!: User;
   showForm: boolean = false;
   boardForm: FormGroup;
-  board1!: Board;
+  boards: Board[]= [];
+
   constructor(
     private _authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _apiService: ApiService,
+    private toastr: ToastrService
   ) {
     this.user = this._authService.getUserData();
-    console.log(this.user);
-    this.board1 = {
-      idPro: 1,
-      rolePro: UserRole.COACH,
-      title: "A",
-      description: "B",
-      price: "3",
-    };
 
     // Inicializamos el formulario reactivo
     this.boardForm = this.fb.group({
@@ -47,6 +45,36 @@ export class HomePageComponent {
       price: ['', [Validators.required, Validators.min(1)]]
     });
   }
+
+  ngOnInit(): void {
+    this._apiService.getAllBoard().subscribe(
+      (data) => {
+        this.boards = data;
+      },
+      (error) => {
+        console.error('Error al cargar boards:', error);
+      }
+    );
+  }
+
+  acceptService(board: Board) {
+    const notification: Notification = {
+      idEmitter: this.user.id!,
+      idReceiver: board.idPro,
+      description: "Oferta: " + board.title + " aceptada"
+    };
+
+    this._apiService.postNotification(notification).subscribe(
+      (response: Notification) => {
+        console.log("Notificación creada exitosamente:", response);
+        this.toastr.success('Servicio solicitado');
+      },
+      (error) => {
+        console.error("Error al solicitar el servicio:", error);
+      }
+    );
+  }
+
 
   saveBoard() {
     if (this.boardForm.invalid) {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Board } from '../../modules/home/interfaces/board';
 import { UserRole } from '../../modules/auth/interfaces/user';
 
@@ -12,6 +12,7 @@ import { UserRole } from '../../modules/auth/interfaces/user';
 export class BoardCardComponent implements OnInit{
 
   @Input() board!: Board;
+  @Output() clickBoard = new EventEmitter<void>(); // Evento de salida para clic en la tarjeta
 
   imageUrl!:string;
 
@@ -21,4 +22,7 @@ export class BoardCardComponent implements OnInit{
     }
   }
 
+  onClickBoard() {
+    this.clickBoard.emit(); // Emite el ID del ejercicio al padre
+  }
 }

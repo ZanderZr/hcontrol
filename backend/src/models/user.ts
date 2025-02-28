@@ -6,7 +6,7 @@ interface IUser extends Model {
     email: string;
     username: string;
     password: string;
-    role:  'COACH' | 'DIETITIST' | 'PSYCHOLOGIST' | 'DEVELOPER' | 'USER';
+    role:  'COACH' | 'DIETITIST' | 'PSYCHOLOGIST' | 'USER';
   }
 
 const User = database.define<IUser>('User', {
@@ -32,7 +32,7 @@ const User = database.define<IUser>('User', {
     },
     role: {
         type:DataTypes.ENUM( 'COACH' , 'DIETITIST' , 'PSYCHOLOGIST' , 'DEVELOPER', 'USER'),
-        allowNull:true
+        allowNull:false
     }
 
 }, {

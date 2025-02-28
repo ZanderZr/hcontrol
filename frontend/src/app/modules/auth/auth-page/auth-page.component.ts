@@ -59,7 +59,7 @@ export class AuthPageComponent {
       const response = await lastValueFrom(this._authService.login(email, password));
       this._authService.saveToken(response.token, rememberMe);
       this.toastr.success('Inicio de sesión exitoso');
-      this.router.navigate(['feeding']);
+      this.router.navigate(['home']);
     } catch (error) {
       this.toastr.error('Credenciales incorrectas');
     }

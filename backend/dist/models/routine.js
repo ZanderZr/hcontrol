@@ -15,6 +15,6 @@ Routine.init({
     },
     idUser: { type: sequelize_1.DataTypes.INTEGER, allowNull: false },
     name: { type: sequelize_1.DataTypes.STRING, allowNull: false },
-    description: { type: sequelize_1.DataTypes.STRING, allowNull: true },
+    description: { type: sequelize_1.DataTypes.STRING, allowNull: true }
 }, { sequelize: connection_1.default, modelName: 'routines', timestamps: false });
 exports.default = Routine;

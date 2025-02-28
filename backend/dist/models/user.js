@@ -27,7 +27,7 @@ const User = connection_1.default.define('User', {
     },
     role: {
         type: sequelize_1.DataTypes.ENUM('COACH', 'DIETITIST', 'PSYCHOLOGIST', 'DEVELOPER', 'USER'),
-        allowNull: true
+        allowNull: false
     }
 }, {
     createdAt: false,

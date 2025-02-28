@@ -1,6 +1,7 @@
 <app-page>
-  <app-board-card
-  [board]="board1"
+  <app-board-card *ngFor="let board of boards"
+  [board]="board"
+  (clickBoard)="acceptService(board)"
 ></app-board-card>
 
   <app-fab-button *ngIf="user.role !== 'USER' && !showForm" icon="add" (click)="showForm = true"></app-fab-button>
