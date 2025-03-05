@@ -1,47 +1,67 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
 import database from "../database/connection";
 
+/**
+ * Clase que representa el modelo de la entidad `Board`.
+ * 
+ * @extends Model
+ */
 class Board extends Model {
-  id!: number;
-  idPro!: number;
-  rolePro!: "COACH" | "DIETITIST" | "PSYCHOLOGIST" | "USER";
-  title!: string;
-  description!: string;
-  price!: string;
-  timestamp!: string;
+  // Definición de los atributos del modelo Board
+  id!: number; // Identificador único de la tabla (autoincremental)
+  idPro!: number; // ID del profesional relacionado (COACH, DIETITIST, etc.)
+  rolePro!: "COACH" | "DIETITIST" | "PSYCHOLOGIST" | "DEVELOPER" | "USER"; // Rol del profesional
+  title!: string; // Título de la tabla
+  description!: string; // Descripción de la tabla
+  price!: string; // Precio del servicio o producto
+  timestamp!: string; // Marca temporal cuando se crea el registro
 }
 
+// Inicialización del modelo Board
 Board.init(
   {
     id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+      type: DataTypes.INTEGER, // Tipo de dato: entero
+      autoIncrement: true, // El valor se autoincrementará con cada nuevo registro
+      primaryKey: true, // Este campo es la clave primaria
     },
     idPro: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+      type: DataTypes.INTEGER, // Tipo de dato: entero
+      allowNull: false, // No puede ser nulo
     },
     rolePro: {
-      type: DataTypes.ENUM(
+      type: DataTypes.ENUM( // Enum con valores predefinidos para el rol del profesional
         "COACH",
         "DIETITIST",
         "PSYCHOLOGIST",
         "DEVELOPER",
         "USER"
       ),
-      allowNull: false,
+      allowNull: false, // No puede ser nulo
     },
-    title: { type: DataTypes.STRING, allowNull: false },
-    description: { type: DataTypes.STRING, allowNull: false },
-    price: { type: DataTypes.STRING, allowNull: false },
+    title: { 
+      type: DataTypes.STRING, // Tipo de dato: texto
+      allowNull: false, // No puede ser nulo
+    },
+    description: { 
+      type: DataTypes.STRING, // Tipo de dato: texto
+      allowNull: false, // No puede ser nulo
+    },
+    price: { 
+      type: DataTypes.STRING, // Tipo de dato: texto
+      allowNull: false, // No puede ser nulo
+    },
     timestamp: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.fn("NOW"),
+      type: DataTypes.DATE, // Tipo de dato: fecha y hora
+      allowNull: false, // No puede ser nulo
+      defaultValue: Sequelize.fn("NOW"), // Valor por defecto: hora actual
     },
   },
-  { sequelize: database, modelName: "boards", timestamps: false }
+  {
+    sequelize: database, // Conexión a la base de datos
+    modelName: "boards", // Nombre de la tabla en la base de datos
+    timestamps: false, // Desactivar los campos `createdAt` y `updatedAt`
+  }
 );
 
-export default Board;
+export default Board; // Exportar el modelo Board para usarlo en otros archivos

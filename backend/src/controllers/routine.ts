@@ -4,7 +4,13 @@ import RoutineExercises from '../models/routineExercises';
 
 const router = Router();
 
-// Obtener todas las rutinas con sus ejercicios
+/**
+ * @description Obtiene todas las rutinas de un usuario con sus respectivos ejercicios.
+ * @route GET /routines/:id
+ * @param {string} id - El ID del usuario cuyas rutinas se deben obtener.
+ * @returns {Array} - Lista de rutinas formateadas con los ejercicios asociados.
+ * @throws {500} - Si ocurre un error al obtener las rutinas o los ejercicios.
+ */
 export const getAllRoutinesById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params; // Obtener el id de los parámetros de la solicitud
@@ -33,7 +39,14 @@ export const getAllRoutinesById = async (req: Request, res: Response) => {
   }
 };
 
-// Obtener una rutina con sus ejercicios
+/**
+ * @description Obtiene una rutina específica con sus ejercicios.
+ * @route GET /routines/:id
+ * @param {string} id - El ID de la rutina que se debe obtener.
+ * @returns {Object} - La rutina con su información y lista de ejercicios.
+ * @throws {404} - Si no se encuentra la rutina.
+ * @throws {500} - Si ocurre un error al obtener la rutina o los ejercicios.
+ */
 export const getRoutine = async (req: Request, res: Response) => {
   try {
     const routine = await Routine.findByPk(req.params.id);
@@ -58,7 +71,17 @@ export const getRoutine = async (req: Request, res: Response) => {
   }
 };
 
-// Crear una nueva rutina con ejercicios
+/**
+ * @description Crea una nueva rutina junto con los ejercicios asociados.
+ * @route POST /routines
+ * @param {Object} req.body - Datos de la rutina y los ejercicios asociados.
+ * @param {string} req.body.idUser - El ID del usuario propietario de la rutina.
+ * @param {string} req.body.name - El nombre de la rutina.
+ * @param {string} req.body.description - La descripción de la rutina.
+ * @param {Array} req.body.exercises - Lista de nombres de ejercicios para asociar con la rutina.
+ * @returns {Object} - La rutina creada con los ejercicios asociados.
+ * @throws {400} - Si ocurre un error al crear la rutina o asociar los ejercicios.
+ */
 export const postRoutine = async (req: Request, res: Response) => {
   try {
     const { idUser, name, description, exercises } = req.body;
@@ -82,7 +105,19 @@ export const postRoutine = async (req: Request, res: Response) => {
   }
 };
 
-// Actualizar una rutina y sus ejercicios
+/**
+ * @description Actualiza una rutina y sus ejercicios asociados.
+ * @route PUT /routines/:id
+ * @param {string} id - El ID de la rutina que se debe actualizar.
+ * @param {Object} req.body - Los nuevos datos de la rutina y ejercicios.
+ * @param {string} req.body.idUser - El ID del usuario propietario de la rutina.
+ * @param {string} req.body.name - El nuevo nombre de la rutina.
+ * @param {string} req.body.description - La nueva descripción de la rutina.
+ * @param {Array} req.body.exercises - Lista de nuevos ejercicios para asociar con la rutina.
+ * @returns {Object} - La rutina actualizada con los ejercicios asociados.
+ * @throws {404} - Si no se encuentra la rutina para actualizar.
+ * @throws {500} - Si ocurre un error al actualizar la rutina o los ejercicios.
+ */
 export const putRoutine = async (req: Request, res: Response) => {
   try {
     const { idUser, name, description, exercises } = req.body;
@@ -111,7 +146,14 @@ export const putRoutine = async (req: Request, res: Response) => {
   }
 };
 
-// Eliminar una rutina y sus relaciones con ejercicios
+/**
+ * @description Elimina una rutina y sus ejercicios asociados.
+ * @route DELETE /routines/:id
+ * @param {string} id - El ID de la rutina que se debe eliminar.
+ * @returns {void} - Respuesta vacía si la rutina y sus ejercicios se eliminan correctamente.
+ * @throws {404} - Si no se encuentra la rutina para eliminar.
+ * @throws {500} - Si ocurre un error al eliminar la rutina o los ejercicios.
+ */
 export const deleteRoutine = async (req: Request, res: Response) => {
   try {
     const routine = await Routine.findByPk(req.params.id);
@@ -122,7 +164,7 @@ export const deleteRoutine = async (req: Request, res: Response) => {
     await RoutineExercises.destroy({ where: { routine_id: routine.id } });
     await routine.destroy();
 
-    res.status(204).send();
+    res.status(204).send();  // Respuesta vacía con código de estado 204 (Eliminación exitosa)
   } catch (error) {
     console.error("Error al eliminar la rutina:", error);
     res.status(500).json({ message: "Error al eliminar la rutina." });
