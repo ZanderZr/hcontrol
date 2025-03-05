@@ -7,13 +7,23 @@ import { forkJoin, map, Observable } from 'rxjs';
 })
 export class ExerciseService {
   private apiUrl = 'https://api.api-ninjas.com/v1/exercises';
-  private apiKey = 'ekx4gD6BRZPNLSdCUeh3Cg==z7uhFAMgOknRmlVi'; // Reemplaza con tu clave API
-
+  private apiKey = 'ekx4gD6BRZPNLSdCUeh3Cg==z7uhFAMgOknRmlVi';
 
   constructor(private http: HttpClient) {}
 
-  // Método para obtener ejercicios filtrados
-  getFilteredExercises(filters: { type: string, muscle: string, difficulty: string }): Observable<any[]> {
+  /**
+   * Método para obtener ejercicios filtrados por tipo, músculo y dificultad.
+   * @param filters - Un objeto que contiene los filtros para los ejercicios.
+   * @param filters.type - El tipo de ejercicio (e.g. 'cardio', 'strength').
+   * @param filters.muscle - El músculo objetivo (e.g. 'biceps', 'chest').
+   * @param filters.difficulty - El nivel de dificultad (e.g. 'beginner', 'intermediate').
+   * @returns {Observable<any[]>} - Un observable que emite el listado de ejercicios filtrados.
+   */
+  getFilteredExercises(filters: {
+    type: string;
+    muscle: string;
+    difficulty: string;
+  }): Observable<any[]> {
     let query = '';
 
     // Añadimos los filtros a la query, asegurándonos de que solo se agreguen los filtros definidos
@@ -23,11 +33,17 @@ export class ExerciseService {
 
     return this.http.get<any[]>(`${this.apiUrl}?${query}`, {
       headers: {
-        'X-Api-Key': this.apiKey,  // Coloca tu API Key aquí si es necesario
-      }
+        'X-Api-Key': this.apiKey, // Coloca tu API Key aquí si es necesario
+      },
     });
   }
 
+  /**
+   * Método para obtener ejercicios basados en sus nombres.
+   * Realiza peticiones a la API para obtener ejercicios de diferentes tipos y músculos, y luego filtra los resultados.
+   * @param names - Un array de nombres de ejercicios a buscar.
+   * @returns {Observable<any[]>} - Un observable que emite el listado de ejercicios encontrados.
+   */
   getExercisesByNames(names: string[]): Observable<any[]> {
     const types = [
       'cardio',
@@ -36,7 +52,7 @@ export class ExerciseService {
       'powerlifting',
       'strength',
       'stretching',
-      'strongman'
+      'strongman',
     ];
 
     const muscles = [
@@ -55,43 +71,46 @@ export class ExerciseService {
       'neck',
       'quadriceps',
       'traps',
-      'triceps'
+      'triceps',
     ];
 
     // Crear peticiones para tipos de ejercicios
-    const typeRequests = types.map(type =>
+    const typeRequests = types.map((type) =>
       this.http.get<any[]>(`${this.apiUrl}?type=${type}`, {
-        headers: new HttpHeaders({ 'X-Api-Key': this.apiKey })
+        headers: new HttpHeaders({ 'X-Api-Key': this.apiKey }),
       })
     );
 
     // Crear peticiones para músculos
-    const muscleRequests = muscles.map(muscle =>
+    const muscleRequests = muscles.map((muscle) =>
       this.http.get<any[]>(`${this.apiUrl}?muscle=${muscle}`, {
-        headers: new HttpHeaders({ 'X-Api-Key': this.apiKey })
+        headers: new HttpHeaders({ 'X-Api-Key': this.apiKey }),
       })
     );
 
     // Ejecutar todas las peticiones en paralelo
     return forkJoin([...typeRequests, ...muscleRequests]).pipe(
-      map(responses => {
-        console.log("API Responses:", responses); // 🔍 Debug
+      map((responses) => {
+        console.log('API Responses:', responses); // 🔍 Debug
 
         // Unir todas las respuestas en un solo array
-        const allExercises = responses.flatMap(response => response || []);
-        console.log("Total de ejercicios obtenidos:", allExercises.length);
+        const allExercises = responses.flatMap((response) => response || []);
+        console.log('Total de ejercicios obtenidos:', allExercises.length);
 
         // Eliminar duplicados (basado en el nombre del ejercicio)
         const uniqueExercises = Array.from(
-          new Map(allExercises.map(ex => [ex.name.toLowerCase().trim(), ex])).values()
+          new Map(
+            allExercises.map((ex) => [ex.name.toLowerCase().trim(), ex])
+          ).values()
         );
 
         // Filtrar solo los ejercicios que están en el array `names`
-        return uniqueExercises.filter(exercise =>
-          names.some(name => exercise.name.toLowerCase().includes(name.toLowerCase().trim()))
+        return uniqueExercises.filter((exercise) =>
+          names.some((name) =>
+            exercise.name.toLowerCase().includes(name.toLowerCase().trim())
+          )
         );
       })
     );
   }
-
 }

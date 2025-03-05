@@ -9,20 +9,46 @@ import { ApiService } from '../../../services/api.service';
   providedIn: 'root'
 })
 export class AuthService {
+
+  /**
+   * URL base de la API, tomada de la configuración del entorno.
+   * @type {string}
+   */
   private apiUrl = environment.apiUrl;
+
+  /**
+   * Almacena los datos del usuario actualmente autenticado.
+   * @type {any}
+   */
   user: any;
+
+  /**
+   * Controla el estado de la sesión del usuario (si está autenticado o no).
+   * @type {BehaviorSubject<boolean>}
+   */
   private isLoggedSubject = new BehaviorSubject<boolean>(this.hasToken());
+
+  /**
+   * Observable que emite el estado de autenticación del usuario.
+   * @type {Observable<boolean>}
+   */
   isLogged$ = this.isLoggedSubject.asObservable();
 
-  idUser!:number
+  /**
+   * Constructor del servicio, que inyecta dependencias necesarias como HttpClient.
+   * @param {HttpClient} http - Servicio para realizar peticiones HTTP.
+   */
   constructor(
     private http: HttpClient,
-    private _apiService: ApiService
-  ) {
+  ) {}
 
-  }
-
-
+  /**
+   * Realiza la autenticación del usuario con las credenciales proporcionadas.
+   * Si es exitosa, guarda los datos del usuario y el token.
+   * @param {string} email - El correo electrónico del usuario.
+   * @param {string} password - La contraseña del usuario.
+   * @returns {Observable<any>} - Observable con los datos de respuesta.
+   */
   login(email: string, password: string): Observable<any> {
     return this.http.post<{ token: string, user: any }>(`${this.apiUrl}/users/login`, { email, password }).pipe(
       tap(response => {
@@ -32,14 +58,31 @@ export class AuthService {
     );
   }
 
+  /**
+   * Guarda los datos del usuario en el localStorage.
+   * @param {any} user - Los datos del usuario a guardar.
+   */
   saveUserData(user: any): void {
     localStorage.setItem('userData', JSON.stringify(user));
   }
 
+  /**
+   * Realiza el registro de un nuevo usuario.
+   * @param {string} email - El correo electrónico del usuario.
+   * @param {string} username - El nombre de usuario.
+   * @param {string} password - La contraseña del usuario.
+   * @param {string} role - El rol del usuario.
+   * @returns {Observable<any>} - Observable con la respuesta del registro.
+   */
   register(email: string, username: string, password: string, role: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/users/register`, { email, username, password, role });
   }
 
+  /**
+   * Obtiene datos protegidos de la API, utilizando el token de autenticación.
+   * Si no existe un token, emite un error.
+   * @returns {Observable<any>} - Observable con los datos protegidos.
+   */
   getProtectedData(): Observable<any> {
     const token = this.getToken();
     if (!token) return new Observable(observer => observer.error('No token found'));
@@ -48,6 +91,10 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/protected`, { headers });
   }
 
+  /**
+   * Obtiene el token de autenticación desde localStorage o sessionStorage.
+   * @returns {string | null} - El token de autenticación o null si no existe.
+   */
   getToken(): string | null {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('authToken');
@@ -55,11 +102,20 @@ export class AuthService {
     return null;
   }
 
+  /**
+   * Obtiene los datos del usuario desde el localStorage.
+   * @returns {any} - Los datos del usuario o null si no existen.
+   */
   getUserData(): any {
     const userData = localStorage.getItem('userData');
     return userData ? JSON.parse(userData) : null;
   }
 
+  /**
+   * Guarda el token de autenticación en localStorage o sessionStorage según el parámetro `rememberMe`.
+   * @param {string} token - El token de autenticación a guardar.
+   * @param {boolean} rememberMe - Determina si el token debe persistir entre sesiones.
+   */
   saveToken(token: string, rememberMe: boolean) {
     if (rememberMe) {
       localStorage.setItem('authToken', token); // Guarda en localStorage para persistencia
@@ -68,12 +124,19 @@ export class AuthService {
     }
   }
 
+  /**
+   * Cierra la sesión del usuario, eliminando el token y los datos del usuario almacenados.
+   */
   logout(): void {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userData'); // 🔥 Eliminar los datos del usuario al cerrar sesión
     this.isLoggedSubject.next(false);
   }
 
+  /**
+   * Verifica si hay un token de autenticación presente en el almacenamiento.
+   * @returns {boolean} - Devuelve true si hay un token, de lo contrario false.
+   */
   private hasToken(): boolean {
     return !!this.getToken();
   }

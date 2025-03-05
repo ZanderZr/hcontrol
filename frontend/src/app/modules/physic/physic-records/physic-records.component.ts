@@ -17,11 +17,19 @@ export class PhysicRecordsComponent {
   idUser!: number;
   exercises: Exercise[]=[];
 
-  constructor(private _authService: AuthService,
+  /**
+   * Constructor para inicializar el componente.
+   * Obtiene los datos del usuario y carga todos los ejercicios asociados a ese usuario.
+   * @param _authService - Servicio de autenticación para obtener los datos del usuario.
+   * @param _apiService - Servicio para interactuar con la API y obtener los ejercicios.
+   */
+  constructor(
+    private _authService: AuthService,
     private _apiService: ApiService
-  ){
+  ) {
     this.idUser = this._authService.getUserData().id;
 
+    // Llamada a la API para obtener todos los ejercicios del usuario
     this._apiService.getAllExercise(this.idUser).subscribe({
       next: (data) => {
         this.exercises = data;
@@ -33,7 +41,5 @@ export class PhysicRecordsComponent {
         console.log('Carga de ejercicios completada');
       }
     });
-    
   }
-
 }

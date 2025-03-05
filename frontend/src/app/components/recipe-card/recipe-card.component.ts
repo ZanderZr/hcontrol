@@ -19,17 +19,41 @@ import { CommonModule } from '@angular/common';
 })
 export class RecipeCardComponent {
 
-  @Output() cardClick = new EventEmitter<void>(); // Evento de salida
-  @Output() clickAdd = new EventEmitter<void>(); // Evento de salida
+/**
+   * Evento de salida que se emite cuando se hace clic en la tarjeta.
+   * @type {EventEmitter<void>}
+   */
+@Output() cardClick = new EventEmitter<void>(); // Evento de salida
 
-  @Input() title!: string;
-  @Input() img!: string;
+/**
+ * Evento de salida que se emite cuando se hace clic en el botón de agregar.
+ * @type {EventEmitter<void>}
+ */
+@Output() clickAdd = new EventEmitter<void>(); // Evento de salida
 
-  onCardClick() {
-    this.cardClick.emit();
-  }
+/**
+ * Entrada del componente que recibe el título que se mostrará en la tarjeta.
+ * @type {string}
+ */
+@Input() title!: string;
 
-  onClickAdd() {
-    this.clickAdd.emit();
-  }
+/**
+ * Entrada del componente que recibe la URL de la imagen que se mostrará en la tarjeta.
+ * @type {string}
+ */
+@Input() img!: string;
+
+/**
+ * Maneja el clic en la tarjeta y emite el evento `cardClick`.
+ */
+onCardClick() {
+  this.cardClick.emit();
+}
+
+/**
+ * Maneja el clic en el botón de agregar y emite el evento `clickAdd`.
+ */
+onClickAdd() {
+  this.clickAdd.emit();
+}
 }

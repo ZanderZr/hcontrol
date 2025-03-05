@@ -11,17 +11,40 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./mental-breath.component.scss']
 })
 export class MentalBreathComponent implements OnDestroy {
+  
+  /**
+   * Define el estado actual de la fase de respiración (Inspira, Aguanta, Expira).
+   * @type {string}
+   */
   step: string = "";
+
+  /**
+   * Número que representa la técnica de respiración seleccionada.
+   * @type {number}
+   */
   technique: number = 0;
+
+  /**
+   * Almacena el identificador del temporizador para que se pueda cancelar si es necesario.
+   * @private
+   * @type {any}
+   */
   private timer: any;
+
+  /**
+   * Tiempo de inicio de la animación en milisegundos.
+   * @private
+   * @type {number}
+   */
   private startTime: number = 0;
 
   /**
-   * Inicia el ciclo de animación basado en tiempos:
-   * - first: duración (en segundos) de "Inspira"
-   * - second: duración de "Aguanta"
-   * - third: duración de "Expira"
-   * - total: duración total del ciclo (se usa para recalcular el ciclo)
+   * Inicia el ciclo de animación basado en los tiempos de inspiración, retención y expiración.
+   * El ciclo se repite según el tiempo total especificado.
+   * @param {number} first - Duración en segundos de la fase de inspiración.
+   * @param {number} second - Duración en segundos de la fase de retención.
+   * @param {number} third - Duración en segundos de la fase de expiración.
+   * @param {number} total - Duración total del ciclo en segundos.
    */
   startAnimationCycle(first: number, second: number, third: number, total: number): void {
     // Calcula el ciclo total en milisegundos
@@ -49,6 +72,10 @@ export class MentalBreathComponent implements OnDestroy {
     }, 100); // Actualiza cada 100 ms para mayor precisión
   }
 
+  /**
+   * Selecciona la técnica de respiración y configura los tiempos de cada fase.
+   * @param {number} number - El número de la técnica seleccionada (1 o 2).
+   */
   selectTec(number: number): void {
     this.technique = number;
     switch (this.technique) {
@@ -65,6 +92,9 @@ export class MentalBreathComponent implements OnDestroy {
     }
   }
 
+  /**
+   * Detiene el temporizador cuando el componente es destruido.
+   */
   ngOnDestroy(): void {
     if (this.timer) {
       clearInterval(this.timer);

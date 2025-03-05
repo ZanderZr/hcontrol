@@ -80,6 +80,16 @@ export class PhysicPersonalRoutineComponent implements OnInit {
   user!:User;
   routineExercises: string[] = [];
 
+  /**
+   * Constructor para inicializar el componente.
+   * @param _exerciseService - Servicio para manejar los ejercicios.
+   * @param fb - Servicio de FormBuilder para formularios reactivos.
+   * @param _apiService - Servicio para interactuar con la API.
+   * @param cdr - ChangeDetectorRef para manejar la detección de cambios.
+   * @param _authService - Servicio de autenticación para obtener los datos del usuario.
+   * @param router - Servicio de enrutamiento para redirigir a otras vistas.
+   * @param route - Servicio ActivatedRoute para acceder a los parámetros de la ruta.
+   */
   constructor(
     private _exerciseService: ExerciseService,
     private fb: FormBuilder,
@@ -88,7 +98,6 @@ export class PhysicPersonalRoutineComponent implements OnInit {
     private _authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-
   ) {
     this.formRoutine = this.fb.group({
       name: ['', Validators.required],
@@ -96,14 +105,23 @@ export class PhysicPersonalRoutineComponent implements OnInit {
     });
     this.user = this._authService.getUserData();
   }
+
+  /**
+   * Se ejecuta al inicializar el componente.
+   * Obtiene el ID del usuario desde los parámetros de la ruta.
+   */
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.idUser = Number(params.get('id')); // Convierte el ID a número
       console.log('ID del solicitante:', this.idUser);
-    });  }
+    });
+  }
 
-
-  saveRoutine() {
+  /**
+   * Guarda la nueva rutina con los ejercicios seleccionados.
+   * Envía los datos a la API y crea una notificación para el solicitante.
+   */
+  saveRoutine(): void {
     const newRoutine: Routine = {
       idUser: this.idUser,
       name: this.formRoutine.get('name')?.value,
@@ -126,11 +144,14 @@ export class PhysicPersonalRoutineComponent implements OnInit {
       idEmitter: this.user.id!,
       idReceiver: this.idUser,
       description: "Servicio: " + newRoutine.name + " enviado por " + this.user.username
-    }
-    
-    this._apiService.postNotification(notification)
+    };
+
+    this._apiService.postNotification(notification);
   }
 
+  /**
+   * Carga los ejercicios según los filtros seleccionados (tipo, músculo, dificultad).
+   */
   loadExercises(): void {
     // Creamos un objeto con los filtros seleccionados
     const filters = {
@@ -151,6 +172,10 @@ export class PhysicPersonalRoutineComponent implements OnInit {
     );
   }
 
+  /**
+   * Agrega un ejercicio seleccionado a la rutina.
+   * @param {string} name - Nombre del ejercicio a agregar.
+   */
   pushToRoutine(name: string): void {
     this.routineExercises.push(name);
     console.log(this.routineExercises);

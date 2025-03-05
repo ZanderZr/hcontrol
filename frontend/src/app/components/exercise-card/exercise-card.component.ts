@@ -17,19 +17,44 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class ExerciseCardComponent {
 
+  /**
+   * Evento de salida que emite cuando se hace clic en la tarjeta.
+   * @type {EventEmitter<void>}
+   */
   @Output() cardClick = new EventEmitter<void>(); // Evento de salida para clic en la tarjeta
+
+  /**
+   * Evento de salida que emite el nombre del ejercicio cuando se agrega.
+   * @type {EventEmitter<string>}
+   */
   @Output() clickAdd = new EventEmitter<string>();
 
+  /**
+   * Entrada del componente que recibe el objeto 'Exercise'.
+   * @type {Exercise}
+   */
   @Input() exercise!: Exercise;
 
+  /**
+   * Indicador de si la tarjeta está seleccionada o no.
+   * @type {boolean}
+   */
   isSelected = false; // Controla si el botón ha sido pulsado
 
+  /**
+   * Maneja el clic en la tarjeta y emite el evento `cardClick`.
+   */
   onCardClick() {
     this.cardClick.emit();
   }
 
-  onClickAdd(name : string) {
+  /**
+   * Maneja el clic en el botón de agregar ejercicio.
+   * Cambia el estado de selección y emite el nombre del ejercicio al componente padre.
+   * @param {string} name - El nombre del ejercicio que se está agregando.
+   */
+  onClickAdd(name: string) {
     this.isSelected = !this.isSelected; // Cambia el estado
-    this.clickAdd.emit(name); // Emite el ID del ejercicio al padre
+    this.clickAdd.emit(name); // Emite el nombre del ejercicio al padre
   }
 }

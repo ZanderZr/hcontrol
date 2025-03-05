@@ -10,10 +10,24 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrls: ['./fab-button.component.scss'],
 })
 export class FabButtonComponent {
-  @Output() fabClick = new EventEmitter<void>(); // Evento de salida
-  @Input() icon!: string;
+  
+ /**
+   * Evento de salida que se emite cuando se hace clic en el botón flotante.
+   * @type {EventEmitter<void>}
+   */
+ @Output() fabClick = new EventEmitter<void>(); // Evento de salida
 
-  onFabClick() {
-    this.fabClick.emit();
-  }
+ /**
+  * Entrada del componente que recibe el ícono que se mostrará en el botón.
+  * @type {string}
+  */
+ @Input() icon!: string;
+
+ /**
+  * Maneja el clic en el botón flotante y emite el evento `fabClick`.
+  */
+ onFabClick() {
+   this.fabClick.emit();
+ }
+
 }

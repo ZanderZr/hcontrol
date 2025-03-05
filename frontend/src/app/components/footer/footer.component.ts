@@ -14,52 +14,90 @@ import { CommonModule } from '@angular/common';
 })
 export class FooterComponent {
 
-  user: User = {
-    id: 1,
-    email: "john.doe@example.com",
-    username: "johnnyD",
-    password: "securePass123!",
-    role: UserRole.DEVELOPER
-  };
+
+  /**
+   * Almacena el botón seleccionado.
+   * @type {any}
+   */
   selectedButton: any;
-  isFeedingButtonActive:boolean | undefined;
-  isPhysicButtonActive :boolean | undefined;
-  isMentalButtonActive :boolean | undefined;
-  isHomeButtonActive:boolean | undefined;
 
-  constructor(private router: Router){}
+  /**
+   * Indica si el botón de "Feeding" está activo.
+   * @type {boolean | undefined}
+   */
+  isFeedingButtonActive: boolean | undefined;
 
-  mentalButton(){
+  /**
+   * Indica si el botón de "Physic" está activo.
+   * @type {boolean | undefined}
+   */
+  isPhysicButtonActive: boolean | undefined;
+
+  /**
+   * Indica si el botón de "Mental" está activo.
+   * @type {boolean | undefined}
+   */
+  isMentalButtonActive: boolean | undefined;
+
+  /**
+   * Indica si el botón de "Home" está activo.
+   * @type {boolean | undefined}
+   */
+  isHomeButtonActive: boolean | undefined;
+
+  /**
+   * Constructor que inyecta el servicio Router para la navegación.
+   * @param router - Instancia del servicio Router para navegar entre rutas.
+   */
+  constructor(private router: Router) {}
+
+  /**
+   * Navega a la sección "mental" y activa el botón correspondiente.
+   * Desactiva los demás botones.
+   */
+  mentalButton() {
     this.router.navigate(['mental']);
-    this.setButtonFalse()
+    this.setButtonFalse();
     this.isMentalButtonActive = true;
-
   }
 
-  feedingButton(){
+  /**
+   * Navega a la sección "feeding" y activa el botón correspondiente.
+   * Desactiva los demás botones.
+   */
+  feedingButton() {
     this.router.navigate(['feeding']);
-    this.setButtonFalse()
+    this.setButtonFalse();
     this.isFeedingButtonActive = true;
   }
 
-  physicButton(){
+  /**
+   * Navega a la sección "physic" y activa el botón correspondiente.
+   * Desactiva los demás botones.
+   */
+  physicButton() {
     this.router.navigate(['physic']);
-    this.setButtonFalse()
+    this.setButtonFalse();
     this.isPhysicButtonActive = true;
-
   }
-  homeButton(){
+
+  /**
+   * Navega a la sección "home" y activa el botón correspondiente.
+   * Desactiva los demás botones.
+   */
+  homeButton() {
     this.router.navigate(['home']);
-    this.setButtonFalse()
+    this.setButtonFalse();
     this.isHomeButtonActive = true;
-
   }
 
-  setButtonFalse(){
+  /**
+   * Desactiva todos los botones de sección.
+   */
+  setButtonFalse() {
     this.isMentalButtonActive = false;
     this.isFeedingButtonActive = false;
     this.isPhysicButtonActive = false;
     this.isHomeButtonActive = false;
-
   }
 }

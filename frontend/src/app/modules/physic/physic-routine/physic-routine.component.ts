@@ -84,6 +84,15 @@ export class PhysicRoutineComponent implements OnInit {
 
   routineExercises: string[] = [];
 
+  /**
+   * Constructor para inicializar el componente de rutinas.
+   * @param _exerciseService - Servicio para obtener los ejercicios filtrados según los parámetros.
+   * @param fb - FormBuilder utilizado para crear formularios reactivos.
+   * @param _apiService - Servicio para interactuar con la API y realizar operaciones sobre las rutinas.
+   * @param cdr - ChangeDetectorRef para manejar las actualizaciones de la vista.
+   * @param _authService - Servicio de autenticación para obtener el usuario actual.
+   * @param router - Router de Angular para gestionar las rutas de navegación.
+   */
   constructor(
     private _exerciseService: ExerciseService,
     private fb: FormBuilder,
@@ -99,10 +108,18 @@ export class PhysicRoutineComponent implements OnInit {
     this.idUser = this._authService.getUserData().id;
   }
 
+  /**
+   * Método de inicialización del componente.
+   * Se carga la lista de rutinas cuando se inicializa el componente.
+   */
   ngOnInit(): void {
     this.getAllRoutines();
   }
 
+  /**
+   * Obtiene todas las rutinas asociadas al usuario desde la API.
+   * Actualiza el arreglo de rutinas en el componente.
+   */
   getAllRoutines() {
     this._apiService.getAllRoutine(this.idUser).subscribe(
       (data) => {
@@ -115,10 +132,19 @@ export class PhysicRoutineComponent implements OnInit {
     );
   }
 
+  /**
+   * Navega a la vista de detalles de una rutina específica.
+   * @param id - ID de la rutina seleccionada.
+   */
   goToRoutineDetails(id: number) {
     this.router.navigate(['/physic/details', id]);
   }
 
+  /**
+   * Elimina una rutina utilizando el ID proporcionado.
+   * Después de eliminar la rutina, vuelve a cargar todas las rutinas.
+   * @param id - ID de la rutina a eliminar.
+   */
   deleteRoutine(id: number) {
     this._apiService.deleteRoutine(id).subscribe(
       () => {
@@ -131,6 +157,10 @@ export class PhysicRoutineComponent implements OnInit {
     );
   }
 
+  /**
+   * Guarda una nueva rutina en la API con los datos del formulario.
+   * Después de guardarla, agrega la nueva rutina a la lista local y actualiza la vista.
+   */
   saveRoutine() {
     const newRoutine: Routine = {
       idUser: this.idUser,
@@ -153,7 +183,10 @@ export class PhysicRoutineComponent implements OnInit {
     );
   }
 
-  // Llamada combinada para cargar ejercicios por los tres filtros
+  /**
+   * Carga los ejercicios según los filtros seleccionados.
+   * Llama al servicio de ejercicios para obtener los ejercicios filtrados.
+   */
   loadExercises(): void {
     // Creamos un objeto con los filtros seleccionados
     const filters = {
@@ -174,10 +207,18 @@ export class PhysicRoutineComponent implements OnInit {
     );
   }
 
+  /**
+   * Establece el estado de la creación de rutina (si está en proceso de creación o no).
+   * @param value - Valor booleano para definir si se está creando una rutina.
+   */
   setRoutineCreation(value: boolean) {
     this.routineCreation = value;
   }
 
+  /**
+   * Agrega un ejercicio a la lista de ejercicios de la rutina actual.
+   * @param name - Nombre del ejercicio a agregar.
+   */
   pushToRoutine(name: string): void {
     this.routineExercises.push(name);
     console.log(this.routineExercises);

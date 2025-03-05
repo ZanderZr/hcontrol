@@ -37,46 +37,80 @@ import { User } from '../../auth/interfaces/user';
 
 export class OptionsPageComponent {
 
-  notifications: Notification[]=[];
-  user!:User;
+ /**
+   * Lista de notificaciones que el usuario tiene.
+   * @type {Notification[]}
+   */
+ notifications: Notification[] = [];
 
-  constructor(
-    private _authService:AuthService,
-    private router: Router,
-    private _apiService: ApiService
-  ) {
-    this.user = this._authService.getUserData();
-    this.getAllNotifications();
-  }
+ /**
+  * Información del usuario actual.
+  * @type {User}
+  */
+ user!: User;
 
-  deleteNotification(id:number){
-    this._apiService.deleteNotification(id).subscribe(
-      () => {
-        console.log(`Notificacion eliminada correctamente.`);
-        this.getAllNotifications();
-      },
-      (error) => {
-        console.error('Error al eliminar la rutina:', error);
-      }
-    );
-  }
+ /**
+  * Constructor que inicializa el componente con los servicios necesarios.
+  * @param {AuthService} _authService - Servicio de autenticación para manejar la sesión del usuario.
+  * @param {Router} router - Servicio de enrutamiento para manejar la navegación entre rutas.
+  * @param {ApiService} _apiService - Servicio para manejar las solicitudes HTTP a la API.
+  */
+ constructor(
+   private _authService: AuthService,
+   private router: Router,
+   private _apiService: ApiService
+ ) {
+   this.user = this._authService.getUserData();
+   this.getAllNotifications();
+ }
 
-  getAllNotifications() {
-    this._apiService.getAllNotifications(this.user.id!).subscribe(
-      (data) => {
-        this.notifications = data;
-      },
-      (error) => {
-        console.error('Error al cargar rutinas:', error);
-      }
-    );
-  }
-  logout(){
-    this._authService.logout();
-    this.router.navigate(['/home']);
-  }
+ /**
+  * Elimina una notificación específica según el ID proporcionado.
+  * @param {number} id - ID de la notificación a eliminar.
+  * @returns {void} No devuelve nada, pero actualiza la lista de notificaciones.
+  */
+ deleteNotification(id: number): void {
+   this._apiService.deleteNotification(id).subscribe(
+     () => {
+       console.log(`Notificación eliminada correctamente.`);
+       this.getAllNotifications(); // Actualiza la lista de notificaciones tras la eliminación
+     },
+     (error) => {
+       console.error('Error al eliminar la notificación:', error);
+     }
+   );
+ }
 
-  createService(idUser: number){
-    this.router.navigate(['/physic/personal-routine', idUser]);
-  }
+ /**
+  * Obtiene todas las notificaciones del usuario actual.
+  * @returns {void} No devuelve nada, pero actualiza la lista de notificaciones.
+  */
+ getAllNotifications(): void {
+   this._apiService.getAllNotifications(this.user.id!).subscribe(
+     (data) => {
+       this.notifications = data;
+     },
+     (error) => {
+       console.error('Error al cargar notificaciones:', error);
+     }
+   );
+ }
+
+ /**
+  * Cierra la sesión del usuario y navega a la página de inicio.
+  * @returns {void} No devuelve nada, realiza la operación de logout y redirige al usuario.
+  */
+ logout(): void {
+   this._authService.logout();
+   this.router.navigate(['/home']);
+ }
+
+ /**
+  * Navega a la página de creación de rutina personal para un usuario específico.
+  * @param {number} idUser - ID del usuario para el cual se quiere crear la rutina personal.
+  * @returns {void} No devuelve nada, simplemente realiza la navegación.
+  */
+ createService(idUser: number): void {
+   this.router.navigate(['/physic/personal-routine', idUser]);
+ }
 }

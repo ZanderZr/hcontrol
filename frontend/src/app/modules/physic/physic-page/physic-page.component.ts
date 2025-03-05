@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { PageComponent } from "../../page/page.component";
-import { ToolsCardComponent } from "../../../components/tools-card/tools-card.component";
+import { PageComponent } from '../../page/page.component';
+import { ToolsCardComponent } from '../../../components/tools-card/tools-card.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,21 +8,29 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [PageComponent, ToolsCardComponent],
   templateUrl: './physic-page.component.html',
-  styleUrl: './physic-page.component.scss'
+  styleUrl: './physic-page.component.scss',
 })
 export class PhysicPageComponent {
+  
+  /**
+   * Constructor que inicializa el componente con los servicios necesarios.
+   * @param {Router} router - Servicio de enrutamiento para manejar la navegación entre rutas.
+   */
+  constructor(private router: Router) {}
 
- constructor(
-    private router: Router
-  ){}
-
-  recordsClick(){
+  /**
+   * Navega a la página de registros de actividades físicas.
+   * @returns {void} No devuelve nada, simplemente realiza la navegación.
+   */
+  recordsClick(): void {
     this.router.navigate(['/physic/records']);
-
   }
 
-  routineClick(){
+  /**
+   * Navega a la página de rutinas físicas.
+   * @returns {void} No devuelve nada, simplemente realiza la navegación.
+   */
+  routineClick(): void {
     this.router.navigate(['/physic/routine']);
-
   }
 }
