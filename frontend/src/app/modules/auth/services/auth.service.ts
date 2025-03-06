@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
-import { ApiService } from '../../../services/api.service';
+import { io, Socket } from 'socket.io-client';
+import { Notification } from '../interfaces/notification';
 
 @Injectable({
   providedIn: 'root'
@@ -34,13 +35,18 @@ export class AuthService {
    */
   isLogged$ = this.isLoggedSubject.asObservable();
 
+  private socket!: Socket;
+
+    private notificationsSubject: BehaviorSubject<Notification[]> = new BehaviorSubject<Notification[]>([]);
   /**
    * Constructor del servicio, que inyecta dependencias necesarias como HttpClient.
    * @param {HttpClient} http - Servicio para realizar peticiones HTTP.
    */
+
   constructor(
-    private http: HttpClient,
-  ) {}
+    private http: HttpClient
+  ) {
+  }
 
   /**
    * Realiza la autenticación del usuario con las credenciales proporcionadas.
@@ -54,10 +60,44 @@ export class AuthService {
       tap(response => {
         this.saveUserData(response.user); // 🔥 Guardar los datos del usuario
         this.isLoggedSubject.next(true);
+        this.socket = io(environment.apiUrlBase);
+
+        this.socket.emit('register', response.user.id);
+
+            // Escuchar las notificaciones entrantes
+            this.socket.on('new_notification', (notification: Notification) => {
+              this.addNotification(notification);  // Añadir la nueva notificación al array
+            });
       })
     );
   }
+  
+private addNotification(notification: Notification) {
+    const currentNotifications = this.notificationsSubject.value;
+    this.notificationsSubject.next([...currentNotifications, notification]); // Añadir la notificación al array
+  }
 
+  /**
+   * Obtiene un Observable de las notificaciones
+   * @returns Observable que emite el array de notificaciones
+   */
+  getNotifications(): Observable<Notification[]> {
+    return this.notificationsSubject.asObservable();
+  }
+
+  deleteNotification(id: number) {
+    const updatedNotifications = this.notificationsSubject.value.filter(n => n.id !== id);
+    this.notificationsSubject.next(updatedNotifications);
+  }
+
+  /**
+   * Desconecta el socket cuando el usuario cierra sesión o la app se cierra
+   */
+  disconnect() {
+    if (this.socket) {
+      this.socket.disconnect();
+    }
+  }
   /**
    * Guarda los datos del usuario en el localStorage.
    * @param {any} user - Los datos del usuario a guardar.

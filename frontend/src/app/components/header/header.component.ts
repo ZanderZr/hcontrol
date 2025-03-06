@@ -1,17 +1,14 @@
 import {
-  AfterViewChecked,
   ChangeDetectorRef,
   Component,
   OnInit,
 } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { User, UserRole } from '../../modules/auth/interfaces/user';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import { CommonModule, Location } from '@angular/common';
-import { After } from 'v8';
-import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../modules/auth/services/auth.service';
+import { Notification } from '../../modules/auth/interfaces/notification';
 
 @Component({
   selector: 'app-header',
@@ -24,9 +21,7 @@ export class HeaderComponent implements OnInit {
   /** Título de la ruta actual.*/
   title: string = '';
 
-  /** Indicador de si el usuario tiene notificaciones. */
   hasNotifications: boolean = false;
-
   /** ID del usuario. */
   idUser!: number;
 
@@ -44,23 +39,16 @@ export class HeaderComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private location: Location,
-    private _apiService: ApiService,
     private _authService: AuthService
-  ) {}
+  ) {
+
+  }
 
   /**
    * Método llamado al inicializar el componente.
    * Configura la suscripción para detectar cambios en la ruta y carga el título.
    */
   ngOnInit() {
-    // const user = this._authService.user; // ⬅️ Guarda el usuario en una variable
-
-    // if (user && user.id) {  // ✅ Verifica si user no es undefined
-    //   this.idUser = user.id;
-    // } else {
-    //   console.error("Usuario no definido en AuthService");
-    //   return; // 🔥 Evita continuar si no hay usuario
-    // }
 
     this.router.events
       .pipe(
@@ -71,24 +59,16 @@ export class HeaderComponent implements OnInit {
         this.title = title || 'Default Title';
       });
 
+      this._authService.getNotifications().subscribe(
+             (data: Notification[]) => {
+              this.hasNotifications = data.length > 0;
+             },
+             (error) => {
+               console.error('Error al cargar notificaciones desde el socket:', error);
+             }
+           );
     this.cdr.detectChanges();
-    // this.loadNotifications(); // Cargar inicialmente
-
-    // setInterval(() => {
-    //   this.loadNotifications();
-    // }, 5000); // Se repite cada 5 segundos
   }
-
-  // loadNotifications() {
-  //   this._apiService.getAllNotifications(this.idUser).subscribe(
-  //     (data) => {
-  //       this.hasNotifications = data.length > 0;
-  //     },
-  //     (error) => {
-  //       console.error('Error al cargar notificaciones:', error);
-  //     }
-  //   );
-  // }
 
   /**
    * Función recursiva para obtener el título de la ruta activa.

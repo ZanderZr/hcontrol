@@ -23,18 +23,15 @@ const JWT_SECRET = process.env.JWT_SECRET;
 if (!JWT_SECRET) {
     throw new Error("JWT_SECRET no está definido en las variables de entorno.");
 }
-const authenticateToken = (req, res, next) => {
-    var _a;
-    const token = (_a = req.header('Authorization')) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
-    if (!token)
-        return res.status(403).json({ message: 'Acceso denegado' });
-    jsonwebtoken_1.default.verify(token, JWT_SECRET, (err, decoded) => {
-        if (err)
-            return res.status(403).json({ message: 'Token inválido' });
-        req.user = decoded;
-        next();
-    });
-};
+/**
+ * @description Inicia sesión de un usuario.
+ * @route POST /login
+ * @param {string} req.body.email - El correo electrónico del usuario.
+ * @param {string} req.body.password - La contraseña del usuario.
+ * @returns {Object} - Devuelve un objeto con el token JWT y los datos del usuario.
+ * @throws {401} - Si las credenciales son incorrectas.
+ * @throws {500} - Si ocurre un error en el servidor.
+ */
 const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, password } = req.body;
@@ -62,6 +59,16 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.loginUser = loginUser;
+/**
+ * @description Registra un nuevo usuario.
+ * @route POST /register
+ * @param {string} req.body.email - El correo electrónico del usuario.
+ * @param {string} req.body.username - El nombre de usuario.
+ * @param {string} req.body.password - La contraseña del usuario.
+ * @param {string} req.body.role - El rol del usuario.
+ * @returns {Object} - Devuelve un mensaje de éxito con el ID del usuario creado.
+ * @throws {400} - Si ocurre un error al registrar el usuario.
+ */
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { email, username, password, role } = req.body;

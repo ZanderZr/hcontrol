@@ -183,7 +183,9 @@ export class ApiService {
    * @returns Un observable con la lista de notificaciones.
    */
   getAllNotifications(idReceiver: number): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${this.apiUrl}/notifications/${idReceiver}`);
+    return this.http.get<Notification[]>(
+      `${this.apiUrl}/notifications/${idReceiver}`
+    );
   }
 
   /**
@@ -193,7 +195,10 @@ export class ApiService {
    */
   postNotification(notification: Notification): Observable<Notification> {
     console.log(notification);
-    return this.http.post<Notification>(`${this.apiUrl}/notifications`, notification);
+    return this.http.post<Notification>(
+      `${this.apiUrl}/notifications`,
+      notification
+    );
   }
 
   /**

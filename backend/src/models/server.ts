@@ -106,5 +106,4 @@ class Server {
 }
 
 // Crear instancia y arrancar servidor
-const server = new Server();
-export default server;
+export default Server;

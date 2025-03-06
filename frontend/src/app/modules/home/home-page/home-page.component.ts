@@ -141,6 +141,16 @@ export class HomePageComponent implements OnInit {
       price: this.boardForm.value.price,
     };
 
+    this.boards.push(newBoard);
+    this._apiService.postBoard(newBoard).subscribe(
+      (response: any) => {
+        this.toastr.success('Anuncio enviado con exito');
+      },
+      (error) => {
+        console.error("Error al solicitar el servicio:", error); // Maneja errores al crear la notificación
+        this.toastr.error('Error al enviar el anuncio servicio');
+      }
+    );
     console.log('Nuevo board:', newBoard); // Muestra los datos del nuevo board en la consola
 
     // Oculta el formulario y resetea sus campos después de guardar

@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import Notification from "../models/notification";
-import { io } from "../services/socket"; // Asegúrate de exportar la instancia de Socket.IO
+import { getIO } from "../services/socket";
 
 const router = Router();
 
@@ -62,8 +62,8 @@ export const postNotifications = async (req: Request, res: Response) => {
     const notification = await Notification.create(body);
 
     // 📡 Emitir evento en tiempo real SOLO al usuario con idReceiver usando Socket.IO
-    io.to(`user_${body.idReceiver}`).emit("new_notification", notification);
-
+    getIO().to(body.idReceiver.toString()).emit("new_notification", notification);
+    
     return res.status(201).json(notification);  // Devuelve la notificación creada
   } catch (error) {
     console.error("❌ Error al guardar la notificación:", error);

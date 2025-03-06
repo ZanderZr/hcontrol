@@ -12,7 +12,12 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [RouterOutlet,FontAwesomeModule, FooterComponent, HeaderComponent, CommonModule]
+  imports: [
+    RouterOutlet,
+    FontAwesomeModule,
+    FooterComponent,
+    HeaderComponent,
+    CommonModule]
 })
 export class AppComponent {
   title = 'HControl';
