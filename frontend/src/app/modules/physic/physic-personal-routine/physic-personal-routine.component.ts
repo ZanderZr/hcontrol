@@ -74,6 +74,8 @@ export class PhysicPersonalRoutineComponent implements OnInit {
   selectedType: string = '';
   selectedDiff: string = '';
   idUser!: number;
+  idNotification!: number;
+
   routineCreation: boolean = false;
   formRoutine: FormGroup;
 
@@ -112,7 +114,9 @@ export class PhysicPersonalRoutineComponent implements OnInit {
    */
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      this.idUser = Number(params.get('id')); // Convierte el ID a número
+      this.idUser = Number(params.get('idUser')); // Convierte el ID a número
+      this.idNotification = Number(params.get('idNotification')); // Convierte el ID a número
+
       console.log('ID del solicitante:', this.idUser);
     });
   }
@@ -140,13 +144,30 @@ export class PhysicPersonalRoutineComponent implements OnInit {
       (error) => console.error('Error al guardar la rutina:', error)
     );
 
+    this._apiService.deleteNotification(this.idNotification).subscribe(
+      () => {
+        console.log(`Notificación eliminada correctamente.`);
+      },
+      (error) => {
+        console.error('Error al eliminar la notificación:', error);
+      }
+    );
+
     const notification: Notification = {
       idEmitter: this.user.id!,
       idReceiver: this.idUser,
       description: "Servicio: " + newRoutine.name + " enviado por " + this.user.username
     };
 
-    this._apiService.postNotification(notification);
+    this._apiService.postNotification(notification).subscribe(
+      (response: any) => {
+
+
+      },
+      (error) => {
+        console.error("Error al solicitar el servicio:", error); // Maneja errores al crear la notificación
+      }
+    );
   }
 
   /**

@@ -123,7 +123,9 @@ export class OptionsPageComponent implements OnInit {
    * @param {number} idUser - ID del usuario para el cual se quiere crear la rutina personal.
    * @returns {void} No devuelve nada, simplemente realiza la navegación.
    */
-  createService(idUser: number): void {
-    this.router.navigate(['/physic/personal-routine', idUser]);
+  createService(idUser: number, idNotification:number): void {
+    if(this.user.role === 'COACH'){
+      this.router.navigate(['/physic/personal-routine', idUser, idNotification]);
+    }
   }
 }

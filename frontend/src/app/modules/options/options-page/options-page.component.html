@@ -4,7 +4,7 @@
     <app-notification-card
       *ngFor="let notification of notifications"
       [notification]="notification"
-      (clickCard)="createService(notification.idEmitter)"
+      (clickCard)="createService(notification.idEmitter, notification.id!)"
       (clickTrash)="deleteNotification(notification.id!)"
     ></app-notification-card>
   </div>
