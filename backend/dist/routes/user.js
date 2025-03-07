@@ -15,4 +15,10 @@ router.post('/register', user_1.registerUser);
  * @access Público
  */
 router.post('/login', user_1.loginUser);
+/**
+ * @route GET /api/users/verify-email
+ * @description Verifica la cuenta del usuario mediante un token
+ * @access Público
+ */
+router.get('/verify-email', user_1.verifyEmail);
 exports.default = router;

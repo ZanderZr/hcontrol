@@ -32,6 +32,11 @@ const User = connection_1.default.define('User', {
     role: {
         type: sequelize_1.DataTypes.ENUM('COACH', 'DIETITIST', 'PSYCHOLOGIST', 'DEVELOPER', 'USER'), // Enum para definir los roles disponibles
         allowNull: false // El campo no puede ser nulo
+    },
+    verified: {
+        type: sequelize_1.DataTypes.BOOLEAN, // Campo booleano para verificar el email
+        allowNull: false, // No puede ser nulo
+        defaultValue: false // Por defecto, el usuario no está verificado
     }
 }, {
     createdAt: false, // No se generará el campo createdAt

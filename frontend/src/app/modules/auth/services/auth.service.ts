@@ -48,6 +48,11 @@ export class AuthService {
   ) {
   }
 
+
+  verifyEmail(token: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/users/verify-email?token=${token}`);
+  }
+
   /**
    * Realiza la autenticación del usuario con las credenciales proporcionadas.
    * Si es exitosa, guarda los datos del usuario y el token.
@@ -71,7 +76,7 @@ export class AuthService {
       })
     );
   }
-  
+
 private addNotification(notification: Notification) {
     const currentNotifications = this.notificationsSubject.value;
     this.notificationsSubject.next([...currentNotifications, notification]); // Añadir la notificación al array

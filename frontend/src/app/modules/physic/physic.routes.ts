@@ -12,5 +12,4 @@ export const PHYSIC_ROUTES: Routes = [
   { path: 'details/:id', component: PhysicRoutineDetailsComponent, data: { title: 'Rutina' }},
   { path: '', component: PhysicPageComponent, data: { title: 'Salud física' }},
   { path: '**', redirectTo: '', pathMatch: 'full' }
-
 ];

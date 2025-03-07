@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginUser, registerUser } from "../controllers/user";
+import { loginUser, registerUser, verifyEmail } from "../controllers/user";
 
 const router = Router();
 
@@ -16,5 +16,13 @@ router.post('/register', registerUser);
  * @access Público
  */
 router.post('/login', loginUser);
+
+/**
+ * @route GET /api/users/verify-email
+ * @description Verifica la cuenta del usuario mediante un token
+ * @access Público
+ */
+router.get('/verify-email', verifyEmail);
+
 
 export default router;

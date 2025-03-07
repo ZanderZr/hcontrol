@@ -12,6 +12,7 @@ interface IUser extends Model {
     username: string; // Nombre de usuario único
     password: string; // Contraseña del usuario
     role: 'COACH' | 'DIETITIST' | 'PSYCHOLOGIST' | 'USER'; // Rol del usuario
+    verified: boolean; // Indica si el usuario ha verificado su email
 }
 
 /**
@@ -41,6 +42,11 @@ const User = database.define<IUser>('User', {
     role: {
         type: DataTypes.ENUM('COACH', 'DIETITIST', 'PSYCHOLOGIST', 'DEVELOPER', 'USER'), // Enum para definir los roles disponibles
         allowNull: false // El campo no puede ser nulo
+    },
+    verified: {
+        type: DataTypes.BOOLEAN, // Campo booleano para verificar el email
+        allowNull: false, // No puede ser nulo
+        defaultValue: false // Por defecto, el usuario no está verificado
     }
 }, {
     createdAt: false, // No se generará el campo createdAt
