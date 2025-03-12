@@ -24,7 +24,7 @@ export class AppComponent {
 
   isLogged: boolean = false;  // Estado de autenticación del usuario
   currentRoute: string = '';  // Ruta actual que el usuario está visitando
-  private protectedRoutes = ['/auth', '/main', '/verify-email']; // Rutas protegidas que necesitan autenticación
+  private protectedRoutes = ['/auth', '/', '/verify-email']; // Rutas protegidas que necesitan autenticación
 
   /**
    * Constructor del componente AppComponent.
@@ -38,6 +38,7 @@ export class AppComponent {
    * Se suscribe al estado de inicio de sesión y escucha cambios de ruta.
    */
   ngOnInit() {
+
     // Suscripción al observable isLogged$ para obtener el estado de inicio de sesión
     this.authService.isLogged$.subscribe(status => {
       this.isLogged = status; // Actualiza el estado de isLogged según el observable
@@ -56,6 +57,6 @@ export class AppComponent {
    * @returns {boolean} - Devuelve true si la ruta actual es protegida, de lo contrario false.
    */
   isProtectedRoute(): boolean {
-    return this.protectedRoutes.some(route => this.currentRoute.includes(route)); // Verifica si la ruta actual está en la lista de rutas protegidas
+    return this.protectedRoutes.includes(this.currentRoute);
   }
 }

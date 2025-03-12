@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { CredentialResponse } from '@react-oauth/google';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageComponent } from '../../page/page.component';
 import { Router, RouterModule } from '@angular/router';
@@ -10,7 +11,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-auth-page',
@@ -18,6 +19,7 @@ import { lastValueFrom } from 'rxjs';
   imports: [CommonModule, PageComponent, ReactiveFormsModule, RouterModule],
   templateUrl: './auth-page.component.html',
   styleUrl: './auth-page.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AuthPageComponent {
   formRegister: FormGroup;
@@ -37,7 +39,7 @@ export class AuthPageComponent {
     private router: Router,
     private fb: FormBuilder,
     private _authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
   ) {
     // Inicializa el formulario de registro con los campos necesarios y sus validaciones
     this.formRegister = this.fb.group({
@@ -118,5 +120,9 @@ export class AuthPageComponent {
    */
   toggleForm() {
     this.isLoginPage = !this.isLoginPage;
+  }
+
+  googleLogin() {
+
   }
 }

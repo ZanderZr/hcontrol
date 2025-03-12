@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseJsonBody = exports.verifyToken = void 0;
+exports.verifyToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 /**
  * Middleware para verificar el token JWT en las solicitudes.
@@ -51,30 +51,29 @@ exports.verifyToken = verifyToken;
  *
  * @returns {void}
  */
-const parseJsonBody = (req, res, next) => {
-    // Verificar si el encabezado 'Content-Type' no es 'application/json'
-    if (!req.headers['content-type'] || !req.headers['content-type'].includes('application/json')) {
-        let rawData = ''; // Variable para almacenar los datos sin procesar
-        req.setEncoding('utf8'); // Establecer la codificación para leer los datos como texto
-        req.on('data', (chunk) => {
-            rawData += chunk; // Concatenar los fragmentos de datos
-        });
-        req.on('end', () => {
-            if (rawData) {
-                try {
-                    // Intentar analizar los datos como JSON
-                    req.body = JSON.parse(rawData);
-                }
-                catch (error) {
-                    console.error('Error al parsear JSON:', error); // Error si el JSON no es válido
-                    return res.status(400).json({ message: 'JSON inválido' });
-                }
-            }
-            next(); // Llamar al siguiente middleware o ruta
-        });
-    }
-    else {
-        next(); // Si el encabezado ya es 'application/json', simplemente pasar al siguiente middleware
-    }
+/* export const parseJsonBody = (req: Request, res: Response, next: NextFunction) => {
+  // Verificar si el encabezado 'Content-Type' no es 'application/json'
+  if (!req.headers['content-type'] || !req.headers['content-type'].includes('application/json')) {
+    let rawData = ''; // Variable para almacenar los datos sin procesar
+
+    req.setEncoding('utf8'); // Establecer la codificación para leer los datos como texto
+    req.on('data', (chunk) => {
+      rawData += chunk; // Concatenar los fragmentos de datos
+    });
+    req.on('end', () => {
+      if (rawData) {
+        try {
+          // Intentar analizar los datos como JSON
+          req.body = JSON.parse(rawData);
+        } catch (error) {
+          console.error('Error al parsear JSON:', error); // Error si el JSON no es válido
+          return res.status(400).json({ message: 'JSON inválido' });
+        }
+      }
+      next(); // Llamar al siguiente middleware o ruta
+    });
+  } else {
+    next(); // Si el encabezado ya es 'application/json', simplemente pasar al siguiente middleware
+  }
 };
-exports.parseJsonBody = parseJsonBody;
+ */ 

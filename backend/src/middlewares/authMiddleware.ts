@@ -48,7 +48,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
  * 
  * @returns {void}
  */
-export const parseJsonBody = (req: Request, res: Response, next: NextFunction) => {
+/* export const parseJsonBody = (req: Request, res: Response, next: NextFunction) => {
   // Verificar si el encabezado 'Content-Type' no es 'application/json'
   if (!req.headers['content-type'] || !req.headers['content-type'].includes('application/json')) {
     let rawData = ''; // Variable para almacenar los datos sin procesar
@@ -73,3 +73,4 @@ export const parseJsonBody = (req: Request, res: Response, next: NextFunction) =
     next(); // Si el encabezado ya es 'application/json', simplemente pasar al siguiente middleware
   }
 };
+ */

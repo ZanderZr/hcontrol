@@ -86,7 +86,7 @@ const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         // Generar token de verificación
         const verifyToken = jsonwebtoken_1.default.sign({ email }, JWT_SECRET, { expiresIn: "1h" });
         // Enviar email con enlace de verificación
-        const verifyLink = `http://localhost:53527/verify-email?token=${verifyToken}`;
+        const verifyLink = `http://localhost:4200/verify-email?token=${verifyToken}`;
         // Aquí verificamos si el transporte de correo se creó correctamente
         const emailSent = yield transporter.sendMail({
             from: '"Mi App" <tuemail@gmail.com>',

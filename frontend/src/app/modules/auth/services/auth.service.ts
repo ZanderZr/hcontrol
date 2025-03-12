@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, interval, Observable } from 'rxjs';
+import { BehaviorSubject,  Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { io, Socket } from 'socket.io-client';
 import { Notification } from '../interfaces/notification';
+import { ActivatedRoute, Router } from '@angular/router';
+import {jwtDecode} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +29,7 @@ export class AuthService {
    * Controla el estado de la sesión del usuario (si está autenticado o no).
    * @type {BehaviorSubject<boolean>}
    */
-  private isLoggedSubject = new BehaviorSubject<boolean>(this.hasToken());
+  public isLoggedSubject = new BehaviorSubject<boolean>(this.hasToken());
 
   /**
    * Observable que emite el estado de autenticación del usuario.
@@ -37,14 +39,15 @@ export class AuthService {
 
   private socket!: Socket;
 
-    private notificationsSubject: BehaviorSubject<Notification[]> = new BehaviorSubject<Notification[]>([]);
+  private notificationsSubject: BehaviorSubject<Notification[]> = new BehaviorSubject<Notification[]>([]);
   /**
    * Constructor del servicio, que inyecta dependencias necesarias como HttpClient.
    * @param {HttpClient} http - Servicio para realizar peticiones HTTP.
    */
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private route: ActivatedRoute, private router: Router
   ) {
   }
 
@@ -52,6 +55,48 @@ export class AuthService {
   verifyEmail(token: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/users/verify-email?token=${token}`);
   }
+
+/*   handleRedirectLogin() {
+    this.route.queryParams.subscribe(params => {
+      const token = params['token'];
+
+      if (token) {
+        // ✅ Validar antes de guardarlo
+        if (this.isValidToken(token)) {
+          this.saveToken(token, true);
+
+          this.isLoggedSubject.next(true);
+          this.router.navigate(['/dashboard']); // 🔥 Redirige a una página protegida
+        } else {
+          console.error('Token inválido');
+          this.logout(); // 🔥 Elimina tokens inválidos
+        }
+      }
+    });
+  }
+ */
+/*   isValidToken(token: string): boolean {
+    try {
+      const decoded: any = jwtDecode(token);
+      const now = Date.now() / 1000; // Tiempo actual en segundos
+      return decoded.exp > now; // ✅ Comprobar si el token ha expirado
+    } catch (error) {
+      return false;
+    }
+  } */
+/*
+  loginWithGoogle(credential: string): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(`${this.apiUrl}/google`, { credential }).pipe(
+      tap((response) => {
+        if (response.token) {
+          console.log("A")
+          localStorage.setItem('authToken', response.token);
+          this.isLoggedSubject.next(true);
+        }
+      })
+    );
+  } */
+
 
   /**
    * Realiza la autenticación del usuario con las credenciales proporcionadas.
@@ -69,15 +114,15 @@ export class AuthService {
 
         this.socket.emit('register', response.user.id);
 
-            // Escuchar las notificaciones entrantes
-            this.socket.on('new_notification', (notification: Notification) => {
-              this.addNotification(notification);  // Añadir la nueva notificación al array
-            });
+        // Escuchar las notificaciones entrantes
+        this.socket.on('new_notification', (notification: Notification) => {
+          this.addNotification(notification);  // Añadir la nueva notificación al array
+        });
       })
     );
   }
 
-private addNotification(notification: Notification) {
+  private addNotification(notification: Notification) {
     const currentNotifications = this.notificationsSubject.value;
     this.notificationsSubject.next([...currentNotifications, notification]); // Añadir la notificación al array
   }
@@ -152,9 +197,12 @@ private addNotification(notification: Notification) {
    * @returns {any} - Los datos del usuario o null si no existen.
    */
   getUserData(): any {
-    const userData = localStorage.getItem('userData');
-    return userData ? JSON.parse(userData) : null;
+    if (typeof window !== 'undefined' && localStorage.getItem('userData')) {
+      return JSON.parse(localStorage.getItem('userData')!);
+    }
+    return null;
   }
+
 
   /**
    * Guarda el token de autenticación en localStorage o sessionStorage según el parámetro `rememberMe`.
@@ -162,10 +210,12 @@ private addNotification(notification: Notification) {
    * @param {boolean} rememberMe - Determina si el token debe persistir entre sesiones.
    */
   saveToken(token: string, rememberMe: boolean) {
-    if (rememberMe) {
-      localStorage.setItem('authToken', token); // Guarda en localStorage para persistencia
-    } else {
-      sessionStorage.setItem('authToken', token); // Solo mantiene la sesión activa hasta que se cierre el navegador
+    if (typeof window !== 'undefined') {
+      if (rememberMe) {
+        localStorage.setItem('authToken', token);
+      } else {
+        sessionStorage.setItem('authToken', token);
+      }
     }
   }
 

@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FeedingService } from '../../services/feeding.service';
 import { CommonModule } from '@angular/common';
-import { PageComponent } from "../../../page/page.component";
+import { PageComponent } from '../../../page/page.component';
 
 @Component({
   selector: 'app-feeding-recipe-details',
   standalone: true,
   imports: [CommonModule, PageComponent],
   templateUrl: './feeding-recipe-details.component.html',
-  styleUrl: './feeding-recipe-details.component.scss'
+  styleUrl: './feeding-recipe-details.component.scss',
 })
-export class FeedingRecipeDetailsComponent implements OnInit{
-
+export class FeedingRecipeDetailsComponent implements OnInit {
   /**
    * ID de la receta obtenido de la URL.
    * @type {string}
    */
-  recipeId: string;
+  recipeId!: string;
 
   /**
    * Objeto que almacena los detalles de la receta obtenidos del servicio.
@@ -30,8 +29,10 @@ export class FeedingRecipeDetailsComponent implements OnInit{
    */
   constructor(private _feedingService: FeedingService) {
     // Obtiene el último segmento de la URL como el ID de la receta
-    const pathParts = window.location.pathname.split('/');
-    this.recipeId = pathParts[pathParts.length - 1]; // Obtiene el último segmento de la URL
+    if (typeof window !== 'undefined') {
+      const pathParts = window.location.pathname.split('/');
+      this.recipeId = pathParts[pathParts.length - 1]; // Obtiene el último segmento de la URL
+    }
   }
 
   /**

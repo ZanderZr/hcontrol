@@ -7,12 +7,13 @@ import boardRoutes from "../routes/board";
 import exerciseRoutes from "../routes/exercise"; // Corregido
 import routineRoutes from "../routes/routine"; // Corregido
 import database from "../database/connection";
+import googleRoutes from "../routes/googleAuth";
+
 import { initSocket } from "../services/socket"; // Ajusta la ruta
-import { parseJsonBody } from "../middlewares/authMiddleware";
+//import { parseJsonBody } from "../middlewares/authMiddleware";
 import dotenv from "dotenv"; // Agregar dotenv para las variables de entorno
 
 dotenv.config(); // Cargar las variables de entorno desde un archivo .env
-
 /**
  * Clase principal del servidor que gestiona la configuración, rutas, middlewares y la conexión a la base de datos.
  */
@@ -59,6 +60,7 @@ class Server {
     this.app.get("/", (req: Request, res: Response) => {
       res.json({ msg: "API works" });
     });
+ 
 
     this.app.use("/api/users", userRoutes);
     this.app.use("/api/diary", diaryRoutes);
@@ -66,6 +68,8 @@ class Server {
     this.app.use("/api/routines", routineRoutes);
     this.app.use("/api/notifications", notificationRoutes);
     this.app.use("/api/boards", boardRoutes);
+    this.app.use("/api/google", googleRoutes);
+
   }
 
   /**
@@ -73,9 +77,10 @@ class Server {
    * Incluye el parseo del cuerpo de las solicitudes y la habilitación de CORS.
    */
   middlewares() {
-    this.app.use(parseJsonBody); // Middleware custom para parsear cuerpo de solicitudes
+    //this.app.use(parseJsonBody); // Middleware custom para parsear cuerpo de solicitudes
     this.app.use(express.json()); // Middleware para JSON en el cuerpo de las solicitudes
     this.app.use(cors()); // Habilitar CORS
+    this.app.use(express.urlencoded({ extended: true })); // 🔥 Necesario para leer `credential`
   }
 
   /**

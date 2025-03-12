@@ -76,7 +76,7 @@ export const registerUser = async (req: Request, res: Response) => {
       const verifyToken = jwt.sign({ email }, JWT_SECRET, { expiresIn: "1h" });
 
       // Enviar email con enlace de verificación
-      const verifyLink = `http://localhost:53527/verify-email?token=${verifyToken}`;
+      const verifyLink = `http://localhost:4200/verify-email?token=${verifyToken}`;
 
       // Aquí verificamos si el transporte de correo se creó correctamente
       const emailSent = await transporter.sendMail({

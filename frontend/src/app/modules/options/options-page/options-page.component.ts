@@ -115,7 +115,7 @@ export class OptionsPageComponent implements OnInit {
   logout(): void {
     this._authService.logout();
     this._authService.disconnect();
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 
   /**

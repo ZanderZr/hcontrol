@@ -105,7 +105,6 @@ export class PhysicPersonalRoutineComponent implements OnInit {
       name: ['', Validators.required],
       description: [''],
     });
-    this.user = this._authService.getUserData();
   }
 
   /**

@@ -3,10 +3,12 @@ import { OptionsPageComponent } from './modules/options/options-page/options-pag
 import { AuthGuard } from '../guards/auth.guard';
 import { HomePageComponent } from './modules/home/home-page/home-page.component';
 import { VerifyEmailComponent } from './components/verify-email/verify-email.component';
+import { AuthPageComponent } from './modules/auth/auth-page/auth-page.component';
+import { GoogleAuthCallbackComponent } from './components/google-auth-callback/google-auth-callback.component';
 
 export const routes: Routes = [
   {
-    path: 'main',
+    path: '',
     loadChildren: () =>
       import('./modules/main/main.routes').then((m) => m.MAIN_ROUTES),
   },
@@ -50,5 +52,7 @@ export const routes: Routes = [
     path: 'verify-email',
     component: VerifyEmailComponent,
   },
+  { path: 'auth/callback', component: GoogleAuthCallbackComponent }, // ✅ Nueva ruta para recibir el token
+
   { path: '**', redirectTo: 'main', pathMatch: 'full' },
 ];

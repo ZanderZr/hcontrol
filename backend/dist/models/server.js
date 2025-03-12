@@ -21,8 +21,9 @@ const board_1 = __importDefault(require("../routes/board"));
 const exercise_1 = __importDefault(require("../routes/exercise")); // Corregido
 const routine_1 = __importDefault(require("../routes/routine")); // Corregido
 const connection_1 = __importDefault(require("../database/connection"));
+const googleAuth_1 = __importDefault(require("../routes/googleAuth"));
 const socket_1 = require("../services/socket"); // Ajusta la ruta
-const authMiddleware_1 = require("../middlewares/authMiddleware");
+//import { parseJsonBody } from "../middlewares/authMiddleware";
 const dotenv_1 = __importDefault(require("dotenv")); // Agregar dotenv para las variables de entorno
 dotenv_1.default.config(); // Cargar las variables de entorno desde un archivo .env
 /**
@@ -68,15 +69,17 @@ class Server {
         this.app.use("/api/routines", routine_1.default);
         this.app.use("/api/notifications", notification_1.default);
         this.app.use("/api/boards", board_1.default);
+        this.app.use("/api/google", googleAuth_1.default);
     }
     /**
      * Método que configura los middlewares.
      * Incluye el parseo del cuerpo de las solicitudes y la habilitación de CORS.
      */
     middlewares() {
-        this.app.use(authMiddleware_1.parseJsonBody); // Middleware custom para parsear cuerpo de solicitudes
+        //this.app.use(parseJsonBody); // Middleware custom para parsear cuerpo de solicitudes
         this.app.use(express_1.default.json()); // Middleware para JSON en el cuerpo de las solicitudes
         this.app.use((0, cors_1.default)()); // Habilitar CORS
+        this.app.use(express_1.default.urlencoded({ extended: true })); // 🔥 Necesario para leer `credential`
     }
     /**
      * Método que establece la conexión a la base de datos.
